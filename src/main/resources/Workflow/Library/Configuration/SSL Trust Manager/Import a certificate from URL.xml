@@ -28,7 +28,7 @@
       </bind>
     </in-binding>
     <out-binding></out-binding>
-    <description><![CDATA[Imports an SSL certificate into the server trust store.]]></description>
+    <description><![CDATA[Imports an SSL certificate into the server trust store]]></description>
     <position y="55.90909090909091" x="205.0"></position>
   </workflow-item >
   <presentation>
