@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+<comment>Exported from [server]</comment>
+<entry key="categoryPath">Cisco UCS Manager Workflows</entry>
+<entry key="name">Disassociate Service Profile</entry>
+<entry key="type">Workflow</entry>
+<entry key="id">a0576525-676b-449b-8eef-86f512932074</entry>
+</properties>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dunes-script-module name="getServerPower" result-type="Array/Any" api-version="6.0.0" id="3dc2e283-e4b6-4fc6-bd4a-3672085ff21c" version="1.0.2" allowed-operations="vef">
+  <description><![CDATA[Searches Managed Objects of type UcsmLsPower.
+Inputs:
+ucsDomain - UcsDomain where you want to search ServerPower.
+parentMos - Array of Parent Managed Objects of ServerPower which is being searched. Parents can be UcsmLsServer.
+showMos - print searched ServerPower objects to System.log
+Other inputs - other inputs are the properties of ServerPower against which you can search. Refer UcsmLsPower scripting object for more details.
+Return Type:
+Array of searched UcsmLsPower.]]></description>
+  <param n="ucsDomain" t="UCSM:UcsDomain"><![CDATA[]]></param>
+  <param n="parentMos" t="Array/UCSM:ServiceProfile"><![CDATA[]]></param>
+  <param n="dn" t="string"><![CDATA[]]></param>
+  <param n="state" t="string"><![CDATA[]]></param>
+  <param n="showMos" t="boolean"><![CDATA[]]></param>
+  <script encoded="false"><![CDATA[//Collect all input property/value pairs in a single array
+var paramsArray = new Array();
+if(dn!=null && dn!="")
+	paramsArray.push("dn=" + dn);
+if(state!=null && state!="")
+	paramsArray.push("state=" + state);
+
+var pmoArray = null;
+if(parentMos!=null && parentMos.length>0){
+	if(ucsDomain==null)
+		ucsDomain = parentMos[0].getHandle();
+
+	pmoArray = new Array();
+	for each (var pmo in parentMos){
+		if(pmo!=null){
+			if(pmo instanceof UcsmOrganizationHierarchy)
+				pmo = pmo.getOrg();
+			pmoArray.push(pmo);
+			if(ucsDomain.getUcs() != pmo.getHandle().getUcs())
+				throw new Error("Parent Managed Object " + pmo.getDn() + " not on selected UCSM " + ucsDomain.getUcs() + ". Its on " + pmo.getHandle().getUcs() + ".");
+		}
+	}
+}
+
+if(ucsDomain==null)
+	throw new Error("No UCSM Selected");
+
+var moArray = UcsmActionUtils.getManagedObjects(ucsDomain, pmoArray, "lsPower", paramsArray, false, false);
+
+if(moArray==null || moArray.length==0){
+	if(showMos)
+		System.log("\nNo UcsmLsPower objects found on " + ucsDomain.ucs + ".\n");
+	return null
+}
+
+if(showMos){
+	System.log("\n************************\n  Found " + moArray.length + " UcsmLsPower objects\n************************\n");
+	for each (var mo in moArray)
+		if(mo!=null)
+			System.log(UcsmActionUtils.printManagedObject(mo))
+}
+if(moArray!=null && moArray.length>0)
+	return moArray;
+else
+	return new Array();]]></script>
+</dunes-script-module>

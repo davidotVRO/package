@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<workflow xmlns="http://vmware.com/vco/workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://vmware.com/vco/workflow http://vmware.com/vco/workflow/Workflow-v4.xsd" root-name="item1" object-name="workflow:name=generic" id="424760ae-2181-4e54-b195-2017ecac1623" version="1.0.1" api-version="6.0.0" allowed-operations="vef" restartMode="1" resumeFromFailedMode="0">
+  <display-name><![CDATA[Add Service Profile]]></display-name>
+  <description><![CDATA[Adds a Service Profile in selected Organization in UCS Manager.]]></description>
+  <position y="50.0" x="100.0"></position>
+  <input>
+    <param name="parentMos" type="Array/UCSM:OrganizationHierarchy"></param>
+    <param name="descr" type="string"></param>
+    <param name="name" type="string"></param>
+    <param name="type" type="string"></param>
+    <param name="showMos" type="boolean"></param>
+    <param name="modifyPresent" type="boolean">
+      <description><![CDATA[Modify if Service Profile already exists]]></description>
+    </param>
+  </input>
+  <output>
+    <param name="addedSp" type="Array/UCSM:ServiceProfile"></param>
+  </output>
+  <workflow-item  name="item0" type="end" end-mode="0">
+    <position y="45.40909090909091" x="384.5"></position>
+  </workflow-item >
+  <workflow-item  name="item1" out-name="item0" type="task" script-module="com.cisco.ucs.mgr.ls/addServiceProfile">
+    <display-name><![CDATA[addServiceProfile]]></display-name>
+    <script encoded="false"><![CDATA[//Auto generated script, cannot be modified !
+actionResult = System.getModule("com.cisco.ucs.mgr.ls").addServiceProfile(ucsDomain,parentMos,agentPolicyName,biosProfileName,bootPolicyName,descr,dynamicConPolicyName,extIPPoolName,extIPState,hostFwPolicyName,identPoolName,kvmMgmtPolicyName,localDiskPolicyName,maintPolicyName,mgmtAccessPolicyName,mgmtFwPolicyName,name,policyOwner,powerPolicyName,resolveRemote,scrubPolicyName,solPolicyName,srcTemplName,statsPolicyName,type,usrLbl,uuid,vconProfileName,vmediaPolicyName,modifyPresent,showMos) ;]]></script>
+    <in-binding>
+      <bind name="ucsDomain" type="UCSM:UcsDomain" explicitly-not-bound="true"></bind>
+      <bind name="parentMos" type="Array/UCSM:OrganizationHierarchy" export-name="parentMos"></bind>
+      <bind name="agentPolicyName" type="string" explicitly-not-bound="true"></bind>
+      <bind name="biosProfileName" type="string" explicitly-not-bound="true"></bind>
+      <bind name="bootPolicyName" type="string" explicitly-not-bound="true"></bind>
+      <bind name="descr" type="string" export-name="descr"></bind>
+      <bind name="dynamicConPolicyName" type="string" explicitly-not-bound="true"></bind>
+      <bind name="extIPPoolName" type="string" explicitly-not-bound="true"></bind>
+      <bind name="extIPState" type="string" explicitly-not-bound="true"></bind>
+      <bind name="hostFwPolicyName" type="string" explicitly-not-bound="true"></bind>
+      <bind name="identPoolName" type="string" explicitly-not-bound="true"></bind>
+      <bind name="kvmMgmtPolicyName" type="string" explicitly-not-bound="true"></bind>
+      <bind name="localDiskPolicyName" type="string" explicitly-not-bound="true"></bind>
+      <bind name="maintPolicyName" type="string" explicitly-not-bound="true"></bind>
+      <bind name="mgmtAccessPolicyName" type="string" explicitly-not-bound="true"></bind>
+      <bind name="mgmtFwPolicyName" type="string" explicitly-not-bound="true"></bind>
+      <bind name="name" type="string" export-name="name"></bind>
+      <bind name="policyOwner" type="string" explicitly-not-bound="true"></bind>
+      <bind name="powerPolicyName" type="string" explicitly-not-bound="true"></bind>
+      <bind name="resolveRemote" type="string" explicitly-not-bound="true"></bind>
+      <bind name="scrubPolicyName" type="string" explicitly-not-bound="true"></bind>
+      <bind name="solPolicyName" type="string" explicitly-not-bound="true"></bind>
+      <bind name="srcTemplName" type="string" explicitly-not-bound="true"></bind>
+      <bind name="statsPolicyName" type="string" explicitly-not-bound="true"></bind>
+      <bind name="type" type="string" export-name="type"></bind>
+      <bind name="usrLbl" type="string" explicitly-not-bound="true"></bind>
+      <bind name="uuid" type="string" explicitly-not-bound="true"></bind>
+      <bind name="vconProfileName" type="string" explicitly-not-bound="true"></bind>
+      <bind name="vmediaPolicyName" type="string" explicitly-not-bound="true"></bind>
+      <bind name="modifyPresent" type="boolean" export-name="modifyPresent"></bind>
+      <bind name="showMos" type="boolean" export-name="showMos"></bind>
+    </in-binding>
+    <out-binding>
+      <bind name="actionResult" type="Array/UCSM:ServiceProfile" export-name="addedSp"></bind>
+    </out-binding>
+    <description><![CDATA[Creates Managed Objects of type UcsmLsServer.
+Inputs:
+ucsDomain - UcsDomain where you want to create ServiceProfile.
+parentMos - Array of Parent Managed Objects of ServiceProfile which is being created. Parents can be UcsmOrgOrg.
+modifyPresent - If ServiceProfile objects being created already exists on UCSM, then modify existing.
+showMos - print created ServiceProfile objects to System.log
+Other inputs - other inputs are the properties of ServiceProfile which you initialize while creating. Refer UcsmLsServer scripting object for more details.
+Return Type:
+Array of created UCSM:ServiceProfile.]]></description>
+    <position y="55.90909090909091" x="205.0"></position>
+  </workflow-item >
+  <presentation>
+    <p-param name="parentMos">
+      <desc><![CDATA[parentMos]]></desc>
+      <p-qual kind="static" name="mandatory" type="boolean"><![CDATA[true]]></p-qual>
+    </p-param>
+    <p-param name="name">
+      <desc><![CDATA[name]]></desc>
+      <p-qual kind="static" name="mandatory" type="boolean"><![CDATA[true]]></p-qual>
+    </p-param>
+    <p-param name="descr">
+      <desc><![CDATA[descr]]></desc>
+    </p-param>
+    <p-param name="type">
+      <desc><![CDATA[type]]></desc>
+      <p-qual kind="ognl" name="linkedEnumeration" type="Array/string"><![CDATA[GetAction("com.cisco.ucs.mgr.mgmt","getMoFieldOptions").call( "lsServer" , "type" )]]></p-qual>
+    </p-param>
+    <p-param name="showMos">
+      <desc><![CDATA[showMos]]></desc>
+    </p-param>
+    <p-param name="modifyPresent">
+      <desc><![CDATA[Modify if Service Profile already exists]]></desc>
+    </p-param>
+  </presentation>
+</workflow>

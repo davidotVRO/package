@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<workflow xmlns="http://vmware.com/vco/workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://vmware.com/vco/workflow http://vmware.com/vco/workflow/Workflow-v4.xsd" root-name="item1" object-name="workflow:name=generic" id="474fbe48-be21-47a0-b15d-b22f335443da" version="1.0.1" api-version="6.0.0" allowed-operations="vef" restartMode="1" resumeFromFailedMode="0">
+  <display-name><![CDATA[Set Service Profile Power State]]></display-name>
+  <description><![CDATA[This action takes array of service profiles as input and sets their power state, which results in change in power state of the associated blade server. Change will have no affect till a blade is associated to selected service profile.]]></description>
+  <position y="50.0" x="100.0"></position>
+  <input>
+    <param name="serviceProfiles" type="Array/UCSM:ServiceProfile">
+      <description><![CDATA[Service Profiles]]></description>
+    </param>
+    <param name="state" type="string">
+      <description><![CDATA[State]]></description>
+    </param>
+  </input>
+  <output>
+    <param name="modLsPowerList" type="Array/Any"></param>
+  </output>
+  <attrib name="showMos" type="boolean" read-only="false">
+    <value encoded="n"><![CDATA[true]]></value>
+  </attrib>
+  <attrib name="lsPowerList" type="Array/Any" read-only="false"></attrib>
+  <workflow-item  name="item0" type="end" end-mode="0">
+    <position y="45.40909090909091" x="524.5"></position>
+  </workflow-item >
+  <workflow-item  name="item1" out-name="item2" type="task" script-module="com.cisco.ucs.mgr.ls/getServerPower">
+    <display-name><![CDATA[getServerPower]]></display-name>
+    <script encoded="false"><![CDATA[//Auto generated script, cannot be modified !
+actionResult = System.getModule("com.cisco.ucs.mgr.ls").getServerPower(ucsDomain,parentMos,dn,state,showMos) ;]]></script>
+    <in-binding>
+      <bind name="ucsDomain" type="UCSM:UcsDomain" explicitly-not-bound="true"></bind>
+      <bind name="parentMos" type="Array/UCSM:ServiceProfile" export-name="serviceProfiles"></bind>
+      <bind name="dn" type="string" explicitly-not-bound="true"></bind>
+      <bind name="state" type="string" explicitly-not-bound="true"></bind>
+      <bind name="showMos" type="boolean" export-name="showMos"></bind>
+    </in-binding>
+    <out-binding>
+      <bind name="actionResult" type="Array/Any" export-name="lsPowerList"></bind>
+    </out-binding>
+    <description><![CDATA[Searches Managed Objects of type UcsmLsPower.
+Inputs:
+ucsDomain - UcsDomain where you want to search ServerPower.
+parentMos - Array of Parent Managed Objects of ServerPower which is being searched. Parents can be UcsmLsServer.
+showMos - print searched ServerPower objects to System.log
+Other inputs - other inputs are the properties of ServerPower against which you can search. Refer UcsmLsPower scripting object for more details.
+Return Type:
+Array of searched UcsmLsPower.]]></description>
+    <position y="55.40909090909091" x="204.5"></position>
+  </workflow-item >
+  <workflow-item  name="item2" out-name="item0" type="task" script-module="com.cisco.ucs.mgr.ls/setServerPower">
+    <display-name><![CDATA[setServerPower]]></display-name>
+    <script encoded="false"><![CDATA[//Auto generated script, cannot be modified !
+actionResult = System.getModule("com.cisco.ucs.mgr.ls").setServerPower(ucsDomain,mosToModify,dn,state,showMos) ;]]></script>
+    <in-binding>
+      <bind name="ucsDomain" type="UCSM:UcsDomain" explicitly-not-bound="true"></bind>
+      <bind name="mosToModify" type="Array/Any" export-name="lsPowerList"></bind>
+      <bind name="dn" type="string" explicitly-not-bound="true"></bind>
+      <bind name="state" type="string" export-name="state"></bind>
+      <bind name="showMos" type="boolean" export-name="showMos"></bind>
+    </in-binding>
+    <out-binding>
+      <bind name="actionResult" type="Array/Any" export-name="modLsPowerList"></bind>
+    </out-binding>
+    <description><![CDATA[Modifies Managed Objects of type UcsmLsPower.
+Inputs:
+ucsDomain - UcsDomain where you want to modify ServerPower.
+mosToModify - Array of ServerPower which are being modified.
+showMos - print modified ServerPower objects to System.log
+Other inputs - other inputs are the properties of ServerPower against which you can modify. Refer UcsmLsPower scripting object for more details. Enter #EMPTY# value for any property if you want to set empty string for that property.
+Return Type:
+Array of modified UcsmLsPower.]]></description>
+    <position y="55.40909090909091" x="344.5"></position>
+  </workflow-item >
+  <presentation>
+    <p-param name="serviceProfiles">
+      <desc><![CDATA[Service Profiles]]></desc>
+      <p-qual kind="static" name="mandatory" type="boolean"><![CDATA[true]]></p-qual>
+    </p-param>
+    <p-param name="state">
+      <desc><![CDATA[State]]></desc>
+      <p-qual kind="static" name="mandatory" type="boolean"><![CDATA[true]]></p-qual>
+      <p-qual kind="static" name="genericEnumeration" type="Array/string"><![CDATA[#{#string##;#string#admin-up#;#string#admin-down#}#]]></p-qual>
+    </p-param>
+  </presentation>
+</workflow>

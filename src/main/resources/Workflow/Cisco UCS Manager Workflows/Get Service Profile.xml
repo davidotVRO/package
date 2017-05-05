@@ -1,0 +1,336 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<workflow xmlns="http://vmware.com/vco/workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://vmware.com/vco/workflow http://vmware.com/vco/workflow/Workflow-v4.xsd" root-name="item1" object-name="workflow:name=generic" id="5e495386-9bbf-4300-90ae-26ff21e3d7b0" version="1.0.1" api-version="6.0.0" allowed-operations="vef" restartMode="1" resumeFromFailedMode="0">
+  <display-name><![CDATA[Get Service Profile]]></display-name>
+  <description><![CDATA[Gets existing service profile from UCS Manager.]]></description>
+  <position y="50.0" x="100.0"></position>
+  <input>
+    <param name="ucsDomain" type="UCSM:UcsDomain"></param>
+    <param name="parentMos" type="Array/UCSM:OrganizationHierarchy"></param>
+    <param name="agentPolicyName" type="string"></param>
+    <param name="assignState" type="string"></param>
+    <param name="assocState" type="string"></param>
+    <param name="biosProfileName" type="string"></param>
+    <param name="bootPolicyName" type="string"></param>
+    <param name="configQualifier" type="Array/string"></param>
+    <param name="configState" type="string"></param>
+    <param name="descr" type="string"></param>
+    <param name="dn" type="string"></param>
+    <param name="dynamicConPolicyName" type="string"></param>
+    <param name="extIPPoolName" type="string"></param>
+    <param name="extIPState" type="string"></param>
+    <param name="hostFwPolicyName" type="string"></param>
+    <param name="identPoolName" type="string"></param>
+    <param name="kvmMgmtPolicyName" type="string"></param>
+    <param name="localDiskPolicyName" type="string"></param>
+    <param name="maintPolicyName" type="string"></param>
+    <param name="mgmtAccessPolicyName" type="string"></param>
+    <param name="mgmtFwPolicyName" type="string"></param>
+    <param name="name" type="string"></param>
+    <param name="operBiosProfileName" type="string"></param>
+    <param name="operBootPolicyName" type="string"></param>
+    <param name="operDynamicConPolicyName" type="string"></param>
+    <param name="operExtIPPoolName" type="string"></param>
+    <param name="operHostFwPolicyName" type="string"></param>
+    <param name="operIdentPoolName" type="string"></param>
+    <param name="operKvmMgmtPolicyName" type="string"></param>
+    <param name="operLocalDiskPolicyName" type="string"></param>
+    <param name="operMaintPolicyName" type="string"></param>
+    <param name="operMgmtAccessPolicyName" type="string"></param>
+    <param name="operMgmtFwPolicyName" type="string"></param>
+    <param name="operPowerPolicyName" type="string"></param>
+    <param name="operScrubPolicyName" type="string"></param>
+    <param name="operSolPolicyName" type="string"></param>
+    <param name="operSrcTemplName" type="string"></param>
+    <param name="operState" type="string"></param>
+    <param name="operStatsPolicyName" type="string"></param>
+    <param name="operVconProfileName" type="string"></param>
+    <param name="operVmediaPolicyName" type="string"></param>
+    <param name="owner" type="string"></param>
+    <param name="pnDn" type="string"></param>
+    <param name="policyLevel" type="number"></param>
+    <param name="policyOwner" type="string"></param>
+    <param name="powerPolicyName" type="string"></param>
+    <param name="resolveRemote" type="string"></param>
+    <param name="scrubPolicyName" type="string"></param>
+    <param name="solPolicyName" type="string"></param>
+    <param name="srcTemplName" type="string"></param>
+    <param name="statsPolicyName" type="string"></param>
+    <param name="svnicConfig" type="string"></param>
+    <param name="type" type="string"></param>
+    <param name="usrLbl" type="string"></param>
+    <param name="uuid" type="string"></param>
+    <param name="uuidSuffix" type="string"></param>
+    <param name="vconProfileName" type="string"></param>
+    <param name="vmediaPolicyName" type="string"></param>
+    <param name="limitScope" type="boolean"></param>
+    <param name="showMos" type="boolean"></param>
+  </input>
+  <output>
+    <param name="spList" type="Array/UCSM:ServiceProfile"></param>
+  </output>
+  <workflow-item  name="item0" type="end" end-mode="0">
+    <position y="45.40909090909091" x="384.5"></position>
+  </workflow-item >
+  <workflow-item  name="item1" out-name="item0" type="task" script-module="com.cisco.ucs.mgr.ls/getServiceProfile">
+    <display-name><![CDATA[getServiceProfile]]></display-name>
+    <script encoded="false"><![CDATA[//Auto generated script, cannot be modified !
+actionResult = System.getModule("com.cisco.ucs.mgr.ls").getServiceProfile(ucsDomain,parentMos,agentPolicyName,assignState,assocState,biosProfileName,bootPolicyName,configQualifier,configState,descr,dn,dynamicConPolicyName,extIPPoolName,extIPState,hostFwPolicyName,identPoolName,kvmMgmtPolicyName,localDiskPolicyName,maintPolicyName,mgmtAccessPolicyName,mgmtFwPolicyName,name,operBiosProfileName,operBootPolicyName,operDynamicConPolicyName,operExtIPPoolName,operHostFwPolicyName,operIdentPoolName,operKvmMgmtPolicyName,operLocalDiskPolicyName,operMaintPolicyName,operMgmtAccessPolicyName,operMgmtFwPolicyName,operPowerPolicyName,operScrubPolicyName,operSolPolicyName,operSrcTemplName,operState,operStatsPolicyName,operVconProfileName,operVmediaPolicyName,owner,pnDn,policyLevel,policyOwner,powerPolicyName,resolveRemote,scrubPolicyName,solPolicyName,srcTemplName,statsPolicyName,svnicConfig,type,usrLbl,uuid,uuidSuffix,vconProfileName,vmediaPolicyName,limitScope,showMos) ;]]></script>
+    <in-binding>
+      <bind name="ucsDomain" type="UCSM:UcsDomain" export-name="ucsDomain"></bind>
+      <bind name="parentMos" type="Array/UCSM:OrganizationHierarchy" export-name="parentMos"></bind>
+      <bind name="agentPolicyName" type="string" export-name="agentPolicyName"></bind>
+      <bind name="assignState" type="string" export-name="assignState"></bind>
+      <bind name="assocState" type="string" export-name="assocState"></bind>
+      <bind name="biosProfileName" type="string" export-name="biosProfileName"></bind>
+      <bind name="bootPolicyName" type="string" export-name="bootPolicyName"></bind>
+      <bind name="configQualifier" type="Array/string" export-name="configQualifier"></bind>
+      <bind name="configState" type="string" export-name="configState"></bind>
+      <bind name="descr" type="string" export-name="descr"></bind>
+      <bind name="dn" type="string" export-name="dn"></bind>
+      <bind name="dynamicConPolicyName" type="string" export-name="dynamicConPolicyName"></bind>
+      <bind name="extIPPoolName" type="string" export-name="extIPPoolName"></bind>
+      <bind name="extIPState" type="string" export-name="extIPState"></bind>
+      <bind name="hostFwPolicyName" type="string" export-name="hostFwPolicyName"></bind>
+      <bind name="identPoolName" type="string" export-name="identPoolName"></bind>
+      <bind name="kvmMgmtPolicyName" type="string" export-name="kvmMgmtPolicyName"></bind>
+      <bind name="localDiskPolicyName" type="string" export-name="localDiskPolicyName"></bind>
+      <bind name="maintPolicyName" type="string" export-name="maintPolicyName"></bind>
+      <bind name="mgmtAccessPolicyName" type="string" export-name="mgmtAccessPolicyName"></bind>
+      <bind name="mgmtFwPolicyName" type="string" export-name="mgmtFwPolicyName"></bind>
+      <bind name="name" type="string" export-name="name"></bind>
+      <bind name="operBiosProfileName" type="string" export-name="operBiosProfileName"></bind>
+      <bind name="operBootPolicyName" type="string" export-name="operBootPolicyName"></bind>
+      <bind name="operDynamicConPolicyName" type="string" export-name="operDynamicConPolicyName"></bind>
+      <bind name="operExtIPPoolName" type="string" export-name="operExtIPPoolName"></bind>
+      <bind name="operHostFwPolicyName" type="string" export-name="operHostFwPolicyName"></bind>
+      <bind name="operIdentPoolName" type="string" export-name="operIdentPoolName"></bind>
+      <bind name="operKvmMgmtPolicyName" type="string" export-name="operKvmMgmtPolicyName"></bind>
+      <bind name="operLocalDiskPolicyName" type="string" export-name="operLocalDiskPolicyName"></bind>
+      <bind name="operMaintPolicyName" type="string" export-name="operMaintPolicyName"></bind>
+      <bind name="operMgmtAccessPolicyName" type="string" export-name="operMgmtAccessPolicyName"></bind>
+      <bind name="operMgmtFwPolicyName" type="string" export-name="operMgmtFwPolicyName"></bind>
+      <bind name="operPowerPolicyName" type="string" export-name="operPowerPolicyName"></bind>
+      <bind name="operScrubPolicyName" type="string" export-name="operScrubPolicyName"></bind>
+      <bind name="operSolPolicyName" type="string" export-name="operSolPolicyName"></bind>
+      <bind name="operSrcTemplName" type="string" export-name="operSrcTemplName"></bind>
+      <bind name="operState" type="string" export-name="operState"></bind>
+      <bind name="operStatsPolicyName" type="string" export-name="operStatsPolicyName"></bind>
+      <bind name="operVconProfileName" type="string" export-name="operVconProfileName"></bind>
+      <bind name="operVmediaPolicyName" type="string" export-name="operVmediaPolicyName"></bind>
+      <bind name="owner" type="string" export-name="owner"></bind>
+      <bind name="pnDn" type="string" export-name="pnDn"></bind>
+      <bind name="policyLevel" type="number" export-name="policyLevel"></bind>
+      <bind name="policyOwner" type="string" export-name="policyOwner"></bind>
+      <bind name="powerPolicyName" type="string" export-name="powerPolicyName"></bind>
+      <bind name="resolveRemote" type="string" export-name="resolveRemote"></bind>
+      <bind name="scrubPolicyName" type="string" export-name="scrubPolicyName"></bind>
+      <bind name="solPolicyName" type="string" export-name="solPolicyName"></bind>
+      <bind name="srcTemplName" type="string" export-name="srcTemplName"></bind>
+      <bind name="statsPolicyName" type="string" export-name="statsPolicyName"></bind>
+      <bind name="svnicConfig" type="string" export-name="svnicConfig"></bind>
+      <bind name="type" type="string" export-name="type"></bind>
+      <bind name="usrLbl" type="string" export-name="usrLbl"></bind>
+      <bind name="uuid" type="string" export-name="uuid"></bind>
+      <bind name="uuidSuffix" type="string" export-name="uuidSuffix"></bind>
+      <bind name="vconProfileName" type="string" export-name="vconProfileName"></bind>
+      <bind name="vmediaPolicyName" type="string" export-name="vmediaPolicyName"></bind>
+      <bind name="limitScope" type="boolean" export-name="limitScope"></bind>
+      <bind name="showMos" type="boolean" export-name="showMos"></bind>
+    </in-binding>
+    <out-binding>
+      <bind name="actionResult" type="Array/UCSM:ServiceProfile" export-name="spList"></bind>
+    </out-binding>
+    <description><![CDATA[Searches Managed Objects of type UcsmLsServer.
+Inputs:
+ucsDomain - UcsDomain where you want to search ServiceProfile.
+parentMos - Array of Parent Managed Objects of ServiceProfile which is being searched. Parents can be UcsmOrgOrg.
+limitScope - Limit the scope of search for ServiceProfile to single level of UcsmOrgOrg.
+showMos - print searched ServiceProfile objects to System.log
+Other inputs - other inputs are the properties of ServiceProfile against which you can search. Refer UcsmLsServer scripting object for more details.
+Return Type:
+Array of searched UCSM:ServiceProfile.]]></description>
+    <position y="55.40909090909091" x="204.5"></position>
+  </workflow-item >
+  <presentation>
+    <p-param name="ucsDomain">
+      <desc><![CDATA[ucsDomain]]></desc>
+    </p-param>
+    <p-param name="parentMos">
+      <desc><![CDATA[parentMos]]></desc>
+    </p-param>
+    <p-param name="agentPolicyName">
+      <desc><![CDATA[agentPolicyName]]></desc>
+    </p-param>
+    <p-param name="assignState">
+      <desc><![CDATA[assignState]]></desc>
+    </p-param>
+    <p-param name="assocState">
+      <desc><![CDATA[assocState]]></desc>
+    </p-param>
+    <p-param name="biosProfileName">
+      <desc><![CDATA[biosProfileName]]></desc>
+    </p-param>
+    <p-param name="bootPolicyName">
+      <desc><![CDATA[bootPolicyName]]></desc>
+    </p-param>
+    <p-param name="configQualifier">
+      <desc><![CDATA[configQualifier]]></desc>
+    </p-param>
+    <p-param name="configState">
+      <desc><![CDATA[configState]]></desc>
+    </p-param>
+    <p-param name="descr">
+      <desc><![CDATA[descr]]></desc>
+    </p-param>
+    <p-param name="dn">
+      <desc><![CDATA[dn]]></desc>
+    </p-param>
+    <p-param name="dynamicConPolicyName">
+      <desc><![CDATA[dynamicConPolicyName]]></desc>
+    </p-param>
+    <p-param name="extIPPoolName">
+      <desc><![CDATA[extIPPoolName]]></desc>
+    </p-param>
+    <p-param name="extIPState">
+      <desc><![CDATA[extIPState]]></desc>
+    </p-param>
+    <p-param name="hostFwPolicyName">
+      <desc><![CDATA[hostFwPolicyName]]></desc>
+    </p-param>
+    <p-param name="identPoolName">
+      <desc><![CDATA[identPoolName]]></desc>
+    </p-param>
+    <p-param name="kvmMgmtPolicyName">
+      <desc><![CDATA[kvmMgmtPolicyName]]></desc>
+    </p-param>
+    <p-param name="localDiskPolicyName">
+      <desc><![CDATA[localDiskPolicyName]]></desc>
+    </p-param>
+    <p-param name="maintPolicyName">
+      <desc><![CDATA[maintPolicyName]]></desc>
+    </p-param>
+    <p-param name="mgmtAccessPolicyName">
+      <desc><![CDATA[mgmtAccessPolicyName]]></desc>
+    </p-param>
+    <p-param name="mgmtFwPolicyName">
+      <desc><![CDATA[mgmtFwPolicyName]]></desc>
+    </p-param>
+    <p-param name="name">
+      <desc><![CDATA[name]]></desc>
+    </p-param>
+    <p-param name="operBiosProfileName">
+      <desc><![CDATA[operBiosProfileName]]></desc>
+    </p-param>
+    <p-param name="operBootPolicyName">
+      <desc><![CDATA[operBootPolicyName]]></desc>
+    </p-param>
+    <p-param name="operDynamicConPolicyName">
+      <desc><![CDATA[operDynamicConPolicyName]]></desc>
+    </p-param>
+    <p-param name="operExtIPPoolName">
+      <desc><![CDATA[operExtIPPoolName]]></desc>
+    </p-param>
+    <p-param name="operHostFwPolicyName">
+      <desc><![CDATA[operHostFwPolicyName]]></desc>
+    </p-param>
+    <p-param name="operIdentPoolName">
+      <desc><![CDATA[operIdentPoolName]]></desc>
+    </p-param>
+    <p-param name="operKvmMgmtPolicyName">
+      <desc><![CDATA[operKvmMgmtPolicyName]]></desc>
+    </p-param>
+    <p-param name="operLocalDiskPolicyName">
+      <desc><![CDATA[operLocalDiskPolicyName]]></desc>
+    </p-param>
+    <p-param name="operMaintPolicyName">
+      <desc><![CDATA[operMaintPolicyName]]></desc>
+    </p-param>
+    <p-param name="operMgmtAccessPolicyName">
+      <desc><![CDATA[operMgmtAccessPolicyName]]></desc>
+    </p-param>
+    <p-param name="operMgmtFwPolicyName">
+      <desc><![CDATA[operMgmtFwPolicyName]]></desc>
+    </p-param>
+    <p-param name="operPowerPolicyName">
+      <desc><![CDATA[operPowerPolicyName]]></desc>
+    </p-param>
+    <p-param name="operScrubPolicyName">
+      <desc><![CDATA[operScrubPolicyName]]></desc>
+    </p-param>
+    <p-param name="operSolPolicyName">
+      <desc><![CDATA[operSolPolicyName]]></desc>
+    </p-param>
+    <p-param name="operSrcTemplName">
+      <desc><![CDATA[operSrcTemplName]]></desc>
+    </p-param>
+    <p-param name="operState">
+      <desc><![CDATA[operState]]></desc>
+    </p-param>
+    <p-param name="operStatsPolicyName">
+      <desc><![CDATA[operStatsPolicyName]]></desc>
+    </p-param>
+    <p-param name="operVconProfileName">
+      <desc><![CDATA[operVconProfileName]]></desc>
+    </p-param>
+    <p-param name="operVmediaPolicyName">
+      <desc><![CDATA[operVmediaPolicyName]]></desc>
+    </p-param>
+    <p-param name="owner">
+      <desc><![CDATA[owner]]></desc>
+    </p-param>
+    <p-param name="pnDn">
+      <desc><![CDATA[pnDn]]></desc>
+    </p-param>
+    <p-param name="policyLevel">
+      <desc><![CDATA[policyLevel]]></desc>
+    </p-param>
+    <p-param name="policyOwner">
+      <desc><![CDATA[policyOwner]]></desc>
+    </p-param>
+    <p-param name="powerPolicyName">
+      <desc><![CDATA[powerPolicyName]]></desc>
+    </p-param>
+    <p-param name="resolveRemote">
+      <desc><![CDATA[resolveRemote]]></desc>
+    </p-param>
+    <p-param name="scrubPolicyName">
+      <desc><![CDATA[scrubPolicyName]]></desc>
+    </p-param>
+    <p-param name="solPolicyName">
+      <desc><![CDATA[solPolicyName]]></desc>
+    </p-param>
+    <p-param name="srcTemplName">
+      <desc><![CDATA[srcTemplName]]></desc>
+    </p-param>
+    <p-param name="statsPolicyName">
+      <desc><![CDATA[statsPolicyName]]></desc>
+    </p-param>
+    <p-param name="svnicConfig">
+      <desc><![CDATA[svnicConfig]]></desc>
+    </p-param>
+    <p-param name="type">
+      <desc><![CDATA[type]]></desc>
+    </p-param>
+    <p-param name="usrLbl">
+      <desc><![CDATA[usrLbl]]></desc>
+    </p-param>
+    <p-param name="uuid">
+      <desc><![CDATA[uuid]]></desc>
+    </p-param>
+    <p-param name="uuidSuffix">
+      <desc><![CDATA[uuidSuffix]]></desc>
+    </p-param>
+    <p-param name="vconProfileName">
+      <desc><![CDATA[vconProfileName]]></desc>
+    </p-param>
+    <p-param name="vmediaPolicyName">
+      <desc><![CDATA[vmediaPolicyName]]></desc>
+    </p-param>
+    <p-param name="limitScope">
+      <desc><![CDATA[limitScope]]></desc>
+    </p-param>
+    <p-param name="showMos">
+      <desc><![CDATA[showMos]]></desc>
+    </p-param>
+  </presentation>
+</workflow>

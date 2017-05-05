@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+<comment>Exported from [server]</comment>
+<entry key="categoryPath">com.cisco.ucs.mgr.bios</entry>
+<entry key="name">getBiosVfIntelVirtualizationTechnology</entry>
+<entry key="type">ScriptModule</entry>
+<entry key="id">b8aea0e4-ff9f-480c-9716-f7f32160cbca</entry>
+</properties>

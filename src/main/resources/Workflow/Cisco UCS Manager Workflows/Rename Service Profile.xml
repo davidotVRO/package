@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<workflow xmlns="http://vmware.com/vco/workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://vmware.com/vco/workflow http://vmware.com/vco/workflow/Workflow-v4.xsd" root-name="item1" object-name="workflow:name=generic" id="f8675f31-757d-4c5c-bb5b-216912cfcc2d" version="1.0.1" api-version="6.0.0" allowed-operations="vef" restartMode="1" resumeFromFailedMode="0">
+  <display-name><![CDATA[Rename Service Profile]]></display-name>
+  <description><![CDATA[This workflow renames selected service profile. This workflow will only work with UCS Manager releases  2.1(1a) and above.]]></description>
+  <position y="50.0" x="100.0"></position>
+  <input>
+    <param name="serviceProfile" type="UCSM:ServiceProfile">
+      <description><![CDATA[Select ServiceProfile to Rename]]></description>
+    </param>
+    <param name="newName" type="string">
+      <description><![CDATA[New Name of ServiceProfile]]></description>
+    </param>
+  </input>
+  <output>
+    <param name="renamedSp" type="UCSM:ServiceProfile"></param>
+  </output>
+  <workflow-item  name="item0" type="end" end-mode="0">
+    <position y="45.40909090909091" x="384.5"></position>
+  </workflow-item >
+  <workflow-item  name="item1" out-name="item0" type="task" script-module="com.cisco.ucs.mgr.ls/renameServiceProfile">
+    <display-name><![CDATA[renameServiceProfile]]></display-name>
+    <script encoded="false"><![CDATA[//Auto generated script, cannot be modified !
+actionResult = System.getModule("com.cisco.ucs.mgr.ls").renameServiceProfile(serviceProfile,newName) ;]]></script>
+    <in-binding>
+      <bind name="serviceProfile" type="UCSM:ServiceProfile" export-name="serviceProfile">
+        <description><![CDATA[Service Profile]]></description>
+      </bind>
+      <bind name="newName" type="string" export-name="newName">
+        <description><![CDATA[New Name]]></description>
+      </bind>
+    </in-binding>
+    <out-binding>
+      <bind name="actionResult" type="UCSM:ServiceProfile" export-name="renamedSp"></bind>
+    </out-binding>
+    <description><![CDATA[Renames an existing Service Profile.
+This action works with UCS Manager releases 2.1(1a) and above only.]]></description>
+    <position y="55.40909090909091" x="204.5"></position>
+  </workflow-item >
+  <presentation>
+    <p-param name="serviceProfile">
+      <desc><![CDATA[Select ServiceProfile to Rename]]></desc>
+      <p-qual kind="static" name="mandatory" type="boolean"><![CDATA[true]]></p-qual>
+    </p-param>
+    <p-param name="newName">
+      <desc><![CDATA[New Name]]></desc>
+      <p-qual kind="static" name="mandatory" type="boolean"><![CDATA[true]]></p-qual>
+    </p-param>
+  </presentation>
+</workflow>

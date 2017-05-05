@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dunes-script-module name="exportUcsBackup" result-type="void" api-version="6.0.0" id="8d41caf0-7f21-440b-8a47-6188b5d6d696" version="1.0.1" allowed-operations="vef">
+  <description><![CDATA[This action exports the current backup of the UCS Manager Specified.
+There are four types of backups that can be taken:-
+1. full-state:- This creates a binary file that includes a snapshot of the entire system. You can use the file generated from this backup to restore the system during disaster recovery.
+2. config-logical:- This creates an XML file that includes all logical configuration settings such as service profiles, VLANs, VSANs, pools, and policies.
+3. config-system:- This creates an XML file that includes all system configuration settings such as usernames, roles, and locales.
+4. config-all:- This creates an XML file that includes all system and logical configuration settings.]]></description>
+  <param n="ucsDomain" t="UCSM:UcsDomain"><![CDATA[Ucs Domain]]></param>
+  <param n="pathPattern" t="string"><![CDATA[Path of the file where backup needs to be stored. Path may contain few special sequences which will be replaced by actual values (like {ucs} will be replaced by ucsname, {yyyy} will be replaced by current year, {MM} will be replaced by current month etc)]]></param>
+  <param n="type" t="string"><![CDATA[Type of backup, which can be any of the following values: config-all,config-logical,config-system,full-state.]]></param>
+  <param n="timeoutSec" t="number"><![CDATA[Timeout time in seconds to wait for backup, otherwise fail]]></param>
+  <param n="preservePooledValues" t="boolean"><![CDATA[Preserve Pooled Values]]></param>
+  <script encoded="false"><![CDATA[System.log("Starting backup creation... (This may take several minutes)");
+var result = UcsmActionUtils.getUcsBackup(ucsDomain, pathPattern, type, timeoutSec, preservePooledValues);
+System.log(result);]]></script>
+</dunes-script-module>

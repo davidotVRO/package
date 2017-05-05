@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dunes-script-module name="addServiceProfile" result-type="Array/UCSM:ServiceProfile" api-version="6.0.0" id="6dd20dca-ecb7-4d08-a7b1-1f557d22bf0e" version="1.0.2" allowed-operations="vef">
+  <description><![CDATA[Creates Managed Objects of type UcsmLsServer.
+Inputs:
+ucsDomain - UcsDomain where you want to create ServiceProfile.
+parentMos - Array of Parent Managed Objects of ServiceProfile which is being created. Parents can be UcsmOrgOrg.
+modifyPresent - If ServiceProfile objects being created already exists on UCSM, then modify existing.
+showMos - print created ServiceProfile objects to System.log
+Other inputs - other inputs are the properties of ServiceProfile which you initialize while creating. Refer UcsmLsServer scripting object for more details.
+Return Type:
+Array of created UCSM:ServiceProfile.]]></description>
+  <param n="ucsDomain" t="UCSM:UcsDomain"><![CDATA[]]></param>
+  <param n="parentMos" t="Array/UCSM:OrganizationHierarchy"><![CDATA[]]></param>
+  <param n="agentPolicyName" t="string"><![CDATA[]]></param>
+  <param n="biosProfileName" t="string"><![CDATA[]]></param>
+  <param n="bootPolicyName" t="string"><![CDATA[]]></param>
+  <param n="descr" t="string"><![CDATA[]]></param>
+  <param n="dynamicConPolicyName" t="string"><![CDATA[]]></param>
+  <param n="extIPPoolName" t="string"><![CDATA[]]></param>
+  <param n="extIPState" t="string"><![CDATA[]]></param>
+  <param n="hostFwPolicyName" t="string"><![CDATA[]]></param>
+  <param n="identPoolName" t="string"><![CDATA[]]></param>
+  <param n="kvmMgmtPolicyName" t="string"><![CDATA[]]></param>
+  <param n="localDiskPolicyName" t="string"><![CDATA[]]></param>
+  <param n="maintPolicyName" t="string"><![CDATA[]]></param>
+  <param n="mgmtAccessPolicyName" t="string"><![CDATA[]]></param>
+  <param n="mgmtFwPolicyName" t="string"><![CDATA[]]></param>
+  <param n="name" t="string"><![CDATA[]]></param>
+  <param n="policyOwner" t="string"><![CDATA[]]></param>
+  <param n="powerPolicyName" t="string"><![CDATA[]]></param>
+  <param n="resolveRemote" t="string"><![CDATA[]]></param>
+  <param n="scrubPolicyName" t="string"><![CDATA[]]></param>
+  <param n="solPolicyName" t="string"><![CDATA[]]></param>
+  <param n="srcTemplName" t="string"><![CDATA[]]></param>
+  <param n="statsPolicyName" t="string"><![CDATA[]]></param>
+  <param n="type" t="string"><![CDATA[]]></param>
+  <param n="usrLbl" t="string"><![CDATA[]]></param>
+  <param n="uuid" t="string"><![CDATA[]]></param>
+  <param n="vconProfileName" t="string"><![CDATA[]]></param>
+  <param n="vmediaPolicyName" t="string"><![CDATA[]]></param>
+  <param n="modifyPresent" t="boolean"><![CDATA[]]></param>
+  <param n="showMos" t="boolean"><![CDATA[]]></param>
+  <script encoded="false"><![CDATA[//Create ServiceProfile object
+var paramsMo = new UcsmLsServer();
+
+//Store all inputs in ServiceProfile object
+if(agentPolicyName!=null && agentPolicyName!="")
+	paramsMo.setAttr("agentPolicyName", agentPolicyName);
+if(biosProfileName!=null && biosProfileName!="")
+	paramsMo.setAttr("biosProfileName", biosProfileName);
+if(bootPolicyName!=null && bootPolicyName!="")
+	paramsMo.setAttr("bootPolicyName", bootPolicyName);
+if(descr!=null && descr!="")
+	paramsMo.setAttr("descr", descr);
+if(dynamicConPolicyName!=null && dynamicConPolicyName!="")
+	paramsMo.setAttr("dynamicConPolicyName", dynamicConPolicyName);
+if(extIPPoolName!=null && extIPPoolName!="")
+	paramsMo.setAttr("extIPPoolName", extIPPoolName);
+if(extIPState!=null && extIPState!="")
+	paramsMo.setAttr("extIPState", extIPState);
+if(hostFwPolicyName!=null && hostFwPolicyName!="")
+	paramsMo.setAttr("hostFwPolicyName", hostFwPolicyName);
+if(identPoolName!=null && identPoolName!="")
+	paramsMo.setAttr("identPoolName", identPoolName);
+if(kvmMgmtPolicyName!=null && kvmMgmtPolicyName!="")
+	paramsMo.setAttr("kvmMgmtPolicyName", kvmMgmtPolicyName);
+if(localDiskPolicyName!=null && localDiskPolicyName!="")
+	paramsMo.setAttr("localDiskPolicyName", localDiskPolicyName);
+if(maintPolicyName!=null && maintPolicyName!="")
+	paramsMo.setAttr("maintPolicyName", maintPolicyName);
+if(mgmtAccessPolicyName!=null && mgmtAccessPolicyName!="")
+	paramsMo.setAttr("mgmtAccessPolicyName", mgmtAccessPolicyName);
+if(mgmtFwPolicyName!=null && mgmtFwPolicyName!="")
+	paramsMo.setAttr("mgmtFwPolicyName", mgmtFwPolicyName);
+if(name!=null && name!="")
+	paramsMo.setAttr("name", name);
+if(policyOwner!=null && policyOwner!="")
+	paramsMo.setAttr("policyOwner", policyOwner);
+if(powerPolicyName!=null && powerPolicyName!="")
+	paramsMo.setAttr("powerPolicyName", powerPolicyName);
+if(resolveRemote!=null && resolveRemote!="")
+	paramsMo.setAttr("resolveRemote", resolveRemote);
+if(scrubPolicyName!=null && scrubPolicyName!="")
+	paramsMo.setAttr("scrubPolicyName", scrubPolicyName);
+if(solPolicyName!=null && solPolicyName!="")
+	paramsMo.setAttr("solPolicyName", solPolicyName);
+if(srcTemplName!=null && srcTemplName!="")
+	paramsMo.setAttr("srcTemplName", srcTemplName);
+if(statsPolicyName!=null && statsPolicyName!="")
+	paramsMo.setAttr("statsPolicyName", statsPolicyName);
+if(type!=null && type!="")
+	paramsMo.setAttr("type", type);
+if(usrLbl!=null && usrLbl!="")
+	paramsMo.setAttr("usrLbl", usrLbl);
+if(uuid!=null && uuid!="")
+	paramsMo.setAttr("uuid", uuid);
+if(vconProfileName!=null && vconProfileName!="")
+	paramsMo.setAttr("vconProfileName", vconProfileName);
+if(vmediaPolicyName!=null && vmediaPolicyName!="")
+	paramsMo.setAttr("vmediaPolicyName", vmediaPolicyName);
+
+var pmoArray = null;
+if(parentMos!=null && parentMos.length>0){
+	if(ucsDomain==null)
+		ucsDomain = parentMos[0].getHandle();
+
+	pmoArray = new Array();
+	for each (var pmo in parentMos){
+		if(pmo!=null){
+			if(pmo instanceof UcsmOrganizationHierarchy)
+				pmo = pmo.getOrg();
+			pmoArray.push(pmo);
+			if(ucsDomain.getUcs() != pmo.getHandle().getUcs())
+				throw new Error("Parent Managed Object " + pmo.getDn() + " not on selected UCS " + ucsDomain.getUcs() + ". Its on " + pmo.getHandle().getUcs() + ".");
+		}
+	}
+}
+
+if(ucsDomain==null)
+	throw new Error("No Ucs Selected");
+
+var moArray = UcsmActionUtils.addManagedObjects(ucsDomain, pmoArray, "lsServer", paramsMo, modifyPresent);
+
+if(moArray==null || moArray.length==0){
+	if(showMos)
+		System.log("\nNo UcsmLsServer objects added on " + ucsDomain.getUcs() + ".\n");
+	return null
+}
+
+if(showMos){
+	System.log("\n************************\n  Created " + moArray.length + " UcsmLsServer objects\n************************\n");
+	for each (var mo in moArray)
+		if(mo!=null)
+			System.log(UcsmActionUtils.printManagedObject(mo))
+}
+if(moArray!=null && moArray.length>0)
+	return moArray;
+else
+	return new Array();]]></script>
+</dunes-script-module>

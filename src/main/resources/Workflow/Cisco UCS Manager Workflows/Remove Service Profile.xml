@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<workflow xmlns="http://vmware.com/vco/workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://vmware.com/vco/workflow http://vmware.com/vco/workflow/Workflow-v4.xsd" root-name="item1" object-name="workflow:name=generic" id="bda02bff-46f5-4f17-9ea3-8496e8f3f382" version="1.0.1" api-version="6.0.0" allowed-operations="vef" restartMode="1" resumeFromFailedMode="0">
+  <display-name><![CDATA[Remove Service Profile]]></display-name>
+  <description><![CDATA[This workflow removes selected service profiles from UCS Manager.]]></description>
+  <position y="50.0" x="100.0"></position>
+  <input>
+    <param name="ucsDomain" type="UCSM:UcsDomain"></param>
+    <param name="mosToRemove" type="Array/UCSM:ServiceProfile"></param>
+    <param name="dn" type="string"></param>
+  </input>
+  <output>
+    <param name="removedSp1" type="Array/UCSM:ServiceProfile"></param>
+  </output>
+  <attrib name="showMos" type="boolean" read-only="false">
+    <value encoded="n"><![CDATA[true]]></value>
+    <description><![CDATA[Print Removed Managed Objects.]]></description>
+  </attrib>
+  <workflow-item  name="item0" type="end" end-mode="0">
+    <position y="45.40909090909091" x="384.5"></position>
+  </workflow-item >
+  <workflow-item  name="item1" out-name="item0" type="task" script-module="com.cisco.ucs.mgr.ls/removeServiceProfile">
+    <display-name><![CDATA[removeServiceProfile]]></display-name>
+    <script encoded="false"><![CDATA[//Auto generated script, cannot be modified !
+actionResult = System.getModule("com.cisco.ucs.mgr.ls").removeServiceProfile(ucsDomain,mosToRemove,dn,showMos) ;]]></script>
+    <in-binding>
+      <bind name="ucsDomain" type="UCSM:UcsDomain" export-name="ucsDomain"></bind>
+      <bind name="mosToRemove" type="Array/UCSM:ServiceProfile" export-name="mosToRemove"></bind>
+      <bind name="dn" type="string" export-name="dn"></bind>
+      <bind name="showMos" type="boolean" export-name="showMos"></bind>
+    </in-binding>
+    <out-binding>
+      <bind name="actionResult" type="Array/UCSM:ServiceProfile" export-name="removedSp1"></bind>
+    </out-binding>
+    <description><![CDATA[Removes Managed Objects of type UcsmLsServer.
+Inputs:
+ucsDomain - UcsDomain where you want to remove ServiceProfile.
+mosToRemove - Array of ServiceProfile which are being removed.
+dn - dn of ServiceProfile to be removed (if mosToRemove is null)
+showMos - print removed ServiceProfile objects to System.log
+Return Type:
+Array of removed UCSM:ServiceProfile.]]></description>
+    <position y="55.90909090909091" x="205.0"></position>
+  </workflow-item >
+  <presentation>
+    <p-param name="ucsDomain">
+      <desc><![CDATA[ucsDomain]]></desc>
+    </p-param>
+    <p-param name="mosToRemove">
+      <desc><![CDATA[Service Profiles]]></desc>
+    </p-param>
+    <p-param name="dn">
+      <desc><![CDATA[Service Profile dn]]></desc>
+    </p-param>
+  </presentation>
+</workflow>

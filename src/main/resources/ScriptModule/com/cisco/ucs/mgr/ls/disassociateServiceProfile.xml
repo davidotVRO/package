@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dunes-script-module name="disassociateServiceProfile" result-type="void" api-version="6.0.0" id="1490bc8b-1b23-48cf-a018-5cabf999f1ed" version="1.0.1" allowed-operations="vef">
+  <description><![CDATA[Disassociate Service Profile from any Compute Object (Blade or Rack Server).]]></description>
+  <param n="serviceProfile" t="UCSM:ServiceProfile"><![CDATA[Service Profile]]></param>
+  <script encoded="false"><![CDATA[UcsmActionUtils.disassociateServiceProfile(serviceProfile);
+System.log("Successfully disassociated Service Profile.");]]></script>
+</dunes-script-module>

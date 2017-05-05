@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<workflow xmlns="http://vmware.com/vco/workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://vmware.com/vco/workflow http://vmware.com/vco/workflow/Workflow-v4.xsd" root-name="item1" object-name="workflow:name=generic" id="7ddd72d8-5cbc-4721-9e68-49382420b1e8" version="1.0.1" api-version="6.0.0" allowed-operations="vef" restartMode="1" resumeFromFailedMode="0">
+  <display-name><![CDATA[Clone Service Profile]]></display-name>
+  <description><![CDATA[Makes a copy of selected service profile and stores it in selected Organization.]]></description>
+  <position y="50.0" x="100.0"></position>
+  <input>
+    <param name="serviceProfile" type="UCSM:ServiceProfile">
+      <description><![CDATA[Service Profile]]></description>
+    </param>
+    <param name="newName" type="string">
+      <description><![CDATA[New Name]]></description>
+    </param>
+    <param name="destOrg" type="UCSM:OrganizationHierarchy">
+      <description><![CDATA[Destination Organization]]></description>
+    </param>
+  </input>
+  <output>
+    <param name="clonedSp" type="UCSM:ServiceProfile"></param>
+  </output>
+  <workflow-item  name="item0" type="end" end-mode="0">
+    <position y="45.40909090909091" x="384.5"></position>
+  </workflow-item >
+  <workflow-item  name="item1" out-name="item0" type="task" script-module="com.cisco.ucs.mgr.ls/cloneServiceProfile">
+    <display-name><![CDATA[cloneServiceProfile]]></display-name>
+    <script encoded="false"><![CDATA[//Auto generated script, cannot be modified !
+actionResult = System.getModule("com.cisco.ucs.mgr.ls").cloneServiceProfile(serviceProfile,newName,destOrg) ;]]></script>
+    <in-binding>
+      <bind name="serviceProfile" type="UCSM:ServiceProfile" export-name="serviceProfile">
+        <description><![CDATA[Service Profile]]></description>
+      </bind>
+      <bind name="newName" type="string" export-name="newName">
+        <description><![CDATA[New Name]]></description>
+      </bind>
+      <bind name="destOrg" type="UCSM:OrganizationHierarchy" export-name="destOrg">
+        <description><![CDATA[Destination Organization]]></description>
+      </bind>
+    </in-binding>
+    <out-binding>
+      <bind name="actionResult" type="UCSM:ServiceProfile" export-name="clonedSp"></bind>
+    </out-binding>
+    <description><![CDATA[Create a Service Profile similar to selected Service Profile.]]></description>
+    <position y="55.90909090909091" x="205.0"></position>
+  </workflow-item >
+  <presentation>
+    <p-param name="serviceProfile">
+      <desc><![CDATA[Service Profile]]></desc>
+    </p-param>
+    <p-param name="newName">
+      <desc><![CDATA[New Name]]></desc>
+    </p-param>
+    <p-param name="destOrg">
+      <desc><![CDATA[Destination Organization]]></desc>
+    </p-param>
+  </presentation>
+</workflow>

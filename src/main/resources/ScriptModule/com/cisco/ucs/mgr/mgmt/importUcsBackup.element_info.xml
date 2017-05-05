@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+<comment>Exported from [server]</comment>
+<entry key="categoryPath">com.cisco.ucs.mgr.mgmt</entry>
+<entry key="name">importUcsBackup</entry>
+<entry key="type">ScriptModule</entry>
+<entry key="id">c1341903-0bad-472d-95a4-846d5854e724</entry>
+</properties>

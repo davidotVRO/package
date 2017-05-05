@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<workflow xmlns="http://vmware.com/vco/workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://vmware.com/vco/workflow http://vmware.com/vco/workflow/Workflow-v4.xsd" root-name="item1" object-name="workflow:name=generic" id="5b11163b-7dc4-4b39-bd3b-c2611d9cbe0b" version="1.0.1" api-version="6.0.0" allowed-operations="vef" restartMode="1" resumeFromFailedMode="0">
+  <display-name><![CDATA[Download UCS Manager Technical Support Files]]></display-name>
+  <description><![CDATA[This workflow creates and downloads multiple types of Technical Support files. The below options creates and downloads technical support data for:- 
+1. ucsManager:- The entire UCS Manager instance.
+2. ucsMgmt:- The UCS Manager management services excluding fabric interconnects.
+3. Chassis Id:- Chassis I/O Module or CIMC.
+4. Rack Server Id:- Rack Server and Adaptor.
+5. Fex id:- Febric Interconnect.
+]]></description>
+  <position y="50.0" x="100.0"></position>
+  <input>
+    <param name="pathPattern" type="string">
+      <description><![CDATA[Path pattern of file to be saved.]]></description>
+    </param>
+    <param name="ucsManager" type="boolean">
+      <description><![CDATA[UcsManager option]]></description>
+    </param>
+    <param name="ucsMgmt" type="boolean">
+      <description><![CDATA[UcsMgmt option]]></description>
+    </param>
+    <param name="chassisId" type="number">
+      <description><![CDATA[Chassis ID]]></description>
+    </param>
+    <param name="cimcId" type="string">
+      <description><![CDATA[Cimc ID]]></description>
+    </param>
+    <param name="iomId" type="string">
+      <description><![CDATA[IOM ID]]></description>
+    </param>
+    <param name="rackServerId" type="number">
+      <description><![CDATA[Rack Server ID]]></description>
+    </param>
+    <param name="rackAdapterId" type="string">
+      <description><![CDATA[Rack Adapter ID]]></description>
+    </param>
+    <param name="fexId" type="number">
+      <description><![CDATA[Fex ID]]></description>
+    </param>
+    <param name="timeoutSec" type="number">
+      <description><![CDATA[Timeout period]]></description>
+    </param>
+    <param name="removeFromUcs" type="boolean">
+      <description><![CDATA[Remove from UCS after download.]]></description>
+    </param>
+    <param name="ucsDomain" type="UCSM:UcsDomain">
+      <description><![CDATA[UCS System]]></description>
+    </param>
+  </input>
+  <workflow-item  name="item0" type="end" end-mode="0">
+    <position y="45.40909090909091" x="384.5"></position>
+  </workflow-item >
+  <workflow-item  name="item1" out-name="item0" type="task" script-module="com.cisco.ucs.mgr.mgmt/getUcsTechSupport">
+    <display-name><![CDATA[getUcsTechSupport]]></display-name>
+    <script encoded="false"><![CDATA[//Auto generated script, cannot be modified !
+System.getModule("com.cisco.ucs.mgr.mgmt").getUcsTechSupport(handle,pathPattern,ucsManager,ucsMgmt,chassisId,cimcId,adapterId,iomId,rackServerId,rackAdapterId,fexId,timeoutSec,removeFromUcs) ;]]></script>
+    <in-binding>
+      <bind name="handle" type="UCSM:UcsDomain" export-name="ucsDomain">
+        <description><![CDATA[UCS System]]></description>
+      </bind>
+      <bind name="pathPattern" type="string" export-name="pathPattern">
+        <description><![CDATA[Path of the file where TechSupport files needs to be stored. Path may contain few special sequences which will be replaced by actual values (like {ucs} will be replaced by ucsname, {yyyy} will be replaced by current year, {MM} will be replaced by current month etc)]]></description>
+      </bind>
+      <bind name="ucsManager" type="boolean" export-name="ucsManager">
+        <description><![CDATA[UcsManager option]]></description>
+      </bind>
+      <bind name="ucsMgmt" type="boolean" export-name="ucsMgmt">
+        <description><![CDATA[UcsMgmt option]]></description>
+      </bind>
+      <bind name="chassisId" type="number" export-name="chassisId">
+        <description><![CDATA[Chassis ID]]></description>
+      </bind>
+      <bind name="cimcId" type="string" export-name="cimcId">
+        <description><![CDATA[Cimc ID]]></description>
+      </bind>
+      <bind name="adapterId" type="string" explicitly-not-bound="true" export-name="NULL">
+        <description><![CDATA[Adapter ID]]></description>
+      </bind>
+      <bind name="iomId" type="string" export-name="iomId">
+        <description><![CDATA[IOM ID]]></description>
+      </bind>
+      <bind name="rackServerId" type="number" export-name="rackServerId">
+        <description><![CDATA[Rack Server ID]]></description>
+      </bind>
+      <bind name="rackAdapterId" type="string" export-name="rackAdapterId">
+        <description><![CDATA[Rack Adapter ID]]></description>
+      </bind>
+      <bind name="fexId" type="number" export-name="fexId">
+        <description><![CDATA[Fex ID]]></description>
+      </bind>
+      <bind name="timeoutSec" type="number" export-name="timeoutSec">
+        <description><![CDATA[Timeout period]]></description>
+      </bind>
+      <bind name="removeFromUcs" type="boolean" export-name="removeFromUcs">
+        <description><![CDATA[Remove from UCS after download.]]></description>
+      </bind>
+    </in-binding>
+    <out-binding></out-binding>
+    <description><![CDATA[This action creates and downloads multiple types of Technical Support files. The below options creates and downloads technical support data for:- 
+1. ucsManager:- The entire UCS Manager instance.
+2. ucsMgmt:- The UCS Manager management services excluding fabric interconnects.
+3. Chassis Id:- Chassis I/O Module or CIMC.
+4. Rack Server Id:- Rack Server and Adaptor.
+5. Fex id:- Febric Interconnect]]></description>
+    <position y="55.40909090909091" x="204.5"></position>
+  </workflow-item >
+  <presentation>
+    <p-group>
+      <title><![CDATA[UCS]]></title>
+      <p-param name="ucsDomain">
+        <desc><![CDATA[UCS System]]></desc>
+        <p-qual kind="static" name="mandatory" type="boolean"><![CDATA[true]]></p-qual>
+      </p-param>
+    </p-group>
+    <p-step>
+      <title><![CDATA[TechSupport]]></title>
+      <p-group>
+        <title><![CDATA[General]]></title>
+        <p-param name="pathPattern">
+          <desc><![CDATA[Path pattern of file to be saved.]]></desc>
+          <p-qual kind="static" name="mandatory" type="boolean"><![CDATA[true]]></p-qual>
+        </p-param>
+        <p-param name="timeoutSec">
+          <desc><![CDATA[Timeout period]]></desc>
+          <p-qual kind="static" name="defaultValue" type="number"><![CDATA[600.0]]></p-qual>
+        </p-param>
+        <p-param name="removeFromUcs">
+          <desc><![CDATA[Remove from UCS after download.]]></desc>
+          <p-qual kind="static" name="defaultValue" type="boolean"><![CDATA[true]]></p-qual>
+        </p-param>
+      </p-group>
+      <p-group>
+        <title><![CDATA[UCS Option]]></title>
+        <p-param name="ucsManager">
+          <desc><![CDATA[UcsManager option]]></desc>
+        </p-param>
+        <p-param name="ucsMgmt">
+          <desc><![CDATA[UcsMgmt option]]></desc>
+        </p-param>
+      </p-group>
+      <p-group>
+        <title><![CDATA[Chassis Option]]></title>
+        <p-param name="chassisId">
+          <desc><![CDATA[Chassis ID]]></desc>
+        </p-param>
+        <p-param name="cimcId">
+          <desc><![CDATA[Cimc ID]]></desc>
+          <p-qual kind="ognl" name="linkedEnumeration" type="Array/string"><![CDATA[GetAction("com.cisco.ucs.mgr.mgmt","getMoFieldOptions").call( "sysdebugTechSupportCmdOpt" , "chassisCimcId" )]]></p-qual>
+        </p-param>
+        <p-param name="iomId">
+          <desc><![CDATA[IOM ID]]></desc>
+          <p-qual kind="ognl" name="linkedEnumeration" type="Array/string"><![CDATA[GetAction("com.cisco.ucs.mgr.mgmt","getMoFieldOptions").call( "sysdebugTechSupportCmdOpt" , "chassisIomId" )]]></p-qual>
+        </p-param>
+      </p-group>
+      <p-group>
+        <title><![CDATA[Rack Option]]></title>
+        <p-param name="rackServerId">
+          <desc><![CDATA[Rack Server ID]]></desc>
+        </p-param>
+        <p-param name="rackAdapterId">
+          <desc><![CDATA[Rack Adapter ID]]></desc>
+          <p-qual kind="ognl" name="linkedEnumeration" type="Array/string"><![CDATA[GetAction("com.cisco.ucs.mgr.mgmt","getMoFieldOptions").call( "sysdebugTechSupportCmdOpt" , "rackServerAdapterId" )]]></p-qual>
+        </p-param>
+      </p-group>
+      <p-group>
+        <title><![CDATA[Fex Option]]></title>
+        <p-param name="fexId">
+          <desc><![CDATA[Fex ID]]></desc>
+        </p-param>
+      </p-group>
+    </p-step>
+  </presentation>
+</workflow>

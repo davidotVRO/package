@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<workflow xmlns="http://vmware.com/vco/workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://vmware.com/vco/workflow http://vmware.com/vco/workflow/Workflow-v4.xsd" root-name="item1" object-name="workflow:name=generic" id="47b7bbe6-2489-43a5-9022-974a6e9dedaa" version="1.0.2" api-version="6.0.0" allowed-operations="vef" restartMode="1" resumeFromFailedMode="0">
+  <display-name><![CDATA[Get UCS Service Profile from ESX Host]]></display-name>
+  <position y="50.0" x="100.0"></position>
+  <input>
+    <param name="vcHost" type="VC:HostSystem">
+      <description><![CDATA[Esx Host]]></description>
+    </param>
+  </input>
+  <output>
+    <param name="serviceProfile" type="UCSM:ServiceProfile">
+      <description><![CDATA[Service Profile associated to Blade/Rack with specific UUID.]]></description>
+    </param>
+  </output>
+  <attrib name="uuid" type="string" read-only="false">
+    <value encoded="n"><![CDATA[]]></value>
+    <description><![CDATA[ESX host Uuid]]></description>
+  </attrib>
+  <attrib name="hostName" type="string" read-only="false">
+    <value encoded="n"><![CDATA[]]></value>
+    <description><![CDATA[ESX Host Name]]></description>
+  </attrib>
+  <attrib name="ucsDomainList" type="Array/UCSM:UcsDomain" read-only="false"></attrib>
+  <attrib name="showMos" type="boolean" read-only="false">
+    <value encoded="n"><![CDATA[false]]></value>
+  </attrib>
+  <attrib name="computeObjList" type="Array" read-only="false">
+    <value encoded="n"><![CDATA[__NULL__]]></value>
+  </attrib>
+  <attrib name="spDn" type="string" read-only="false">
+    <value encoded="n"><![CDATA[]]></value>
+  </attrib>
+  <attrib name="ucsDomain" type="UCSM:UcsDomain" read-only="false">
+    <value encoded="n"><![CDATA[__NULL__]]></value>
+  </attrib>
+  <attrib name="spList" type="Array/UCSM:ServiceProfile" read-only="false">
+    <value encoded="n"><![CDATA[__NULL__]]></value>
+  </attrib>
+  <workflow-item  name="item0" type="end" end-mode="0">
+    <position y="45.40909090909091" x="1144.5"></position>
+  </workflow-item >
+  <workflow-item  name="item1" out-name="item4" type="task">
+    <display-name><![CDATA[getUuidFromHost]]></display-name>
+    <script encoded="false"><![CDATA[var hardware = vcHost.hardware;
+var hwInfo = hardware.systemInfo;
+uuid = hwInfo.uuid;
+if(uuid==null || uuid=="")
+	throw new Error("Could not find uuid for " + vcHost.name);
+else
+	hostName=vcHost.name;
+System.log("Uuid of selected ESX host is: " + uuid);
+]]></script>
+    <in-binding>
+      <bind name="vcHost" type="VC:HostSystem" export-name="vcHost"></bind>
+    </in-binding>
+    <out-binding>
+      <bind name="uuid" type="string" export-name="uuid"></bind>
+      <bind name="hostName" type="string" export-name="hostName"></bind>
+    </out-binding>
+    <description><![CDATA[Extracts Uuid from ESX Host]]></description>
+    <position y="55.40909090909091" x="204.5"></position>
+  </workflow-item >
+  <workflow-item  name="item3" out-name="item0" type="task">
+    <display-name><![CDATA[Get Service Profile from UUID]]></display-name>
+    <script encoded="false"><![CDATA[if(spList!=null && spList.length==1)
+{
+	serviceProfile = spList[0];
+	System.log("Found Service Profile " + serviceProfile.getDn() + " on UCS " + serviceProfile.getHandle().getUcs());
+}
+else
+	throw new Error("No Service Profile found");
+]]></script>
+    <in-binding>
+      <bind name="spList" type="Array/UCSM:ServiceProfile" export-name="spList"></bind>
+    </in-binding>
+    <out-binding>
+      <bind name="serviceProfile" type="UCSM:ServiceProfile" export-name="serviceProfile"></bind>
+    </out-binding>
+    <description><![CDATA[Get Service Profile associated to Blade/Rack with specific UUID.]]></description>
+    <position y="55.40909090909091" x="944.5"></position>
+  </workflow-item >
+  <workflow-item  name="item4" out-name="item2" type="task" script-module="com.cisco.ucs.mgr.mgmt/getAllUcsDomains">
+    <display-name><![CDATA[getAllUcsDomains]]></display-name>
+    <script encoded="false"><![CDATA[//Auto generated script, cannot be modified !
+actionResult = System.getModule("com.cisco.ucs.mgr.mgmt").getAllUcsDomains() ;]]></script>
+    <in-binding></in-binding>
+    <out-binding>
+      <bind name="actionResult" type="Array/UCSM:UcsDomain" export-name="ucsDomainList"></bind>
+    </out-binding>
+    <description><![CDATA[This action returns an array of all registered UCS systems in VCO inventory.]]></description>
+    <position y="55.40909090909091" x="364.5"></position>
+  </workflow-item >
+  <workflow-item  name="item5" out-name="item6" type="task">
+    <display-name><![CDATA[Get SP DN from Compute Object]]></display-name>
+    <script encoded="false"><![CDATA[if(computeObjList!=null && computeObjList.length>0)
+{
+	for each (var cob in computeObjList)
+	{
+		if(cob!=null)
+		{
+			if(cob.getAssociation() == "associated")
+			{
+				spDn = cob.getAssignedToDn();
+				ucsDomain = cob.getHandle();
+				break;
+			}
+			else if(cob.getAssignedToDn()!=null && cob.getAssignedToDn()!="")
+				System.log("Association Status of " + cob.getAssignedToDn() + " is " + cob.getAssociation()
+					+ ". Association Status should be - associated.");
+		}
+	}
+}
+if(spDn==null || spDn=="")
+	throw new Error("No Service Profile found.");
+]]></script>
+    <in-binding>
+      <bind name="computeObjList" type="Array" export-name="computeObjList"></bind>
+    </in-binding>
+    <out-binding>
+      <bind name="spDn" type="string" export-name="spDn"></bind>
+      <bind name="ucsDomain" type="UCSM:UcsDomain" export-name="ucsDomain"></bind>
+    </out-binding>
+    <position y="55.40909090909091" x="664.5"></position>
+  </workflow-item >
+  <workflow-item  name="item2" out-name="item5" type="foreach">
+    <display-name><![CDATA[Foreach (Get UCS Server by UUID)]]></display-name>
+    <in-binding>
+      <bind name="ucsDomain" type="Array/UCSM:UcsDomain" export-name="*ucsDomainList"></bind>
+      <bind name="uuid" type="string" export-name="uuid"></bind>
+      <bind name="showMos" type="boolean" export-name="showMos"></bind>
+    </in-binding>
+    <out-binding>
+      <bind name="computeObj" type="Array" export-name="*computeObjList"></bind>
+    </out-binding>
+    <reference type="Workflow" id="165bd378-1a55-4ff3-8745-265db1594e8c"></reference>
+    <position y="55.40909090909091" x="504.5"></position>
+  </workflow-item >
+  <workflow-item  name="item6" out-name="item3" type="task" script-module="com.cisco.ucs.mgr.ls/getServiceProfile">
+    <display-name><![CDATA[getServiceProfile]]></display-name>
+    <script encoded="false"><![CDATA[//Auto generated script, cannot be modified !
+actionResult = System.getModule("com.cisco.ucs.mgr.ls").getServiceProfile(ucsDomain,parentMos,agentPolicyName,assignState,assocState,biosProfileName,bootPolicyName,configQualifier,configState,descr,dn,dynamicConPolicyName,extIPPoolName,extIPState,hostFwPolicyName,identPoolName,kvmMgmtPolicyName,localDiskPolicyName,maintPolicyName,mgmtAccessPolicyName,mgmtFwPolicyName,name,operBiosProfileName,operBootPolicyName,operDynamicConPolicyName,operExtIPPoolName,operHostFwPolicyName,operIdentPoolName,operKvmMgmtPolicyName,operLocalDiskPolicyName,operMaintPolicyName,operMgmtAccessPolicyName,operMgmtFwPolicyName,operPowerPolicyName,operScrubPolicyName,operSolPolicyName,operSrcTemplName,operState,operStatsPolicyName,operVconProfileName,operVmediaPolicyName,owner,pnDn,policyLevel,policyOwner,powerPolicyName,resolveRemote,scrubPolicyName,solPolicyName,srcTemplName,statsPolicyName,svnicConfig,type,usrLbl,uuid,uuidSuffix,vconProfileName,vmediaPolicyName,limitScope,showMos) ;]]></script>
+    <in-binding>
+      <bind name="ucsDomain" type="UCSM:UcsDomain" export-name="ucsDomain"></bind>
+      <bind name="parentMos" type="Array/UCSM:OrganizationHierarchy" explicitly-not-bound="true"></bind>
+      <bind name="agentPolicyName" type="string" explicitly-not-bound="true"></bind>
+      <bind name="assignState" type="string" explicitly-not-bound="true"></bind>
+      <bind name="assocState" type="string" explicitly-not-bound="true"></bind>
+      <bind name="biosProfileName" type="string" explicitly-not-bound="true"></bind>
+      <bind name="bootPolicyName" type="string" explicitly-not-bound="true"></bind>
+      <bind name="configQualifier" type="Array/string" explicitly-not-bound="true"></bind>
+      <bind name="configState" type="string" explicitly-not-bound="true"></bind>
+      <bind name="descr" type="string" explicitly-not-bound="true"></bind>
+      <bind name="dn" type="string" export-name="spDn"></bind>
+      <bind name="dynamicConPolicyName" type="string" explicitly-not-bound="true"></bind>
+      <bind name="extIPPoolName" type="string" explicitly-not-bound="true"></bind>
+      <bind name="extIPState" type="string" explicitly-not-bound="true"></bind>
+      <bind name="hostFwPolicyName" type="string" explicitly-not-bound="true"></bind>
+      <bind name="identPoolName" type="string" explicitly-not-bound="true"></bind>
+      <bind name="kvmMgmtPolicyName" type="string" explicitly-not-bound="true"></bind>
+      <bind name="localDiskPolicyName" type="string" explicitly-not-bound="true"></bind>
+      <bind name="maintPolicyName" type="string" explicitly-not-bound="true"></bind>
+      <bind name="mgmtAccessPolicyName" type="string" explicitly-not-bound="true"></bind>
+      <bind name="mgmtFwPolicyName" type="string" explicitly-not-bound="true"></bind>
+      <bind name="name" type="string" explicitly-not-bound="true"></bind>
+      <bind name="operBiosProfileName" type="string" explicitly-not-bound="true"></bind>
+      <bind name="operBootPolicyName" type="string" explicitly-not-bound="true"></bind>
+      <bind name="operDynamicConPolicyName" type="string" explicitly-not-bound="true"></bind>
+      <bind name="operExtIPPoolName" type="string" explicitly-not-bound="true"></bind>
+      <bind name="operHostFwPolicyName" type="string" explicitly-not-bound="true"></bind>
+      <bind name="operIdentPoolName" type="string" explicitly-not-bound="true"></bind>
+      <bind name="operKvmMgmtPolicyName" type="string" explicitly-not-bound="true"></bind>
+      <bind name="operLocalDiskPolicyName" type="string" explicitly-not-bound="true"></bind>
+      <bind name="operMaintPolicyName" type="string" explicitly-not-bound="true"></bind>
+      <bind name="operMgmtAccessPolicyName" type="string" explicitly-not-bound="true"></bind>
+      <bind name="operMgmtFwPolicyName" type="string" explicitly-not-bound="true"></bind>
+      <bind name="operPowerPolicyName" type="string" explicitly-not-bound="true"></bind>
+      <bind name="operScrubPolicyName" type="string" explicitly-not-bound="true"></bind>
+      <bind name="operSolPolicyName" type="string" explicitly-not-bound="true"></bind>
+      <bind name="operSrcTemplName" type="string" explicitly-not-bound="true"></bind>
+      <bind name="operState" type="string" explicitly-not-bound="true"></bind>
+      <bind name="operStatsPolicyName" type="string" explicitly-not-bound="true"></bind>
+      <bind name="operVconProfileName" type="string" explicitly-not-bound="true"></bind>
+      <bind name="operVmediaPolicyName" type="string" explicitly-not-bound="true"></bind>
+      <bind name="owner" type="string" explicitly-not-bound="true"></bind>
+      <bind name="pnDn" type="string" explicitly-not-bound="true"></bind>
+      <bind name="policyLevel" type="number" explicitly-not-bound="true"></bind>
+      <bind name="policyOwner" type="string" explicitly-not-bound="true"></bind>
+      <bind name="powerPolicyName" type="string" explicitly-not-bound="true"></bind>
+      <bind name="resolveRemote" type="string" explicitly-not-bound="true"></bind>
+      <bind name="scrubPolicyName" type="string" explicitly-not-bound="true"></bind>
+      <bind name="solPolicyName" type="string" explicitly-not-bound="true"></bind>
+      <bind name="srcTemplName" type="string" explicitly-not-bound="true"></bind>
+      <bind name="statsPolicyName" type="string" explicitly-not-bound="true"></bind>
+      <bind name="svnicConfig" type="string" explicitly-not-bound="true"></bind>
+      <bind name="type" type="string" explicitly-not-bound="true"></bind>
+      <bind name="usrLbl" type="string" explicitly-not-bound="true"></bind>
+      <bind name="uuid" type="string" explicitly-not-bound="true"></bind>
+      <bind name="uuidSuffix" type="string" explicitly-not-bound="true"></bind>
+      <bind name="vconProfileName" type="string" explicitly-not-bound="true"></bind>
+      <bind name="vmediaPolicyName" type="string" explicitly-not-bound="true"></bind>
+      <bind name="limitScope" type="boolean" explicitly-not-bound="true"></bind>
+      <bind name="showMos" type="boolean" explicitly-not-bound="true"></bind>
+    </in-binding>
+    <out-binding>
+      <bind name="actionResult" type="Array/UCSM:ServiceProfile" export-name="spList"></bind>
+    </out-binding>
+    <description><![CDATA[Searches Managed Objects of type UcsmLsServer.
+Inputs:
+ucsDomain - UcsDomain where you want to search ServiceProfile.
+parentMos - Array of Parent Managed Objects of ServiceProfile which is being searched. Parents can be UcsmOrgOrg.
+limitScope - Limit the scope of search for ServiceProfile to single level of UcsmOrgOrg.
+showMos - print searched ServiceProfile objects to System.log
+Other inputs - other inputs are the properties of ServiceProfile against which you can search. Refer UcsmLsServer scripting object for more details.
+Return Type:
+Array of searched UCSM:ServiceProfile.]]></description>
+    <position y="55.40909090909091" x="804.5"></position>
+  </workflow-item >
+  <presentation>
+    <p-param name="vcHost">
+      <desc><![CDATA[Esx Host]]></desc>
+    </p-param>
+  </presentation>
+</workflow>

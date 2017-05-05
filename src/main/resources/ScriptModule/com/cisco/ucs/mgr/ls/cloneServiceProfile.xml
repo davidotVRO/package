@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dunes-script-module name="cloneServiceProfile" result-type="UCSM:ServiceProfile" api-version="6.0.0" id="cece205a-bf6d-4348-98ab-670942b8a436" version="1.0.1" allowed-operations="vef">
+  <description><![CDATA[Makes a copy of existing service profile.]]></description>
+  <param n="serviceProfile" t="UCSM:ServiceProfile"><![CDATA[Service Profile]]></param>
+  <param n="newName" t="string"><![CDATA[New Name]]></param>
+  <param n="destOrg" t="UCSM:OrganizationHierarchy"><![CDATA[Destination Organization]]></param>
+  <script encoded="false"><![CDATA[var sp = UcsmActionUtils.cloneServiceProfile(serviceProfile, newName, destOrg);
+System.log("Successfully cloned Service Profile with Name " + newName + " in " + destOrg.getDn() + " organization");
+return sp;]]></script>
+</dunes-script-module>

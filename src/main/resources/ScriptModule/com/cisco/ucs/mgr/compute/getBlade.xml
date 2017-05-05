@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dunes-script-module name="getBlade" result-type="Array/UCSM:Blade" api-version="6.0.0" id="657d4d09-7e87-4e67-ae22-040ee84d6ec8" version="1.0.2" allowed-operations="vef">
+  <description><![CDATA[Searches Managed Objects of type UcsmComputeBlade.
+Inputs:
+ucsDomain - UcsDomain where you want to search Blade.
+parentMos - Array of Parent Managed Objects of Blade which is being searched. Parents can be UcsmEquipmentChassis.
+showMos - print searched Blade objects to System.log
+Other inputs - other inputs are the properties of Blade against which you can search. Refer UcsmComputeBlade scripting object for more details.
+Return Type:
+Array of searched UCSM:Blade.]]></description>
+  <param n="ucsDomain" t="UCSM:UcsDomain"><![CDATA[]]></param>
+  <param n="parentMos" t="Array/UCSM:Chassis"><![CDATA[]]></param>
+  <param n="adminPower" t="string"><![CDATA[]]></param>
+  <param n="adminState" t="string"><![CDATA[]]></param>
+  <param n="assignedToDn" t="string"><![CDATA[]]></param>
+  <param n="association" t="string"><![CDATA[]]></param>
+  <param n="availability" t="string"><![CDATA[]]></param>
+  <param n="availableMemory" t="number"><![CDATA[]]></param>
+  <param n="chassisId" t="string"><![CDATA[]]></param>
+  <param n="checkPoint" t="string"><![CDATA[]]></param>
+  <param n="connPath" t="Array/string"><![CDATA[]]></param>
+  <param n="connStatus" t="Array/string"><![CDATA[]]></param>
+  <param n="descr" t="string"><![CDATA[]]></param>
+  <param n="discovery" t="string"><![CDATA[]]></param>
+  <param n="dn" t="string"><![CDATA[]]></param>
+  <param n="lc" t="string"><![CDATA[]]></param>
+  <param n="lcTs" t="string"><![CDATA[]]></param>
+  <param n="localId" t="string"><![CDATA[]]></param>
+  <param n="lowVoltageMemory" t="string"><![CDATA[]]></param>
+  <param n="managingInst" t="string"><![CDATA[]]></param>
+  <param n="memorySpeed" t="string"><![CDATA[]]></param>
+  <param n="mfgTime" t="string"><![CDATA[]]></param>
+  <param n="model" t="string"><![CDATA[]]></param>
+  <param n="name" t="string"><![CDATA[]]></param>
+  <param n="numOfAdaptors" t="number"><![CDATA[]]></param>
+  <param n="numOfCores" t="number"><![CDATA[]]></param>
+  <param n="numOfCoresEnabled" t="number"><![CDATA[]]></param>
+  <param n="numOfCpus" t="number"><![CDATA[]]></param>
+  <param n="numOfEthHostIfs" t="number"><![CDATA[]]></param>
+  <param n="numOfFcHostIfs" t="number"><![CDATA[]]></param>
+  <param n="numOfThreads" t="number"><![CDATA[]]></param>
+  <param n="operPower" t="string"><![CDATA[]]></param>
+  <param n="operQualifier" t="Array/string"><![CDATA[]]></param>
+  <param n="operState" t="string"><![CDATA[]]></param>
+  <param n="operability" t="string"><![CDATA[]]></param>
+  <param n="originalUuid" t="string"><![CDATA[]]></param>
+  <param n="partNumber" t="string"><![CDATA[]]></param>
+  <param n="policyLevel" t="number"><![CDATA[]]></param>
+  <param n="policyOwner" t="string"><![CDATA[]]></param>
+  <param n="presence" t="string"><![CDATA[]]></param>
+  <param n="revision" t="string"><![CDATA[]]></param>
+  <param n="scaledMode" t="string"><![CDATA[]]></param>
+  <param n="serial" t="string"><![CDATA[]]></param>
+  <param n="serverId" t="string"><![CDATA[]]></param>
+  <param n="slotId" t="number"><![CDATA[]]></param>
+  <param n="totalMemory" t="number"><![CDATA[]]></param>
+  <param n="upgradeScenario" t="string"><![CDATA[]]></param>
+  <param n="usrLbl" t="string"><![CDATA[]]></param>
+  <param n="uuid" t="string"><![CDATA[]]></param>
+  <param n="vendor" t="string"><![CDATA[]]></param>
+  <param n="vid" t="string"><![CDATA[]]></param>
+  <param n="showMos" t="boolean"><![CDATA[]]></param>
+  <script encoded="false"><![CDATA[//Collect all input property/value pairs in a single array
+var paramsArray = new Array();
+if(adminPower!=null && adminPower!="")
+	paramsArray.push("adminPower=" + adminPower);
+if(adminState!=null && adminState!="")
+	paramsArray.push("adminState=" + adminState);
+if(assignedToDn!=null && assignedToDn!="")
+	paramsArray.push("assignedToDn=" + assignedToDn);
+if(association!=null && association!="")
+	paramsArray.push("association=" + association);
+if(availability!=null && availability!="")
+	paramsArray.push("availability=" + availability);
+if(availableMemory!=null)
+	paramsArray.push("availableMemory=" + availableMemory);
+if(chassisId!=null && chassisId!="")
+	paramsArray.push("chassisId=" + chassisId);
+if(checkPoint!=null && checkPoint!="")
+	paramsArray.push("checkPoint=" + checkPoint);
+if(connPath!=null && connPath!="")
+	paramsArray.push("connPath=" + connPath);
+if(connStatus!=null && connStatus!="")
+	paramsArray.push("connStatus=" + connStatus);
+if(descr!=null && descr!="")
+	paramsArray.push("descr=" + descr);
+if(discovery!=null && discovery!="")
+	paramsArray.push("discovery=" + discovery);
+if(dn!=null && dn!="")
+	paramsArray.push("dn=" + dn);
+if(lc!=null && lc!="")
+	paramsArray.push("lc=" + lc);
+if(lcTs!=null && lcTs!="")
+	paramsArray.push("lcTs=" + lcTs);
+if(localId!=null && localId!="")
+	paramsArray.push("localId=" + localId);
+if(lowVoltageMemory!=null && lowVoltageMemory!="")
+	paramsArray.push("lowVoltageMemory=" + lowVoltageMemory);
+if(managingInst!=null && managingInst!="")
+	paramsArray.push("managingInst=" + managingInst);
+if(memorySpeed!=null && memorySpeed!="")
+	paramsArray.push("memorySpeed=" + memorySpeed);
+if(mfgTime!=null && mfgTime!="")
+	paramsArray.push("mfgTime=" + mfgTime);
+if(model!=null && model!="")
+	paramsArray.push("model=" + model);
+if(name!=null && name!="")
+	paramsArray.push("name=" + name);
+if(numOfAdaptors!=null)
+	paramsArray.push("numOfAdaptors=" + numOfAdaptors);
+if(numOfCores!=null)
+	paramsArray.push("numOfCores=" + numOfCores);
+if(numOfCoresEnabled!=null)
+	paramsArray.push("numOfCoresEnabled=" + numOfCoresEnabled);
+if(numOfCpus!=null)
+	paramsArray.push("numOfCpus=" + numOfCpus);
+if(numOfEthHostIfs!=null)
+	paramsArray.push("numOfEthHostIfs=" + numOfEthHostIfs);
+if(numOfFcHostIfs!=null)
+	paramsArray.push("numOfFcHostIfs=" + numOfFcHostIfs);
+if(numOfThreads!=null)
+	paramsArray.push("numOfThreads=" + numOfThreads);
+if(operPower!=null && operPower!="")
+	paramsArray.push("operPower=" + operPower);
+if(operQualifier!=null && operQualifier!="")
+	paramsArray.push("operQualifier=" + operQualifier);
+if(operState!=null && operState!="")
+	paramsArray.push("operState=" + operState);
+if(operability!=null && operability!="")
+	paramsArray.push("operability=" + operability);
+if(originalUuid!=null && originalUuid!="")
+	paramsArray.push("originalUuid=" + originalUuid);
+if(partNumber!=null && partNumber!="")
+	paramsArray.push("partNumber=" + partNumber);
+if(policyLevel!=null)
+	paramsArray.push("policyLevel=" + policyLevel);
+if(policyOwner!=null && policyOwner!="")
+	paramsArray.push("policyOwner=" + policyOwner);
+if(presence!=null && presence!="")
+	paramsArray.push("presence=" + presence);
+if(revision!=null && revision!="")
+	paramsArray.push("revision=" + revision);
+if(scaledMode!=null && scaledMode!="")
+	paramsArray.push("scaledMode=" + scaledMode);
+if(serial!=null && serial!="")
+	paramsArray.push("serial=" + serial);
+if(serverId!=null && serverId!="")
+	paramsArray.push("serverId=" + serverId);
+if(slotId!=null)
+	paramsArray.push("slotId=" + slotId);
+if(totalMemory!=null)
+	paramsArray.push("totalMemory=" + totalMemory);
+if(upgradeScenario!=null && upgradeScenario!="")
+	paramsArray.push("upgradeScenario=" + upgradeScenario);
+if(usrLbl!=null && usrLbl!="")
+	paramsArray.push("usrLbl=" + usrLbl);
+if(uuid!=null && uuid!="")
+	paramsArray.push("uuid=" + uuid);
+if(vendor!=null && vendor!="")
+	paramsArray.push("vendor=" + vendor);
+if(vid!=null && vid!="")
+	paramsArray.push("vid=" + vid);
+
+var pmoArray = null;
+if(parentMos!=null && parentMos.length>0){
+	if(ucsDomain==null)
+		ucsDomain = parentMos[0].getHandle();
+
+	pmoArray = new Array();
+	for each (var pmo in parentMos){
+		if(pmo!=null){
+			if(pmo instanceof UcsmOrganizationHierarchy)
+				pmo = pmo.getOrg();
+			pmoArray.push(pmo);
+			if(ucsDomain.getUcs() != pmo.getHandle().getUcs())
+				throw new Error("Parent Managed Object " + pmo.getDn() + " not on selected UCSM " + ucsDomain.getUcs() + ". Its on " + pmo.getHandle().getUcs() + ".");
+		}
+	}
+}
+
+if(ucsDomain==null)
+	throw new Error("No UCSM Selected");
+
+var moArray = UcsmActionUtils.getManagedObjects(ucsDomain, pmoArray, "computeBlade", paramsArray, false, false);
+
+if(moArray==null || moArray.length==0){
+	if(showMos)
+		System.log("\nNo UcsmComputeBlade objects found on " + ucsDomain.ucs + ".\n");
+	return null
+}
+
+if(showMos){
+	System.log("\n************************\n  Found " + moArray.length + " UcsmComputeBlade objects\n************************\n");
+	for each (var mo in moArray)
+		if(mo!=null)
+			System.log(UcsmActionUtils.printManagedObject(mo))
+}
+if(moArray!=null && moArray.length>0)
+	return moArray;
+else
+	return new Array();]]></script>
+</dunes-script-module>

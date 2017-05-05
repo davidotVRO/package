@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dunes-script-module name="associateServiceProfile" result-type="void" api-version="6.0.0" id="98b750c6-2f99-4a99-9a89-aea447ab7c2a" version="1.0.1" allowed-operations="vef">
+  <description><![CDATA[Associates Service Profile with Compute Object (Blade or Rack Server).]]></description>
+  <param n="serviceProfile" t="UCSM:ServiceProfile"><![CDATA[Service Profile]]></param>
+  <param n="computeObj" t="Any"><![CDATA[Blade or Rack Server]]></param>
+  <param n="restrictMigration" t="boolean"><![CDATA[Restrict Migration]]></param>
+  <script encoded="false"><![CDATA[UcsmActionUtils.associateServiceProfile(serviceProfile, computeObj, restrictMigration);
+System.log("Successfully started Service Profile association with compute object " + computeObj.getDn() + ", please watch its FSM for status.");]]></script>
+</dunes-script-module>

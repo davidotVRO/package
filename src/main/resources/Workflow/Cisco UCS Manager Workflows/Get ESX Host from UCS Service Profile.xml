@@ -1,0 +1,365 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<workflow xmlns="http://vmware.com/vco/workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://vmware.com/vco/workflow http://vmware.com/vco/workflow/Workflow-v4.xsd" root-name="item1" object-name="workflow:name=generic" id="d78f7500-6509-4576-971e-8eb871b19f17" version="1.0.2" api-version="6.0.0" allowed-operations="vef" restartMode="1" resumeFromFailedMode="0">
+  <display-name><![CDATA[Get ESX Host from UCS Service Profile]]></display-name>
+  <description><![CDATA[Searches ESX linked to a Service Profile]]></description>
+  <position y="50.0" x="100.0"></position>
+  <input>
+    <param name="serviceProfile" type="UCSM:ServiceProfile">
+      <description><![CDATA[Service Profile]]></description>
+    </param>
+  </input>
+  <output>
+    <param name="esxHost" type="VC:HostSystem">
+      <description><![CDATA[ESX Host System]]></description>
+    </param>
+  </output>
+  <attrib name="uuid1" type="string" read-only="false">
+    <value encoded="n"><![CDATA[]]></value>
+    <description><![CDATA[uuid to search.]]></description>
+  </attrib>
+  <attrib name="hostList" type="Array/VC:HostSystem" read-only="false"></attrib>
+  <attrib name="ucsDomain" type="UCSM:UcsDomain" read-only="false">
+    <value encoded="n"><![CDATA[__NULL__]]></value>
+  </attrib>
+  <attrib name="computeObjDn" type="string" read-only="false">
+    <value encoded="n"><![CDATA[]]></value>
+  </attrib>
+  <attrib name="spDn" type="string" read-only="false">
+    <value encoded="n"><![CDATA[]]></value>
+  </attrib>
+  <attrib name="showMos" type="boolean" read-only="false">
+    <value encoded="n"><![CDATA[false]]></value>
+  </attrib>
+  <attrib name="bladeList" type="Array/UCSM:Blade" read-only="false"></attrib>
+  <attrib name="rackList" type="Array/UCSM:RackUnit" read-only="false"></attrib>
+  <attrib name="errorCode" type="string" read-only="false">
+    <value encoded="n"><![CDATA[]]></value>
+  </attrib>
+  <workflow-item  name="item0" type="end" end-mode="0">
+    <position y="45.40909090909091" x="1084.5"></position>
+  </workflow-item >
+  <workflow-item  name="item1" out-name="item2" type="task">
+    <display-name><![CDATA[Get Service Profile Information]]></display-name>
+    <script encoded="false"><![CDATA[computeObjDn = serviceProfile.getPnDn();
+ucsDomain = serviceProfile.getHandle();
+spDn = serviceProfile.getDn();
+
+if(computeObjDn==null || computeObjDn=="")
+	throw new Error("No Blade/Rack Server associated to Service Profile " + spDn);
+]]></script>
+    <in-binding>
+      <bind name="serviceProfile" type="UCSM:ServiceProfile" export-name="serviceProfile"></bind>
+    </in-binding>
+    <out-binding>
+      <bind name="ucsDomain" type="UCSM:UcsDomain" export-name="ucsDomain"></bind>
+      <bind name="computeObjDn" type="string" export-name="computeObjDn"></bind>
+      <bind name="spDn" type="string" export-name="spDn"></bind>
+    </out-binding>
+    <description><![CDATA[Get Information about Service Profile.]]></description>
+    <position y="55.40909090909091" x="204.5"></position>
+  </workflow-item >
+  <workflow-item  name="item3" out-name="item4" type="task" script-module="com.vmware.library.vc.host/getAllHostSystems">
+    <display-name><![CDATA[getAllHostSystems]]></display-name>
+    <script encoded="false"><![CDATA[//Auto generated script, cannot be modified !
+actionResult = System.getModule("com.vmware.library.vc.host").getAllHostSystems() ;]]></script>
+    <in-binding></in-binding>
+    <out-binding>
+      <bind name="actionResult" type="Array/VC:HostSystem" export-name="hostList"></bind>
+    </out-binding>
+    <description><![CDATA[Return all the host system]]></description>
+    <position y="55.40909090909091" x="764.5"></position>
+  </workflow-item >
+  <workflow-item  name="item4" out-name="item0" type="task">
+    <display-name><![CDATA[Get Host from UUID]]></display-name>
+    <script encoded="false"><![CDATA[if(hostList==null || hostList.length<=0)
+	throw new Error("No ESX Host found in the environment.");
+
+esxHost=null;
+var m3Uuid = UcsmActionUtils.convertUuidToM3Uuid(uuid1);
+for each (var host in hostList)
+{
+	var hardware = host.hardware;
+	var hwInfo = hardware.systemInfo;
+	uuid = hwInfo.uuid;
+	if(uuid!=null)
+	{
+		if(uuid==uuid1 || uuid==m3Uuid)
+		{
+			esxHost=host;
+			System.log("Found ESX host " + host.name + " with UUID " + uuid + " / " + m3Uuid);
+			break;
+		}
+	}
+}
+if(esxHost==null)
+	throw new Error("No ESX Host found with UUID " + uuid1 + " or " + m3Uuid);]]></script>
+    <in-binding>
+      <bind name="hostList" type="Array/VC:HostSystem" export-name="hostList"></bind>
+      <bind name="uuid1" type="string" export-name="uuid1"></bind>
+    </in-binding>
+    <out-binding>
+      <bind name="esxHost" type="VC:HostSystem" export-name="esxHost"></bind>
+    </out-binding>
+    <description><![CDATA[Extract Host from UUID.]]></description>
+    <position y="55.40909090909091" x="904.5"></position>
+  </workflow-item >
+  <workflow-item  name="item5" out-name="item10" type="custom-condition" alt-out-name="item7">
+    <display-name><![CDATA[Blade Found?]]></display-name>
+    <script encoded="false"><![CDATA[if(bladeList!=null && bladeList.length==1)
+{
+	var blade = bladeList[0];
+	if(blade.getAssociation() != "associated")
+		throw new Error("Association status of " + blade.getDn() + " is " + blade.getAssociation()
+			+ ". Association status should be - associated");
+		
+	System.log("Found Blade server.");
+	return true;
+}
+else
+{
+	return false;
+}]]></script>
+    <in-binding>
+      <bind name="bladeList" type="Array/UCSM:Blade" export-name="bladeList"></bind>
+    </in-binding>
+    <position y="45.40909090909091" x="484.5"></position>
+  </workflow-item >
+  <workflow-item  name="item6" type="end" end-mode="0">
+    <position y="181.77272727272725" x="1084.5"></position>
+  </workflow-item >
+  <workflow-item  name="item8" out-name="item11" type="custom-condition" alt-out-name="item9">
+    <display-name><![CDATA[Rack Found?]]></display-name>
+    <script encoded="false"><![CDATA[if(rackList!=null && rackList.length==1)
+{
+	var rack = rackList[0];
+	if(rack.getAssociation() != "associated")
+		throw new Error("Association status of " + rack.getDn() + " is " + rack.getAssociation()
+			+ ". Association status should be - associated.");
+	System.log("Found Rack Server");
+	return true;
+}
+else
+{
+	errorCode = "No UCS Server found for service profile " + serviceProfile.getDn();
+	return false;
+}]]></script>
+    <in-binding>
+      <bind name="rackList" type="Array/UCSM:RackUnit" export-name="rackList"></bind>
+      <bind name="errorCode" type="string" export-name="errorCode"></bind>
+      <bind name="serviceProfile" type="UCSM:ServiceProfile" export-name="serviceProfile"></bind>
+    </in-binding>
+    <position y="181.77272727272725" x="485.0"></position>
+  </workflow-item >
+  <workflow-item  name="item9" throw-bind-name="errorCode" type="end" end-mode="1">
+    <position y="245.40909090909088" x="524.5"></position>
+  </workflow-item >
+  <workflow-item  name="item10" out-name="item3" type="task">
+    <display-name><![CDATA[Get Blade UUID]]></display-name>
+    <script encoded="false"><![CDATA[uuid1=bladeList[0].getUuid();]]></script>
+    <in-binding>
+      <bind name="bladeList" type="Array/UCSM:Blade" export-name="bladeList"></bind>
+    </in-binding>
+    <out-binding>
+      <bind name="uuid1" type="string" export-name="uuid1"></bind>
+    </out-binding>
+    <position y="55.40909090909091" x="624.5"></position>
+  </workflow-item >
+  <workflow-item  name="item11" out-name="item12" type="task">
+    <display-name><![CDATA[Get Rack UUID]]></display-name>
+    <script encoded="false"><![CDATA[uuid1=rackList[0].getUuid();]]></script>
+    <in-binding>
+      <bind name="rackList" type="Array/UCSM:RackUnit" export-name="rackList"></bind>
+    </in-binding>
+    <out-binding>
+      <bind name="uuid1" type="string" export-name="uuid1"></bind>
+    </out-binding>
+    <position y="191.77272727272725" x="645.0"></position>
+  </workflow-item >
+  <workflow-item  name="item12" out-name="item13" type="task" script-module="com.vmware.library.vc.host/getAllHostSystems">
+    <display-name><![CDATA[getAllHostSystems]]></display-name>
+    <script encoded="false"><![CDATA[//Auto generated script, cannot be modified !
+actionResult = System.getModule("com.vmware.library.vc.host").getAllHostSystems() ;]]></script>
+    <in-binding></in-binding>
+    <out-binding>
+      <bind name="actionResult" type="Array/VC:HostSystem" export-name="hostList"></bind>
+    </out-binding>
+    <description><![CDATA[Return all the host system]]></description>
+    <position y="191.77272727272725" x="764.5"></position>
+  </workflow-item >
+  <workflow-item  name="item13" out-name="item6" type="task">
+    <display-name><![CDATA[Get Host From UUID]]></display-name>
+    <script encoded="false"><![CDATA[if(hostList==null || hostList.length<=0)
+	throw new Error("No ESX Host found in the environment.");
+
+esxHost=null;
+var m3Uuid = UcsmActionUtils.convertUuidToM3Uuid(uuid1);
+for each (var host in hostList)
+{
+	var hardware = host.hardware;
+	var hwInfo = hardware.systemInfo;
+	uuid = hwInfo.uuid;
+	if(uuid!=null)
+	{
+		if(uuid==uuid1 || uuid==m3Uuid)
+		{
+			esxHost=host;
+			System.log("Found ESX host " + host.name + " with UUID " + uuid + " / " + m3Uuid);
+			break;
+		}
+	}
+}
+if(esxHost==null)
+	throw new Error("No ESX Host found with UUID " + uuid1 + " or " + m3Uuid);]]></script>
+    <in-binding>
+      <bind name="hostList" type="Array/VC:HostSystem" export-name="hostList"></bind>
+      <bind name="uuid1" type="string" export-name="uuid1"></bind>
+    </in-binding>
+    <out-binding>
+      <bind name="esxHost" type="VC:HostSystem" export-name="esxHost"></bind>
+    </out-binding>
+    <position y="191.77272727272725" x="904.5"></position>
+  </workflow-item >
+  <workflow-item  name="item2" out-name="item5" type="task" script-module="com.cisco.ucs.mgr.compute/getBlade">
+    <display-name><![CDATA[getBlade]]></display-name>
+    <script encoded="false"><![CDATA[//Auto generated script, cannot be modified !
+actionResult = System.getModule("com.cisco.ucs.mgr.compute").getBlade(ucsDomain,parentMos,adminPower,adminState,assignedToDn,association,availability,availableMemory,chassisId,checkPoint,connPath,connStatus,descr,discovery,dn,lc,lcTs,localId,lowVoltageMemory,managingInst,memorySpeed,mfgTime,model,name,numOfAdaptors,numOfCores,numOfCoresEnabled,numOfCpus,numOfEthHostIfs,numOfFcHostIfs,numOfThreads,operPower,operQualifier,operState,operability,originalUuid,partNumber,policyLevel,policyOwner,presence,revision,scaledMode,serial,serverId,slotId,totalMemory,upgradeScenario,usrLbl,uuid,vendor,vid,showMos) ;]]></script>
+    <in-binding>
+      <bind name="ucsDomain" type="UCSM:UcsDomain" export-name="ucsDomain"></bind>
+      <bind name="parentMos" type="Array/UCSM:Chassis" explicitly-not-bound="true"></bind>
+      <bind name="adminPower" type="string" explicitly-not-bound="true"></bind>
+      <bind name="adminState" type="string" explicitly-not-bound="true"></bind>
+      <bind name="assignedToDn" type="string" export-name="spDn"></bind>
+      <bind name="association" type="string" explicitly-not-bound="true"></bind>
+      <bind name="availability" type="string" explicitly-not-bound="true"></bind>
+      <bind name="availableMemory" type="number" explicitly-not-bound="true"></bind>
+      <bind name="chassisId" type="string" explicitly-not-bound="true"></bind>
+      <bind name="checkPoint" type="string" explicitly-not-bound="true"></bind>
+      <bind name="connPath" type="Array/string" explicitly-not-bound="true"></bind>
+      <bind name="connStatus" type="Array/string" explicitly-not-bound="true"></bind>
+      <bind name="descr" type="string" explicitly-not-bound="true"></bind>
+      <bind name="discovery" type="string" explicitly-not-bound="true"></bind>
+      <bind name="dn" type="string" export-name="computeObjDn"></bind>
+      <bind name="lc" type="string" explicitly-not-bound="true"></bind>
+      <bind name="lcTs" type="string" explicitly-not-bound="true"></bind>
+      <bind name="localId" type="string" explicitly-not-bound="true"></bind>
+      <bind name="lowVoltageMemory" type="string" explicitly-not-bound="true"></bind>
+      <bind name="managingInst" type="string" explicitly-not-bound="true"></bind>
+      <bind name="memorySpeed" type="string" explicitly-not-bound="true"></bind>
+      <bind name="mfgTime" type="string" explicitly-not-bound="true"></bind>
+      <bind name="model" type="string" explicitly-not-bound="true"></bind>
+      <bind name="name" type="string" explicitly-not-bound="true"></bind>
+      <bind name="numOfAdaptors" type="number" explicitly-not-bound="true"></bind>
+      <bind name="numOfCores" type="number" explicitly-not-bound="true"></bind>
+      <bind name="numOfCoresEnabled" type="number" explicitly-not-bound="true"></bind>
+      <bind name="numOfCpus" type="number" explicitly-not-bound="true"></bind>
+      <bind name="numOfEthHostIfs" type="number" explicitly-not-bound="true"></bind>
+      <bind name="numOfFcHostIfs" type="number" explicitly-not-bound="true"></bind>
+      <bind name="numOfThreads" type="number" explicitly-not-bound="true"></bind>
+      <bind name="operPower" type="string" explicitly-not-bound="true"></bind>
+      <bind name="operQualifier" type="Array/string" explicitly-not-bound="true"></bind>
+      <bind name="operState" type="string" explicitly-not-bound="true"></bind>
+      <bind name="operability" type="string" explicitly-not-bound="true"></bind>
+      <bind name="originalUuid" type="string" explicitly-not-bound="true"></bind>
+      <bind name="partNumber" type="string" explicitly-not-bound="true"></bind>
+      <bind name="policyLevel" type="number" explicitly-not-bound="true"></bind>
+      <bind name="policyOwner" type="string" explicitly-not-bound="true"></bind>
+      <bind name="presence" type="string" explicitly-not-bound="true"></bind>
+      <bind name="revision" type="string" explicitly-not-bound="true"></bind>
+      <bind name="scaledMode" type="string" explicitly-not-bound="true"></bind>
+      <bind name="serial" type="string" explicitly-not-bound="true"></bind>
+      <bind name="serverId" type="string" explicitly-not-bound="true"></bind>
+      <bind name="slotId" type="number" explicitly-not-bound="true"></bind>
+      <bind name="totalMemory" type="number" explicitly-not-bound="true"></bind>
+      <bind name="upgradeScenario" type="string" explicitly-not-bound="true"></bind>
+      <bind name="usrLbl" type="string" explicitly-not-bound="true"></bind>
+      <bind name="uuid" type="string" explicitly-not-bound="true"></bind>
+      <bind name="vendor" type="string" explicitly-not-bound="true"></bind>
+      <bind name="vid" type="string" explicitly-not-bound="true"></bind>
+      <bind name="showMos" type="boolean" export-name="showMos"></bind>
+    </in-binding>
+    <out-binding>
+      <bind name="actionResult" type="Array/UCSM:Blade" export-name="bladeList"></bind>
+    </out-binding>
+    <description><![CDATA[Searches Managed Objects of type UcsmComputeBlade.
+Inputs:
+ucsDomain - UcsDomain where you want to search Blade.
+parentMos - Array of Parent Managed Objects of Blade which is being searched. Parents can be UcsmEquipmentChassis.
+showMos - print searched Blade objects to System.log
+Other inputs - other inputs are the properties of Blade against which you can search. Refer UcsmComputeBlade scripting object for more details.
+Return Type:
+Array of searched UCSM:Blade.]]></description>
+    <position y="55.90909090909091" x="345.0"></position>
+  </workflow-item >
+  <workflow-item  name="item7" out-name="item8" type="task" script-module="com.cisco.ucs.mgr.compute/getRackUnit">
+    <display-name><![CDATA[getRackUnit]]></display-name>
+    <script encoded="false"><![CDATA[//Auto generated script, cannot be modified !
+actionResult = System.getModule("com.cisco.ucs.mgr.compute").getRackUnit(ucsDomain,adminPower,adminState,assignedToDn,association,availability,availableMemory,checkPoint,connPath,connStatus,descr,discovery,dn,id,lc,lcTs,localId,lowVoltageMemory,managingInst,memorySpeed,mfgTime,model,name,numOfAdaptors,numOfCores,numOfCoresEnabled,numOfCpus,numOfEthHostIfs,numOfFcHostIfs,numOfThreads,operPower,operQualifier,operState,operability,originalUuid,partNumber,policyLevel,policyOwner,presence,revision,serial,serverId,totalMemory,usrLbl,uuid,vendor,versionHolder,vid,showMos) ;]]></script>
+    <in-binding>
+      <bind name="ucsDomain" type="UCSM:UcsDomain" export-name="ucsDomain"></bind>
+      <bind name="adminPower" type="string" explicitly-not-bound="true"></bind>
+      <bind name="adminState" type="string" explicitly-not-bound="true"></bind>
+      <bind name="assignedToDn" type="string" export-name="spDn"></bind>
+      <bind name="association" type="string" explicitly-not-bound="true"></bind>
+      <bind name="availability" type="string" explicitly-not-bound="true"></bind>
+      <bind name="availableMemory" type="number" explicitly-not-bound="true"></bind>
+      <bind name="checkPoint" type="string" explicitly-not-bound="true"></bind>
+      <bind name="connPath" type="Array/string" explicitly-not-bound="true"></bind>
+      <bind name="connStatus" type="Array/string" explicitly-not-bound="true"></bind>
+      <bind name="descr" type="string" explicitly-not-bound="true"></bind>
+      <bind name="discovery" type="string" explicitly-not-bound="true"></bind>
+      <bind name="dn" type="string" export-name="computeObjDn"></bind>
+      <bind name="id" type="number" explicitly-not-bound="true"></bind>
+      <bind name="lc" type="string" explicitly-not-bound="true"></bind>
+      <bind name="lcTs" type="string" explicitly-not-bound="true"></bind>
+      <bind name="localId" type="string" explicitly-not-bound="true"></bind>
+      <bind name="lowVoltageMemory" type="string" explicitly-not-bound="true"></bind>
+      <bind name="managingInst" type="string" explicitly-not-bound="true"></bind>
+      <bind name="memorySpeed" type="string" explicitly-not-bound="true"></bind>
+      <bind name="mfgTime" type="string" explicitly-not-bound="true"></bind>
+      <bind name="model" type="string" explicitly-not-bound="true"></bind>
+      <bind name="name" type="string" explicitly-not-bound="true"></bind>
+      <bind name="numOfAdaptors" type="number" explicitly-not-bound="true"></bind>
+      <bind name="numOfCores" type="number" explicitly-not-bound="true"></bind>
+      <bind name="numOfCoresEnabled" type="number" explicitly-not-bound="true"></bind>
+      <bind name="numOfCpus" type="number" explicitly-not-bound="true"></bind>
+      <bind name="numOfEthHostIfs" type="number" explicitly-not-bound="true"></bind>
+      <bind name="numOfFcHostIfs" type="number" explicitly-not-bound="true"></bind>
+      <bind name="numOfThreads" type="number" explicitly-not-bound="true"></bind>
+      <bind name="operPower" type="string" explicitly-not-bound="true"></bind>
+      <bind name="operQualifier" type="string" explicitly-not-bound="true"></bind>
+      <bind name="operState" type="string" explicitly-not-bound="true"></bind>
+      <bind name="operability" type="string" explicitly-not-bound="true"></bind>
+      <bind name="originalUuid" type="string" explicitly-not-bound="true"></bind>
+      <bind name="partNumber" type="string" explicitly-not-bound="true"></bind>
+      <bind name="policyLevel" type="number" explicitly-not-bound="true"></bind>
+      <bind name="policyOwner" type="string" explicitly-not-bound="true"></bind>
+      <bind name="presence" type="string" explicitly-not-bound="true"></bind>
+      <bind name="revision" type="string" explicitly-not-bound="true"></bind>
+      <bind name="serial" type="string" explicitly-not-bound="true"></bind>
+      <bind name="serverId" type="string" explicitly-not-bound="true"></bind>
+      <bind name="totalMemory" type="number" explicitly-not-bound="true"></bind>
+      <bind name="usrLbl" type="string" explicitly-not-bound="true"></bind>
+      <bind name="uuid" type="string" explicitly-not-bound="true"></bind>
+      <bind name="vendor" type="string" explicitly-not-bound="true"></bind>
+      <bind name="versionHolder" type="string" explicitly-not-bound="true"></bind>
+      <bind name="vid" type="string" explicitly-not-bound="true"></bind>
+      <bind name="showMos" type="boolean" export-name="showMos"></bind>
+    </in-binding>
+    <out-binding>
+      <bind name="actionResult" type="Array/UCSM:RackUnit" export-name="rackList"></bind>
+    </out-binding>
+    <description><![CDATA[Searches Managed Objects of type UcsmComputeRackUnit.
+Inputs:
+ucsDomain - UcsDomain where you want to search RackUnit.
+showMos - print searched RackUnit objects to System.log
+Other inputs - other inputs are the properties of RackUnit against which you can search. Refer UcsmComputeRackUnit scripting object for more details.
+Return Type:
+Array of searched UCSM:RackUnit.]]></description>
+    <position y="128.63636363636363" x="485.0"></position>
+  </workflow-item >
+  <presentation>
+    <p-param name="serviceProfile">
+      <desc><![CDATA[Service Profile]]></desc>
+    </p-param>
+  </presentation>
+</workflow>

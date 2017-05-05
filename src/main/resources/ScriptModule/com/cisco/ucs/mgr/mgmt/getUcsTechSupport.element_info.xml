@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+<comment>Exported from [server]</comment>
+<entry key="categoryPath">com.cisco.ucs.mgr.mgmt</entry>
+<entry key="name">getUcsTechSupport</entry>
+<entry key="type">ScriptModule</entry>
+<entry key="id">f9333893-cea6-4fb3-b4a9-484f674a6eb7</entry>
+</properties>

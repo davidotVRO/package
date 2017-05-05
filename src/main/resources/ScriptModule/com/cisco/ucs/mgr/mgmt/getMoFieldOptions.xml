@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dunes-script-module name="getMoFieldOptions" result-type="Array/string" api-version="6.0.0" id="8fd84989-aa5e-4c60-9b29-8f4a473a299c" version="1.0.2" allowed-operations="vef">
+  <description><![CDATA[This action is a utility which can be used to get an array of field values of any Managed Object in Ucs Manager (if field can have limited set of values).
+This utility can be used to fill drop down lists for any Managed Object field that can contain limited set of values only.]]></description>
+  <param n="classId" t="string"><![CDATA[Class Id of Managed Object]]></param>
+  <param n="fieldName" t="string"><![CDATA[Field Name of Managed Object]]></param>
+  <script encoded="false"><![CDATA[var list = UcsmActionUtils.getMoFieldOptions(classId, fieldName);
+var options = [""];
+if(list!=null && list.length>0)
+	for(var i=0; i<list.length; i++)
+		options[i+1] = list[i];
+return options;]]></script>
+</dunes-script-module>

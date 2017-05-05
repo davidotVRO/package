@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dunes-script-module name="removeServiceProfile" result-type="Array/UCSM:ServiceProfile" api-version="6.0.0" id="6342ae83-938c-4fcb-b4b3-2935157c9e88" version="1.0.2" allowed-operations="vef">
+  <description><![CDATA[Removes Managed Objects of type UcsmLsServer.
+Inputs:
+ucsDomain - UcsDomain where you want to remove ServiceProfile.
+mosToRemove - Array of ServiceProfile which are being removed.
+dn - dn of ServiceProfile to be removed (if mosToRemove is null)
+showMos - print removed ServiceProfile objects to System.log
+Return Type:
+Array of removed UCSM:ServiceProfile.]]></description>
+  <param n="ucsDomain" t="UCSM:UcsDomain"><![CDATA[]]></param>
+  <param n="mosToRemove" t="Array/UCSM:ServiceProfile"><![CDATA[]]></param>
+  <param n="dn" t="string"><![CDATA[]]></param>
+  <param n="showMos" t="boolean"><![CDATA[]]></param>
+  <script encoded="false"><![CDATA[if((mosToRemove==null || mosToRemove.length==0) && (dn==null || dn==""))
+	throw new Error("No UcsmLsServer objects selected to remove.");
+
+var pmoArray = null;
+if(mosToRemove!=null && mosToRemove.length>0){
+	if(ucsDomain==null)
+		ucsDomain = mosToRemove[0].getHandle();
+
+	pmoArray = new Array();
+	for each (var pmo in mosToRemove){
+		if(pmo!=null){
+			if(pmo instanceof UcsmOrganizationHierarchy)
+				pmo = pmo.getOrg();
+			pmoArray.push(pmo);
+			if(ucsDomain.getUcs() != pmo.getHandle().getUcs())
+				throw new Error("UcsmLsServer " + pmo.getDn() + " not on selected UCS " + ucsDomain.getUcs() + ". Its on " + pmo.getHandle().getUcs() + ".");
+		}
+	}
+}
+
+if(ucsDomain==null)
+	throw new Error("No Ucs Selected");
+
+var moArray = UcsmActionUtils.removeManagedObjects(ucsDomain, pmoArray, "lsServer", dn);
+
+if(moArray==null || moArray.length==0){
+	if(showMos)
+		System.log("\nNo UcsmLsServer objects removed on " + ucsDomain.ucs + ".\n");
+	return null
+}
+
+if(showMos){
+	System.log("\n************************\n  Removed " + moArray.length + " UcsmLsServer objects\n************************\n");
+	for each (var mo in moArray)
+		if(mo!=null)
+			System.log(UcsmActionUtils.printManagedObject(mo))
+}
+if(moArray!=null && moArray.length>0)
+	return moArray;
+else
+	return new Array();]]></script>
+</dunes-script-module>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dunes-script-module name="getUcsTechSupport" result-type="void" api-version="6.0.0" id="f9333893-cea6-4fb3-b4a9-484f674a6eb7" version="1.0.1" allowed-operations="vef">
+  <description><![CDATA[This action creates and downloads multiple types of Technical Support files. The below options creates and downloads technical support data for:- 
+1. ucsManager:- The entire UCS Manager instance.
+2. ucsMgmt:- The UCS Manager management services excluding fabric interconnects.
+3. Chassis Id:- Chassis I/O Module or CIMC.
+4. Rack Server Id:- Rack Server and Adaptor.
+5. Fex id:- Febric Interconnect]]></description>
+  <param n="ucsDomain" t="UCSM:UcsDomain"><![CDATA[Ucs Domain]]></param>
+  <param n="pathPattern" t="string"><![CDATA[Path of the file where TechSupport files needs to be stored. Path may contain few special sequences which will be replaced by actual values (like {ucs} will be replaced by ucsname, {yyyy} will be replaced by current year, {MM} will be replaced by current month etc)]]></param>
+  <param n="ucsManager" t="boolean"><![CDATA[Ucs Manager Option]]></param>
+  <param n="ucsMgmt" t="boolean"><![CDATA[Ucs Mgmt Option]]></param>
+  <param n="chassisId" t="number"><![CDATA[Chassis Id]]></param>
+  <param n="cimcId" t="string"><![CDATA[Cimc Id]]></param>
+  <param n="adapterId" t="string"><![CDATA[Adapter Id]]></param>
+  <param n="iomId" t="string"><![CDATA[IOM Id]]></param>
+  <param n="rackServerId" t="number"><![CDATA[Rack Server Id]]></param>
+  <param n="rackAdapterId" t="string"><![CDATA[Rack Adapter Id]]></param>
+  <param n="fexId" t="string"><![CDATA[Fex Id]]></param>
+  <param n="timeoutSec" t="number"><![CDATA[Timeout time in seconds to wait for TechSupport files, otherwise fail]]></param>
+  <param n="removeFromUcs" t="boolean"><![CDATA[Remove from UCS after download]]></param>
+  <script encoded="false"><![CDATA[System.log("Starting TechSupport creation... (This may take several minutes)");
+var result = UcsmActionUtils.getTechSupport(ucsDomain, pathPattern, ucsManager, ucsMgmt, chassisId, cimcId, adapterId, iomId, rackServerId, rackAdapterId, fexId, timeoutSec, removeFromUcs);
+System.log(result);]]></script>
+</dunes-script-module>

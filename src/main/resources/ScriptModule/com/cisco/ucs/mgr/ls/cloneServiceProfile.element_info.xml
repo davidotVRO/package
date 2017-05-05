@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+<comment>Exported from [server]</comment>
+<entry key="categoryPath">com.cisco.ucs.mgr.ls</entry>
+<entry key="name">cloneServiceProfile</entry>
+<entry key="type">ScriptModule</entry>
+<entry key="id">cece205a-bf6d-4348-98ab-670942b8a436</entry>
+</properties>

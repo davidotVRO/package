@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dunes-script-module name="importUcsBackup" result-type="void" api-version="6.0.0" id="c1341903-0bad-472d-95a4-846d5854e724" version="1.0.1" allowed-operations="vef">
+  <description><![CDATA[This action imports configuration backup xml file to UCS Manager. The merge option merges configuration with current configuration, otherwise current configuration will be replaced by new configuraiton.]]></description>
+  <param n="ucsDomain" t="UCSM:UcsDomain"><![CDATA[Ucs Domain]]></param>
+  <param n="literalPath" t="string"><![CDATA[Absolute Path of Back File]]></param>
+  <param n="merge" t="boolean"><![CDATA[Merge]]></param>
+  <script encoded="false"><![CDATA[System.log("Importing file... (This may take several minutes)");
+var result = UcsmActionUtils.importUcsBackup(ucsDomain, literalPath, merge);
+System.log(result);]]></script>
+</dunes-script-module>

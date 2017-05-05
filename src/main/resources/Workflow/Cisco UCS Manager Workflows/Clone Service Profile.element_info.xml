@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+<comment>Exported from [server]</comment>
+<entry key="categoryPath">Cisco UCS Manager Workflows</entry>
+<entry key="name">Clone Service Profile</entry>
+<entry key="type">Workflow</entry>
+<entry key="id">7ddd72d8-5cbc-4721-9e68-49382420b1e8</entry>
+</properties>

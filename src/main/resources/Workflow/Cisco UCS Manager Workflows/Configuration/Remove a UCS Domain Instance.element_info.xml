@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+<comment>Exported from [server]</comment>
+<entry key="categoryPath">Cisco UCS Manager Workflows.Configuration</entry>
+<entry key="name">Remove a UCS Domain Instance</entry>
+<entry key="type">Workflow</entry>
+<entry key="id">b1142c10-897f-49d1-a22d-7350374626f3</entry>
+</properties>

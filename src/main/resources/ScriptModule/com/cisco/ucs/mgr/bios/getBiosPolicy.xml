@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dunes-script-module name="getBiosPolicy" result-type="Array/UCSM:BiosPolicy" api-version="6.0.0" id="da21d356-2d13-440f-af56-4a0a061e740b" version="1.0.2" allowed-operations="vef">
+  <description><![CDATA[Searches Managed Objects of type UcsmBiosVProfile.
+Inputs:
+ucsDomain - UcsDomain where you want to search BiosPolicy.
+parentMos - Array of Parent Managed Objects of BiosPolicy which is being searched. Parents can be UcsmOrgOrg.
+limitScope - Limit the scope of search for BiosPolicy to single level of UcsmOrgOrg.
+showMos - print searched BiosPolicy objects to System.log
+Other inputs - other inputs are the properties of BiosPolicy against which you can search. Refer UcsmBiosVProfile scripting object for more details.
+Return Type:
+Array of searched UCSM:BiosPolicy.]]></description>
+  <param n="ucsDomain" t="UCSM:UcsDomain"><![CDATA[]]></param>
+  <param n="parentMos" t="Array/UCSM:OrganizationHierarchy"><![CDATA[]]></param>
+  <param n="descr" t="string"><![CDATA[]]></param>
+  <param n="dn" t="string"><![CDATA[]]></param>
+  <param n="name" t="string"><![CDATA[]]></param>
+  <param n="policyLevel" t="number"><![CDATA[]]></param>
+  <param n="policyOwner" t="string"><![CDATA[]]></param>
+  <param n="rebootOnUpdate" t="string"><![CDATA[]]></param>
+  <param n="limitScope" t="boolean"><![CDATA[]]></param>
+  <param n="showMos" t="boolean"><![CDATA[]]></param>
+  <script encoded="false"><![CDATA[//Collect all input property/value pairs in a single array
+var paramsArray = new Array();
+if(descr!=null && descr!="")
+	paramsArray.push("descr=" + descr);
+if(dn!=null && dn!="")
+	paramsArray.push("dn=" + dn);
+if(name!=null && name!="")
+	paramsArray.push("name=" + name);
+if(policyLevel!=null)
+	paramsArray.push("policyLevel=" + policyLevel);
+if(policyOwner!=null && policyOwner!="")
+	paramsArray.push("policyOwner=" + policyOwner);
+if(rebootOnUpdate!=null && rebootOnUpdate!="")
+	paramsArray.push("rebootOnUpdate=" + rebootOnUpdate);
+
+var pmoArray = null;
+if(parentMos!=null && parentMos.length>0){
+	if(ucsDomain==null)
+		ucsDomain = parentMos[0].getHandle();
+
+	pmoArray = new Array();
+	for each (var pmo in parentMos){
+		if(pmo!=null){
+			if(pmo instanceof UcsmOrganizationHierarchy)
+				pmo = pmo.getOrg();
+			pmoArray.push(pmo);
+			if(ucsDomain.getUcs() != pmo.getHandle().getUcs())
+				throw new Error("Parent Managed Object " + pmo.getDn() + " not on selected UCSM " + ucsDomain.getUcs() + ". Its on " + pmo.getHandle().getUcs() + ".");
+		}
+	}
+}
+
+if(ucsDomain==null)
+	throw new Error("No UCSM Selected");
+
+var moArray = UcsmActionUtils.getManagedObjects(ucsDomain, pmoArray, "biosVProfile", paramsArray, limitScope, false);
+
+if(moArray==null || moArray.length==0){
+	if(showMos)
+		System.log("\nNo UcsmBiosVProfile objects found on " + ucsDomain.ucs + ".\n");
+	return null
+}
+
+if(showMos){
+	System.log("\n************************\n  Found " + moArray.length + " UcsmBiosVProfile objects\n************************\n");
+	for each (var mo in moArray)
+		if(mo!=null)
+			System.log(UcsmActionUtils.printManagedObject(mo))
+}
+if(moArray!=null && moArray.length>0)
+	return moArray;
+else
+	return new Array();]]></script>
+</dunes-script-module>

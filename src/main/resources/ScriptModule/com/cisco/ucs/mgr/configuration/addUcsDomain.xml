@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dunes-script-module name="addUcsDomain" result-type="UCSM:UcsDomain" api-version="6.0.0" id="a5d605ab-2569-4f9b-b1fc-26613aef55b3" version="1.0.2" allowed-operations="vef">
+  <description><![CDATA[Adds a UCS Domain Instance. This action works with vCO5.5.x and above and vRO 6.0.x and above.]]></description>
+  <param n="ucsHost" t="string"><![CDATA[UCS Host/IP]]></param>
+  <param n="userId" t="string"><![CDATA[User ID]]></param>
+  <param n="password" t="SecureString"><![CDATA[Password]]></param>
+  <param n="noSsl" t="boolean"><![CDATA[Use Unsecure Connection (HTTP)]]></param>
+  <param n="port" t="string"><![CDATA[Connection Port]]></param>
+  <script encoded="false"><![CDATA[try
+{
+	var addedUcsDomain = UcsmActionUtils.addUcsDomain(ucsHost, userId, password, noSsl, port);
+	System.log("Successfully Added UCS Domain " + ucsHost);
+	return addedUcsDomain;
+}
+catch(err)
+{
+	System.log("Unable to register Ucs Domain " + ucsHost + ". Error: " + err);
+	throw err;
+}]]></script>
+</dunes-script-module>

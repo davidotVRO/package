@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dunes-script-module name="getBiosHyperThreading" result-type="Array/Any" api-version="6.0.0" id="80b60740-665c-401d-ae31-ec3dc062e1b5" version="1.0.2" allowed-operations="vef">
+  <description><![CDATA[Searches Managed Objects of type UcsmBiosVfIntelHyperThreadingTech.
+Inputs:
+ucsDomain - UcsDomain where you want to search BiosHyperThreading.
+parentMos - Array of Parent Managed Objects of BiosHyperThreading which is being searched. Parents can be UcsmBiosSettings or UcsmBiosVProfile.
+showMos - print searched BiosHyperThreading objects to System.log
+Other inputs - other inputs are the properties of BiosHyperThreading against which you can search. Refer UcsmBiosVfIntelHyperThreadingTech scripting object for more details.
+Return Type:
+Array of searched UcsmBiosVfIntelHyperThreadingTech.]]></description>
+  <param n="ucsDomain" t="UCSM:UcsDomain"><![CDATA[]]></param>
+  <param n="parentMos" t="Array/Any"><![CDATA[]]></param>
+  <param n="dn" t="string"><![CDATA[]]></param>
+  <param n="vpIntelHyperThreadingTech" t="string"><![CDATA[]]></param>
+  <param n="showMos" t="boolean"><![CDATA[]]></param>
+  <script encoded="false"><![CDATA[//Collect all input property/value pairs in a single array
+var paramsArray = new Array();
+if(dn!=null && dn!="")
+	paramsArray.push("dn=" + dn);
+if(vpIntelHyperThreadingTech!=null && vpIntelHyperThreadingTech!="")
+	paramsArray.push("vpIntelHyperThreadingTech=" + vpIntelHyperThreadingTech);
+
+var pmoArray = null;
+if(parentMos!=null && parentMos.length>0){
+	if(ucsDomain==null)
+		ucsDomain = parentMos[0].getHandle();
+
+	pmoArray = new Array();
+	for each (var pmo in parentMos){
+		if(pmo!=null){
+			if(pmo instanceof UcsmOrganizationHierarchy)
+				pmo = pmo.getOrg();
+			pmoArray.push(pmo);
+			if(ucsDomain.getUcs() != pmo.getHandle().getUcs())
+				throw new Error("Parent Managed Object " + pmo.getDn() + " not on selected UCSM " + ucsDomain.getUcs() + ". Its on " + pmo.getHandle().getUcs() + ".");
+		}
+	}
+}
+
+if(ucsDomain==null)
+	throw new Error("No UCSM Selected");
+
+var moArray = UcsmActionUtils.getManagedObjects(ucsDomain, pmoArray, "biosVfIntelHyperThreadingTech", paramsArray, false, false);
+
+if(moArray==null || moArray.length==0){
+	if(showMos)
+		System.log("\nNo UcsmBiosVfIntelHyperThreadingTech objects found on " + ucsDomain.ucs + ".\n");
+	return null
+}
+
+if(showMos){
+	System.log("\n************************\n  Found " + moArray.length + " UcsmBiosVfIntelHyperThreadingTech objects\n************************\n");
+	for each (var mo in moArray)
+		if(mo!=null)
+			System.log(UcsmActionUtils.printManagedObject(mo))
+}
+if(moArray!=null && moArray.length>0)
+	return moArray;
+else
+	return new Array();]]></script>
+</dunes-script-module>

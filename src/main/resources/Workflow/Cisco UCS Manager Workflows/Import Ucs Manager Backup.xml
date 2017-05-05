@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<workflow xmlns="http://vmware.com/vco/workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://vmware.com/vco/workflow http://vmware.com/vco/workflow/Workflow-v4.xsd" root-name="item1" object-name="workflow:name=generic" id="21478339-d470-4fc7-b4db-e6331dacd88c" version="1.0.1" api-version="6.0.0" allowed-operations="vef" restartMode="1" resumeFromFailedMode="0">
+  <display-name><![CDATA[Import Ucs Manager Backup]]></display-name>
+  <description><![CDATA[This workflow imports configuration backup xml file to UCS Manager. Full state backup cannot be imported by this workflow.
+The merge option merges configuration with current configuration, otherwise current configuration will be replaced by new configuration.]]></description>
+  <position y="50.0" x="100.0"></position>
+  <input>
+    <param name="literalPath" type="string">
+      <description><![CDATA[Absolute path of Backup file to be imported.]]></description>
+    </param>
+    <param name="merge" type="boolean">
+      <description><![CDATA[Merge with existing configuration.]]></description>
+    </param>
+    <param name="ucsDomain" type="UCSM:UcsDomain">
+      <description><![CDATA[UCS Domain]]></description>
+    </param>
+  </input>
+  <workflow-item  name="item0" type="end" end-mode="0">
+    <position y="45.40909090909091" x="384.5"></position>
+  </workflow-item >
+  <workflow-item  name="item1" out-name="item0" type="task" script-module="com.cisco.ucs.mgr.mgmt/importUcsBackup">
+    <display-name><![CDATA[importUcsBackup]]></display-name>
+    <script encoded="false"><![CDATA[//Auto generated script, cannot be modified !
+System.getModule("com.cisco.ucs.mgr.mgmt").importUcsBackup(ucsDomain,literalPath,merge) ;]]></script>
+    <in-binding>
+      <bind name="ucsDomain" type="UCSM:UcsDomain" export-name="ucsDomain">
+        <description><![CDATA[UCS Domain]]></description>
+      </bind>
+      <bind name="literalPath" type="string" export-name="literalPath">
+        <description><![CDATA[Absolute path of Backup file to be imported.]]></description>
+      </bind>
+      <bind name="merge" type="boolean" export-name="merge">
+        <description><![CDATA[Merge with existing configuration.]]></description>
+      </bind>
+    </in-binding>
+    <out-binding></out-binding>
+    <description><![CDATA[This action imports configuration backup xml file to UCS Manager. The merge option merges configuration with current configuration, otherwise current configuration will be replaced by new configuraiton.]]></description>
+    <position y="55.40909090909091" x="204.5"></position>
+  </workflow-item >
+  <presentation>
+    <p-group>
+      <title><![CDATA[Backup]]></title>
+      <p-param name="literalPath">
+        <desc><![CDATA[Absolute path of Backup file to be imported.]]></desc>
+        <p-qual kind="static" name="mandatory" type="boolean"><![CDATA[true]]></p-qual>
+      </p-param>
+      <p-param name="merge">
+        <desc><![CDATA[Merge with existing configuration.]]></desc>
+      </p-param>
+    </p-group>
+    <p-param name="ucsDomain">
+      <desc><![CDATA[UCS Domain]]></desc>
+      <p-qual kind="static" name="mandatory" type="boolean"><![CDATA[true]]></p-qual>
+    </p-param>
+  </presentation>
+</workflow>

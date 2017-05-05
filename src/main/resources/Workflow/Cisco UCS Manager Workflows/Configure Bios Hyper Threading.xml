@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<workflow xmlns="http://vmware.com/vco/workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://vmware.com/vco/workflow http://vmware.com/vco/workflow/Workflow-v4.xsd" root-name="item1" object-name="workflow:name=generic" id="a5a540bc-a5c5-45d8-bfd7-5f91ea322fdf" version="1.0.1" api-version="6.0.0" allowed-operations="vef" restartMode="1" resumeFromFailedMode="0">
+  <display-name><![CDATA[Configure Bios Hyper Threading]]></display-name>
+  <description><![CDATA[Selects a host registered in vCenter plugin, determines its associated Service Profile from selected UCS Manager, and enables/disables Hyper Threading of Bios Policy on that service profile.]]></description>
+  <position y="50.0" x="100.0"></position>
+  <input>
+    <param name="setProp" type="string"></param>
+    <param name="vcHost" type="VC:HostSystem">
+      <description><![CDATA[vCenter Host]]></description>
+    </param>
+  </input>
+  <attrib name="serviceProfile" type="UCSM:ServiceProfile" read-only="false">
+    <description><![CDATA[Service Profile associated to Blade/Rack with specific UUID.]]></description>
+  </attrib>
+  <attrib name="ucsDomain" type="UCSM:UcsDomain" read-only="false">
+    <value encoded="n"><![CDATA[__NULL__]]></value>
+  </attrib>
+  <attrib name="biosProfileDn" type="string" read-only="false">
+    <value encoded="n"><![CDATA[]]></value>
+  </attrib>
+  <attrib name="biosPolicy" type="Array/UCSM:BiosPolicy" read-only="false"></attrib>
+  <attrib name="showMos" type="boolean" read-only="false">
+    <value encoded="n"><![CDATA[true]]></value>
+  </attrib>
+  <attrib name="hyperThreading" type="Array/Any" read-only="false">
+    <value encoded="n"><![CDATA[__NULL__]]></value>
+  </attrib>
+  <workflow-item  name="item0" type="end" end-mode="0">
+    <position y="45.40909090909091" x="944.5"></position>
+  </workflow-item >
+  <workflow-item  name="item1" out-name="item3" type="link" linked-workflow-id="47b7bbe6-2489-43a5-9022-974a6e9dedaa">
+    <display-name><![CDATA[Get UCS Service Profile from ESX Host]]></display-name>
+    <in-binding>
+      <bind name="vcHost" type="VC:HostSystem" export-name="vcHost">
+        <description><![CDATA[Esx Host]]></description>
+      </bind>
+    </in-binding>
+    <out-binding>
+      <bind name="serviceProfile" type="UCSM:ServiceProfile" export-name="serviceProfile">
+        <description><![CDATA[Service Profile associated to Blade/Rack with specific UUID.]]></description>
+      </bind>
+    </out-binding>
+    <position y="55.40909090909091" x="204.5"></position>
+  </workflow-item >
+  <workflow-item  name="item3" out-name="item2" type="task">
+    <display-name><![CDATA[Get Info]]></display-name>
+    <script encoded="false"><![CDATA[ucsDomain=serviceProfile.getHandle();
+biosProfileDn=serviceProfile.getOperBiosProfileName();
+
+if(biosProfileDn==null || biosProfileDn=="")
+	throw new Error("No bios Policy associated with Service Profile " + serviceProfile.getDn());]]></script>
+    <in-binding>
+      <bind name="serviceProfile" type="UCSM:ServiceProfile" export-name="serviceProfile"></bind>
+    </in-binding>
+    <out-binding>
+      <bind name="ucsDomain" type="UCSM:UcsDomain" export-name="ucsDomain"></bind>
+      <bind name="biosProfileDn" type="string" export-name="biosProfileDn"></bind>
+    </out-binding>
+    <position y="55.40909090909091" x="344.5"></position>
+  </workflow-item >
+  <workflow-item  name="item7" out-name="item0" type="task" script-module="com.cisco.ucs.mgr.bios/setBiosHyperThreading">
+    <display-name><![CDATA[setBiosHyperThreading]]></display-name>
+    <script encoded="false"><![CDATA[//Auto generated script, cannot be modified !
+actionResult = System.getModule("com.cisco.ucs.mgr.bios").setBiosHyperThreading(ucsDomain,mosToModify,dn,vpIntelHyperThreadingTech,showMos) ;]]></script>
+    <in-binding>
+      <bind name="ucsDomain" type="UCSM:UcsDomain" explicitly-not-bound="true"></bind>
+      <bind name="mosToModify" type="Array/Any" export-name="hyperThreading"></bind>
+      <bind name="dn" type="string" explicitly-not-bound="true"></bind>
+      <bind name="vpIntelHyperThreadingTech" type="string" export-name="setProp"></bind>
+      <bind name="showMos" type="boolean" export-name="showMos"></bind>
+    </in-binding>
+    <out-binding>
+      <bind name="actionResult" type="Array/Any" explicitly-not-bound="true"></bind>
+    </out-binding>
+    <description><![CDATA[Modifies Managed Objects of type UcsmBiosVfIntelHyperThreadingTech.
+Inputs:
+ucsDomain - UcsDomain where you want to modify BiosHyperThreading.
+mosToModify - Array of BiosHyperThreading which are being modified.
+showMos - print modified BiosHyperThreading objects to System.log
+Other inputs - other inputs are the properties of BiosHyperThreading against which you can modify. Refer UcsmBiosVfIntelHyperThreadingTech scripting object for more details.
+Return Type:
+Array of modified UcsmBiosVfIntelHyperThreadingTech.]]></description>
+    <position y="55.40909090909091" x="764.5"></position>
+  </workflow-item >
+  <workflow-item  name="item2" out-name="item4" type="task" script-module="com.cisco.ucs.mgr.bios/getBiosPolicy">
+    <display-name><![CDATA[getBiosPolicy]]></display-name>
+    <script encoded="false"><![CDATA[//Auto generated script, cannot be modified !
+actionResult = System.getModule("com.cisco.ucs.mgr.bios").getBiosPolicy(ucsDomain,parentMos,descr,dn,name,policyLevel,policyOwner,rebootOnUpdate,limitScope,showMos) ;]]></script>
+    <in-binding>
+      <bind name="ucsDomain" type="UCSM:UcsDomain" export-name="ucsDomain"></bind>
+      <bind name="parentMos" type="Array/UCSM:OrganizationHierarchy" explicitly-not-bound="true"></bind>
+      <bind name="descr" type="string" explicitly-not-bound="true"></bind>
+      <bind name="dn" type="string" export-name="biosProfileDn"></bind>
+      <bind name="name" type="string" explicitly-not-bound="true"></bind>
+      <bind name="policyLevel" type="number" explicitly-not-bound="true"></bind>
+      <bind name="policyOwner" type="string" explicitly-not-bound="true"></bind>
+      <bind name="rebootOnUpdate" type="string" explicitly-not-bound="true"></bind>
+      <bind name="limitScope" type="boolean" explicitly-not-bound="true"></bind>
+      <bind name="showMos" type="boolean" explicitly-not-bound="true"></bind>
+    </in-binding>
+    <out-binding>
+      <bind name="actionResult" type="Array/UCSM:BiosPolicy" export-name="biosPolicy"></bind>
+    </out-binding>
+    <description><![CDATA[Searches Managed Objects of type UcsmBiosVProfile.
+Inputs:
+ucsDomain - UcsDomain where you want to search BiosPolicy.
+parentMos - Array of Parent Managed Objects of BiosPolicy which is being searched. Parents can be UcsmOrgOrg.
+limitScope - Limit the scope of search for BiosPolicy to single level of UcsmOrgOrg.
+showMos - print searched BiosPolicy objects to System.log
+Other inputs - other inputs are the properties of BiosPolicy against which you can search. Refer UcsmBiosVProfile scripting object for more details.
+Return Type:
+Array of searched UCSM:BiosPolicy.]]></description>
+    <position y="55.40909090909091" x="484.5"></position>
+  </workflow-item >
+  <workflow-item  name="item4" out-name="item7" type="task" script-module="com.cisco.ucs.mgr.bios/getBiosHyperThreading">
+    <display-name><![CDATA[getBiosHyperThreading]]></display-name>
+    <script encoded="false"><![CDATA[//Auto generated script, cannot be modified !
+actionResult = System.getModule("com.cisco.ucs.mgr.bios").getBiosHyperThreading(ucsDomain,parentMos,dn,vpIntelHyperThreadingTech,showMos) ;]]></script>
+    <in-binding>
+      <bind name="ucsDomain" type="UCSM:UcsDomain" explicitly-not-bound="true"></bind>
+      <bind name="parentMos" type="Array/Any" export-name="biosPolicy"></bind>
+      <bind name="dn" type="string" explicitly-not-bound="true"></bind>
+      <bind name="vpIntelHyperThreadingTech" type="string" explicitly-not-bound="true"></bind>
+      <bind name="showMos" type="boolean" explicitly-not-bound="true"></bind>
+    </in-binding>
+    <out-binding>
+      <bind name="actionResult" type="Array/Any" export-name="hyperThreading"></bind>
+    </out-binding>
+    <description><![CDATA[Searches Managed Objects of type UcsmBiosVfIntelHyperThreadingTech.
+Inputs:
+ucsDomain - UcsDomain where you want to search BiosHyperThreading.
+parentMos - Array of Parent Managed Objects of BiosHyperThreading which is being searched. Parents can be UcsmBiosSettings or UcsmBiosVProfile.
+showMos - print searched BiosHyperThreading objects to System.log
+Other inputs - other inputs are the properties of BiosHyperThreading against which you can search. Refer UcsmBiosVfIntelHyperThreadingTech scripting object for more details.
+Return Type:
+Array of searched UcsmBiosVfIntelHyperThreadingTech.]]></description>
+    <position y="55.90909090909091" x="625.0"></position>
+  </workflow-item >
+  <presentation>
+    <p-group>
+      <title><![CDATA[vCenter]]></title>
+      <p-param name="vcHost">
+        <desc><![CDATA[vCenter Host]]></desc>
+        <p-qual kind="static" name="mandatory" type="boolean"><![CDATA[true]]></p-qual>
+      </p-param>
+      <p-param name="setProp">
+        <desc><![CDATA[Hyper Threading]]></desc>
+        <p-qual kind="static" name="mandatory" type="boolean"><![CDATA[true]]></p-qual>
+        <p-qual kind="ognl" name="linkedEnumeration" type="Array/string"><![CDATA[GetAction("com.cisco.ucs.mgr.mgmt","getMoFieldOptions").call( "biosVfIntelHyperThreadingTech" , "vpIntelHyperThreadingTech" )]]></p-qual>
+      </p-param>
+    </p-group>
+  </presentation>
+</workflow>

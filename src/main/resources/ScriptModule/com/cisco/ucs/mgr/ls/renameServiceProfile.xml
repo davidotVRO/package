@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dunes-script-module name="renameServiceProfile" result-type="UCSM:ServiceProfile" api-version="6.0.0" id="279f0db2-cda0-49c4-b38b-350ad66d6b1d" version="1.0.1" allowed-operations="vef">
+  <description><![CDATA[Renames an existing Service Profile.
+This action works with UCS Manager releases 2.1(1a) and above only.]]></description>
+  <param n="serviceProfile" t="UCSM:ServiceProfile"><![CDATA[Service Profile]]></param>
+  <param n="newName" t="string"><![CDATA[New Name]]></param>
+  <script encoded="false"><![CDATA[var sp = UcsmActionUtils.renameServiceProfile(serviceProfile, newName);
+System.log("Successfully renamed Service Profile.");
+return sp;]]></script>
+</dunes-script-module>

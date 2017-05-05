@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+<comment>Exported from [server]</comment>
+<entry key="categoryPath">com.cisco.ucs.mgr.configuration</entry>
+<entry key="name">modifyUcsDomain</entry>
+<entry key="type">ScriptModule</entry>
+<entry key="id">acbaa501-49ab-425b-8302-514cafb87966</entry>
+</properties>

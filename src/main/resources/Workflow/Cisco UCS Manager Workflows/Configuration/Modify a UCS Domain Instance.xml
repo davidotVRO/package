@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<workflow xmlns="http://vmware.com/vco/workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://vmware.com/vco/workflow http://vmware.com/vco/workflow/Workflow-v4.xsd" root-name="item1" object-name="workflow:name=generic" id="5297a352-4cb4-4572-a38b-ca1354c026de" version="1.0.3" api-version="6.0.0" allowed-operations="vef" restartMode="1" resumeFromFailedMode="0">
+  <display-name><![CDATA[Modify a UCS Domain Instance]]></display-name>
+  <description><![CDATA[Modifies Connection details of a registered UCS Domain. This workflow works with vCO5.5.x and above and vRO 6.0.x and above.]]></description>
+  <position y="50.0" x="100.0"></position>
+  <input>
+    <param name="ucsDomain" type="UCSM:UcsDomain">
+      <description><![CDATA[UCS Domain]]></description>
+    </param>
+  </input>
+  <output>
+    <param name="modifiedUcsDomain" type="UCSM:UcsDomain">
+      <description><![CDATA[Modified UCS Domain]]></description>
+    </param>
+  </output>
+  <attrib name="userId" type="string" read-only="false">
+    <value encoded="n"><![CDATA[]]></value>
+    <description><![CDATA[User ID]]></description>
+  </attrib>
+  <attrib name="password" type="SecureString" read-only="false">
+    <value encoded="n"><![CDATA[__NULL__]]></value>
+    <description><![CDATA[Password]]></description>
+  </attrib>
+  <attrib name="noSsl" type="boolean" read-only="false">
+    <value encoded="n"><![CDATA[__NULL__]]></value>
+    <description><![CDATA[Use Unsecure Connection (HTTP)]]></description>
+  </attrib>
+  <attrib name="port" type="string" read-only="false">
+    <value encoded="n"><![CDATA[]]></value>
+    <description><![CDATA[Connection Port]]></description>
+  </attrib>
+  <attrib name="url" type="string" read-only="false">
+    <value encoded="n"><![CDATA[]]></value>
+    <description><![CDATA[URL for Certificate import]]></description>
+  </attrib>
+  <attrib name="ucsHost" type="string" read-only="false">
+    <value encoded="n"><![CDATA[]]></value>
+    <description><![CDATA[UCS Host/IP]]></description>
+  </attrib>
+  <attrib name="ignoreWarnings" type="boolean" read-only="false">
+    <value encoded="n"><![CDATA[false]]></value>
+    <description><![CDATA[If set to true, the certificate is accepted silently and the certificate is added to the trusted store]]></description>
+  </attrib>
+  <attrib name="errorCode" type="string" read-only="false">
+    <value encoded="n"><![CDATA[]]></value>
+  </attrib>
+  <attrib name="noSslFlag" type="string" read-only="false">
+    <value encoded="n"><![CDATA[]]></value>
+    <description><![CDATA[Use Unsecure Connection (HTTP)]]></description>
+  </attrib>
+  <workflow-item  name="item0" business-status="Successfully Modified Connection Details of selected UCS Domain" type="end" end-mode="0">
+    <position y="45.40909090909091" x="944.5"></position>
+  </workflow-item >
+  <workflow-item  name="item1" out-name="item2" type="task">
+    <display-name><![CDATA[getUcsDetails]]></display-name>
+    <script encoded="false"><![CDATA[if(ucsDomain.name==null)
+	throw new Error("UcsDomain " + ucsDomain.getUcs() + " is down; Down System cannot be Cannot modify.");
+ucsHost = ucsDomain.name;
+userId = ucsDomain.userName;
+password = ucsDomain.getPassword();
+port = "" + ucsDomain.port;
+noSsl = ucsDomain.noSsl;
+if(noSsl)
+	noSslFlag="Yes"
+else
+	noSslFlag="No"
+
+]]></script>
+    <in-binding>
+      <bind name="ucsDomain" type="UCSM:UcsDomain" export-name="ucsDomain"></bind>
+    </in-binding>
+    <out-binding>
+      <bind name="ucsHost" type="string" export-name="ucsHost"></bind>
+      <bind name="userId" type="string" export-name="userId"></bind>
+      <bind name="password" type="SecureString" export-name="password"></bind>
+      <bind name="noSsl" type="boolean" export-name="noSsl"></bind>
+      <bind name="port" type="string" export-name="port"></bind>
+      <bind name="noSslFlag" type="string" export-name="noSslFlag"></bind>
+    </out-binding>
+    <description><![CDATA[Get UCS Details.]]></description>
+    <position y="55.40909090909091" x="204.5"></position>
+  </workflow-item >
+  <workflow-item  name="item2" out-name="item3" type="input">
+    <display-name><![CDATA[Modify UCS Details]]></display-name>
+    <in-binding>
+      <bind name="security.group" type="LdapGroup" explicitly-not-bound="true" export-name="NULL">
+        <description><![CDATA[Any user member of this security group will be authorized to answer this 'Input']]></description>
+      </bind>
+      <bind name="security.assignees" type="Array/LdapUser" explicitly-not-bound="true" export-name="NULL">
+        <description><![CDATA[Any user member of this array will be authorized to answer this 'Input']]></description>
+      </bind>
+      <bind name="security.assignee.groups" type="Array/LdapGroup" explicitly-not-bound="true" export-name="NULL">
+        <description><![CDATA[Any user member of any group in this array will be authorized to answer this 'Input']]></description>
+      </bind>
+      <bind name="timeout.date" type="Date" explicitly-not-bound="true" export-name="NULL">
+        <description><![CDATA[If not null, this input item will wait until date and will continue workflow execution.]]></description>
+      </bind>
+    </in-binding>
+    <out-binding>
+      <bind name="userId" type="string" export-name="userId"></bind>
+      <bind name="password" type="SecureString" export-name="password"></bind>
+      <bind name="port" type="string" export-name="port"></bind>
+      <bind name="noSslFlag" type="string" export-name="noSslFlag"></bind>
+    </out-binding>
+    <presentation>
+      <p-param name="userId">
+        <desc><![CDATA[User ID]]></desc>
+      </p-param>
+      <p-param name="password">
+        <desc><![CDATA[Password]]></desc>
+      </p-param>
+      <p-param name="noSslFlag">
+        <desc><![CDATA[Use Unsecure Connection (HTTP)]]></desc>
+        <p-qual kind="static" name="genericEnumeration" type="Array/string"><![CDATA[#{#string##;#string#Yes#;#string#No#}#]]></p-qual>
+      </p-param>
+      <p-param name="port">
+        <desc><![CDATA[Connection Port]]></desc>
+      </p-param>
+    </presentation>
+    <description><![CDATA[Modify Connection Details of Selected UCS Domain.]]></description>
+    <position y="55.40909090909091" x="344.5"></position>
+  </workflow-item >
+  <workflow-item  name="item5" out-name="item8" catch-name="item6" throw-bind-name="errorCode" type="link" linked-workflow-id="c5a874a2-e8e7-480d-bdde-d1a80b8a3011">
+    <display-name><![CDATA[Import a certificate from URL]]></display-name>
+    <in-binding>
+      <bind name="url" type="string" export-name="url">
+        <description><![CDATA[URL or just host:port for non-HTTPS SSL services:]]></description>
+      </bind>
+      <bind name="ignoreWarnings" type="boolean" export-name="ignoreWarnings">
+        <description><![CDATA[If set to true, the certificate is accepted silently and the certificate is added to the trusted store]]></description>
+      </bind>
+    </in-binding>
+    <out-binding></out-binding>
+    <description><![CDATA[Imports an SSL certificate into the server trust store.]]></description>
+    <position y="182.68181818181816" x="484.5"></position>
+  </workflow-item >
+  <workflow-item  name="item6" out-name="item7" throw-bind-name="errorCode" type="task">
+    <display-name><![CDATA[Import Failed]]></display-name>
+    <script encoded="false"><![CDATA[System.log("Unable to modify UCS " + ucsHost + ". SSL Certificate Error: " + errorCode);]]></script>
+    <in-binding>
+      <bind name="errorCode" type="string" export-name="errorCode"></bind>
+      <bind name="ucsHost" type="string" export-name="ucsHost"></bind>
+    </in-binding>
+    <out-binding></out-binding>
+    <description><![CDATA[Certificate Import Failed]]></description>
+    <position y="182.68181818181816" x="644.5"></position>
+  </workflow-item >
+  <workflow-item  name="item7" business-status="Failed to Modify Connection Details of selected UCS Domain. Correct Certificate Issue then retry." throw-bind-name="errorCode" type="end" end-mode="1">
+    <position y="172.68181818181816" x="824.5"></position>
+  </workflow-item >
+  <workflow-item  name="item8" out-name="item0" type="task" script-module="com.cisco.ucs.mgr.configuration/modifyUcsDomain">
+    <display-name><![CDATA[modifyUcsDomain]]></display-name>
+    <script encoded="false"><![CDATA[//Auto generated script, cannot be modified !
+actionResult = System.getModule("com.cisco.ucs.mgr.configuration").modifyUcsDomain(ucsDomain,userId,password,noSsl,port) ;]]></script>
+    <in-binding>
+      <bind name="ucsDomain" type="UCSM:UcsDomain" export-name="ucsDomain">
+        <description><![CDATA[Ucs Domain]]></description>
+      </bind>
+      <bind name="userId" type="string" export-name="userId">
+        <description><![CDATA[User ID]]></description>
+      </bind>
+      <bind name="password" type="SecureString" export-name="password">
+        <description><![CDATA[Password]]></description>
+      </bind>
+      <bind name="noSsl" type="boolean" export-name="noSsl">
+        <description><![CDATA[Use Unsecure Connection (HTTP)]]></description>
+      </bind>
+      <bind name="port" type="string" export-name="port">
+        <description><![CDATA[Connection Port]]></description>
+      </bind>
+    </in-binding>
+    <out-binding>
+      <bind name="actionResult" type="UCSM:UcsDomain" export-name="modifiedUcsDomain"></bind>
+    </out-binding>
+    <description><![CDATA[Modifies details of a registered UCS Domain]]></description>
+    <position y="55.40909090909091" x="764.5"></position>
+  </workflow-item >
+  <workflow-item  name="item3" out-name="item9" type="condition" alt-out-name="item4" comparator="0">
+    <display-name><![CDATA[Is Unsecure Connection]]></display-name>
+    <script encoded="false"><![CDATA[//Generated by the system, cannot be edited
+return (noSslFlag == "Yes") ;]]></script>
+    <in-binding>
+      <bind name="noSslFlag" type="string" export-name="noSslFlag"></bind>
+    </in-binding>
+    <condition name="noSslFlag" type="string" comparator="0" label="null">Yes</condition>
+    <description><![CDATA[Is Unsecure Connection (HTTP)]]></description>
+    <position y="45.40909090909091" x="484.5"></position>
+  </workflow-item >
+  <workflow-item  name="item4" out-name="item5" type="task">
+    <display-name><![CDATA[getCertificateUrl]]></display-name>
+    <script encoded="false"><![CDATA[url = ucsHost + ":" + port;
+noSsl=false]]></script>
+    <in-binding>
+      <bind name="port" type="string" export-name="port"></bind>
+      <bind name="ucsHost" type="string" export-name="ucsHost"></bind>
+    </in-binding>
+    <out-binding>
+      <bind name="url" type="string" export-name="url"></bind>
+      <bind name="noSsl" type="boolean" export-name="noSsl"></bind>
+    </out-binding>
+    <description><![CDATA[Get URL for Certificate Import]]></description>
+    <position y="119.04545454545453" x="485.0"></position>
+  </workflow-item >
+  <workflow-item  name="item9" out-name="item8" type="task">
+    <display-name><![CDATA[Finalize Flags]]></display-name>
+    <script encoded="false"><![CDATA[noSsl=true]]></script>
+    <in-binding></in-binding>
+    <out-binding>
+      <bind name="noSsl" type="boolean" export-name="noSsl"></bind>
+    </out-binding>
+    <position y="55.40909090909091" x="624.5"></position>
+  </workflow-item >
+  <presentation>
+    <p-param name="ucsDomain">
+      <desc><![CDATA[UCS Domain]]></desc>
+    </p-param>
+  </presentation>
+</workflow>

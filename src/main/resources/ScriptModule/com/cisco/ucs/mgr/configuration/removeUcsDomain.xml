@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dunes-script-module name="removeUcsDomain" result-type="boolean" api-version="6.0.0" id="6b472fea-2052-4ee7-a1f3-9655a5115cdf" version="1.0.2" allowed-operations="vef">
+  <description><![CDATA[Removes a UCS Domain Instance. This action works with vCO5.5.x and above and vRO 6.0.x and above.]]></description>
+  <param n="ucsDomain" t="UCSM:UcsDomain"><![CDATA[UCS Domain]]></param>
+  <script encoded="false"><![CDATA[if(ucsDomain==null)
+	throw new Error("No UCS Domain selected.")
+try
+{
+	var removedUcsDomain = UcsmActionUtils.removeUcsDomain(ucsDomain.getUcs());
+	if(removedUcsDomain)
+		System.log("Successfully removed UCS Domain " + ucsDomain.getUcs());
+	else
+		System.log("Unable to remove UCS Domain " + ucsDomain.getUcs());
+	return removedUcsDomain;
+}
+catch(err)
+{
+	System.log("Unable to remove UCS Domain " + ucsDomain.getUcs() + ". Error: " + err);
+	return false;
+}]]></script>
+</dunes-script-module>

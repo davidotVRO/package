@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+<comment>Exported from [server]</comment>
+<entry key="categoryPath">Cisco UCS Manager Workflows</entry>
+<entry key="name">Configure Bios Virtualization Technology</entry>
+<entry key="type">Workflow</entry>
+<entry key="id">3eea8558-2737-4c53-84c8-064fa64c89bb</entry>
+</properties>

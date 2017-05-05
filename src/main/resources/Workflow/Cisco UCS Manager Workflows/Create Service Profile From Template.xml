@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<workflow xmlns="http://vmware.com/vco/workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://vmware.com/vco/workflow http://vmware.com/vco/workflow/Workflow-v4.xsd" root-name="item1" object-name="workflow:name=generic" id="418904e4-bceb-4ff1-bda5-cfa1a5483b9c" version="1.0.1" api-version="6.0.0" allowed-operations="vef" restartMode="1" resumeFromFailedMode="0">
+  <display-name><![CDATA[Create Service Profile From Template]]></display-name>
+  <description><![CDATA[Selects a Service Profile Template as input and create multiple service profiles from that template in selected organization based on array of names or combination of prefix and counter.
+This workflow will only work with UCS Manager releases  2.1(2a) and above.]]></description>
+  <position y="50.0" x="100.0"></position>
+  <input>
+    <param name="newName" type="Array/string">
+      <description><![CDATA[New Name(s) of ServiceProfile(s)]]></description>
+    </param>
+    <param name="prefix" type="string">
+      <description><![CDATA[New Names prefix (will  be used with count)]]></description>
+    </param>
+    <param name="count" type="number">
+      <description><![CDATA[Number of New ServiceProfiles to be created]]></description>
+    </param>
+    <param name="template" type="UCSM:ServiceProfileTemplate">
+      <description><![CDATA[Service Profile Template]]></description>
+    </param>
+    <param name="destOrg" type="UCSM:OrganizationHierarchy">
+      <description><![CDATA[Destination Organization]]></description>
+    </param>
+  </input>
+  <output>
+    <param name="createdSp" type="Array/UCSM:ServiceProfile"></param>
+  </output>
+  <workflow-item  name="item0" type="end" end-mode="0">
+    <position y="45.40909090909091" x="384.5"></position>
+  </workflow-item >
+  <workflow-item  name="item1" out-name="item0" type="task" script-module="com.cisco.ucs.mgr.ls/createServiceProfileFromTemplate">
+    <display-name><![CDATA[createServiceProfileFromTemplate]]></display-name>
+    <script encoded="false"><![CDATA[//Auto generated script, cannot be modified !
+actionResult = System.getModule("com.cisco.ucs.mgr.ls").createServiceProfileFromTemplate(template,newName,destOrg,prefix,count) ;]]></script>
+    <in-binding>
+      <bind name="template" type="UCSM:ServiceProfileTemplate" export-name="template">
+        <description><![CDATA[Service Profile Template]]></description>
+      </bind>
+      <bind name="newName" type="Array/string" export-name="newName">
+        <description><![CDATA[Names of Service Profiles to create]]></description>
+      </bind>
+      <bind name="destOrg" type="UCSM:OrganizationHierarchy" export-name="destOrg">
+        <description><![CDATA[Destination Organization]]></description>
+      </bind>
+      <bind name="prefix" type="string" export-name="prefix">
+        <description><![CDATA[Prefix of the name of Service Profile]]></description>
+      </bind>
+      <bind name="count" type="number" export-name="count">
+        <description><![CDATA[Number of Service Profiles to create.]]></description>
+      </bind>
+    </in-binding>
+    <out-binding>
+      <bind name="actionResult" type="Array/UCSM:ServiceProfile" export-name="createdSp"></bind>
+    </out-binding>
+    <description><![CDATA[Adds service profiles provided a template which can be either array of names (newName) or a name prefix (prefix) and number of service profiles to be created (counter).
+This action works with UCS Manager releases  2.1(2a) and above only.]]></description>
+    <position y="55.40909090909091" x="204.5"></position>
+  </workflow-item >
+  <presentation>
+    <p-group>
+      <title><![CDATA[Get]]></title>
+      <p-param name="template">
+        <desc><![CDATA[Service Profile Template]]></desc>
+        <p-qual kind="static" name="mandatory" type="boolean"><![CDATA[true]]></p-qual>
+      </p-param>
+      <p-param name="destOrg">
+        <desc><![CDATA[Destination Organization]]></desc>
+      </p-param>
+    </p-group>
+    <p-group>
+      <title><![CDATA[Create by Names]]></title>
+      <p-param name="newName">
+        <desc><![CDATA[New Name(s) of ServiceProfile(s)]]></desc>
+      </p-param>
+    </p-group>
+    <p-group>
+      <title><![CDATA[Create by Prefix]]></title>
+      <p-param name="prefix">
+        <desc><![CDATA[New Names prefix (will  be used with count)]]></desc>
+      </p-param>
+      <p-param name="count">
+        <desc><![CDATA[Number of New ServiceProfiles to be created]]></desc>
+      </p-param>
+    </p-group>
+  </presentation>
+</workflow>

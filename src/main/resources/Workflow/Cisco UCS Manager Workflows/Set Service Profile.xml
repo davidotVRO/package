@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<workflow xmlns="http://vmware.com/vco/workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://vmware.com/vco/workflow http://vmware.com/vco/workflow/Workflow-v4.xsd" root-name="item1" object-name="workflow:name=generic" id="68be9043-582a-438f-95cd-336471a9d98a" version="1.0.1" api-version="6.0.0" allowed-operations="vef" restartMode="1" resumeFromFailedMode="0">
+  <display-name><![CDATA[Set Service Profile]]></display-name>
+  <description><![CDATA[This workflow modifies properties of selected service profiles.]]></description>
+  <position y="50.0" x="100.0"></position>
+  <input>
+    <param name="ucsDomain" type="UCSM:UcsDomain"></param>
+    <param name="mosToModify" type="Array/UCSM:ServiceProfile"></param>
+    <param name="agentPolicyName" type="string"></param>
+    <param name="biosProfileName" type="string"></param>
+    <param name="bootPolicyName" type="string"></param>
+    <param name="descr" type="string"></param>
+    <param name="dn" type="string"></param>
+    <param name="dynamicConPolicyName" type="string"></param>
+    <param name="extIPPoolName" type="string"></param>
+    <param name="extIPState" type="string"></param>
+    <param name="hostFwPolicyName" type="string"></param>
+    <param name="identPoolName" type="string"></param>
+    <param name="kvmMgmtPolicyName" type="string"></param>
+    <param name="localDiskPolicyName" type="string"></param>
+    <param name="maintPolicyName" type="string"></param>
+    <param name="mgmtAccessPolicyName" type="string"></param>
+    <param name="mgmtFwPolicyName" type="string"></param>
+    <param name="policyOwner" type="string"></param>
+    <param name="powerPolicyName" type="string"></param>
+    <param name="resolveRemote" type="string"></param>
+    <param name="scrubPolicyName" type="string"></param>
+    <param name="solPolicyName" type="string"></param>
+    <param name="srcTemplName" type="string"></param>
+    <param name="statsPolicyName" type="string"></param>
+    <param name="usrLbl" type="string"></param>
+    <param name="uuid" type="string"></param>
+    <param name="vconProfileName" type="string"></param>
+    <param name="vmediaPolicyName" type="string"></param>
+  </input>
+  <output>
+    <param name="modifiedSp" type="Array/UCSM:ServiceProfile">
+      <description><![CDATA[Modified Service Profile]]></description>
+    </param>
+  </output>
+  <attrib name="showMos" type="boolean" read-only="false">
+    <value encoded="n"><![CDATA[true]]></value>
+    <description><![CDATA[Print Modified Managed Objects.]]></description>
+  </attrib>
+  <workflow-item  name="item0" type="end" end-mode="0">
+    <position y="45.40909090909091" x="384.5"></position>
+  </workflow-item >
+  <workflow-item  name="item1" out-name="item0" type="task" script-module="com.cisco.ucs.mgr.ls/setServiceProfile">
+    <display-name><![CDATA[setServiceProfile]]></display-name>
+    <script encoded="false"><![CDATA[//Auto generated script, cannot be modified !
+actionResult = System.getModule("com.cisco.ucs.mgr.ls").setServiceProfile(ucsDomain,mosToModify,agentPolicyName,biosProfileName,bootPolicyName,descr,dn,dynamicConPolicyName,extIPPoolName,extIPState,hostFwPolicyName,identPoolName,kvmMgmtPolicyName,localDiskPolicyName,maintPolicyName,mgmtAccessPolicyName,mgmtFwPolicyName,policyOwner,powerPolicyName,resolveRemote,scrubPolicyName,solPolicyName,srcTemplName,statsPolicyName,usrLbl,uuid,vconProfileName,vmediaPolicyName,showMos) ;]]></script>
+    <in-binding>
+      <bind name="ucsDomain" type="UCSM:UcsDomain" export-name="ucsDomain"></bind>
+      <bind name="mosToModify" type="Array/UCSM:ServiceProfile" export-name="mosToModify"></bind>
+      <bind name="agentPolicyName" type="string" export-name="agentPolicyName"></bind>
+      <bind name="biosProfileName" type="string" export-name="biosProfileName"></bind>
+      <bind name="bootPolicyName" type="string" export-name="bootPolicyName"></bind>
+      <bind name="descr" type="string" export-name="descr"></bind>
+      <bind name="dn" type="string" export-name="dn"></bind>
+      <bind name="dynamicConPolicyName" type="string" export-name="dynamicConPolicyName"></bind>
+      <bind name="extIPPoolName" type="string" export-name="extIPPoolName"></bind>
+      <bind name="extIPState" type="string" export-name="extIPState"></bind>
+      <bind name="hostFwPolicyName" type="string" export-name="hostFwPolicyName"></bind>
+      <bind name="identPoolName" type="string" export-name="identPoolName"></bind>
+      <bind name="kvmMgmtPolicyName" type="string" export-name="kvmMgmtPolicyName"></bind>
+      <bind name="localDiskPolicyName" type="string" export-name="localDiskPolicyName"></bind>
+      <bind name="maintPolicyName" type="string" export-name="maintPolicyName"></bind>
+      <bind name="mgmtAccessPolicyName" type="string" export-name="mgmtAccessPolicyName"></bind>
+      <bind name="mgmtFwPolicyName" type="string" export-name="mgmtFwPolicyName"></bind>
+      <bind name="policyOwner" type="string" export-name="policyOwner"></bind>
+      <bind name="powerPolicyName" type="string" export-name="powerPolicyName"></bind>
+      <bind name="resolveRemote" type="string" export-name="resolveRemote"></bind>
+      <bind name="scrubPolicyName" type="string" export-name="scrubPolicyName"></bind>
+      <bind name="solPolicyName" type="string" export-name="solPolicyName"></bind>
+      <bind name="srcTemplName" type="string" export-name="srcTemplName"></bind>
+      <bind name="statsPolicyName" type="string" export-name="statsPolicyName"></bind>
+      <bind name="usrLbl" type="string" export-name="usrLbl"></bind>
+      <bind name="uuid" type="string" export-name="uuid"></bind>
+      <bind name="vconProfileName" type="string" export-name="vconProfileName"></bind>
+      <bind name="vmediaPolicyName" type="string" export-name="vmediaPolicyName"></bind>
+      <bind name="showMos" type="boolean" export-name="showMos"></bind>
+    </in-binding>
+    <out-binding>
+      <bind name="actionResult" type="Array/UCSM:ServiceProfile" export-name="modifiedSp"></bind>
+    </out-binding>
+    <description><![CDATA[Modifies Managed Objects of type UcsmLsServer.
+Inputs:
+ucsDomain - UcsDomain where you want to modify ServiceProfile.
+mosToModify - Array of ServiceProfile which are being modified.
+showMos - print modified ServiceProfile objects to System.log
+Other inputs - other inputs are the properties of ServiceProfile against which you can modify. Refer UcsmLsServer scripting object for more details.
+Return Type:
+Array of modified UCSM:ServiceProfile.]]></description>
+    <position y="55.40909090909091" x="204.5"></position>
+  </workflow-item >
+  <presentation>
+    <p-param name="ucsDomain">
+      <desc><![CDATA[ucsDomain]]></desc>
+    </p-param>
+    <p-param name="mosToModify">
+      <desc><![CDATA[Service Profiles to modify]]></desc>
+    </p-param>
+    <p-param name="agentPolicyName">
+      <desc><![CDATA[agentPolicyName]]></desc>
+    </p-param>
+    <p-param name="biosProfileName">
+      <desc><![CDATA[biosProfileName]]></desc>
+    </p-param>
+    <p-param name="bootPolicyName">
+      <desc><![CDATA[bootPolicyName]]></desc>
+    </p-param>
+    <p-param name="descr">
+      <desc><![CDATA[descr]]></desc>
+    </p-param>
+    <p-param name="dn">
+      <desc><![CDATA[dn]]></desc>
+    </p-param>
+    <p-param name="dynamicConPolicyName">
+      <desc><![CDATA[dynamicConPolicyName]]></desc>
+    </p-param>
+    <p-param name="extIPPoolName">
+      <desc><![CDATA[extIPPoolName]]></desc>
+    </p-param>
+    <p-param name="extIPState">
+      <desc><![CDATA[extIPState]]></desc>
+    </p-param>
+    <p-param name="hostFwPolicyName">
+      <desc><![CDATA[hostFwPolicyName]]></desc>
+    </p-param>
+    <p-param name="identPoolName">
+      <desc><![CDATA[identPoolName]]></desc>
+    </p-param>
+    <p-param name="kvmMgmtPolicyName">
+      <desc><![CDATA[kvmMgmtPolicyName]]></desc>
+    </p-param>
+    <p-param name="localDiskPolicyName">
+      <desc><![CDATA[localDiskPolicyName]]></desc>
+    </p-param>
+    <p-param name="maintPolicyName">
+      <desc><![CDATA[maintPolicyName]]></desc>
+    </p-param>
+    <p-param name="mgmtAccessPolicyName">
+      <desc><![CDATA[mgmtAccessPolicyName]]></desc>
+    </p-param>
+    <p-param name="mgmtFwPolicyName">
+      <desc><![CDATA[mgmtFwPolicyName]]></desc>
+    </p-param>
+    <p-param name="policyOwner">
+      <desc><![CDATA[policyOwner]]></desc>
+    </p-param>
+    <p-param name="powerPolicyName">
+      <desc><![CDATA[powerPolicyName]]></desc>
+    </p-param>
+    <p-param name="resolveRemote">
+      <desc><![CDATA[resolveRemote]]></desc>
+    </p-param>
+    <p-param name="scrubPolicyName">
+      <desc><![CDATA[scrubPolicyName]]></desc>
+    </p-param>
+    <p-param name="solPolicyName">
+      <desc><![CDATA[solPolicyName]]></desc>
+    </p-param>
+    <p-param name="srcTemplName">
+      <desc><![CDATA[srcTemplName]]></desc>
+    </p-param>
+    <p-param name="statsPolicyName">
+      <desc><![CDATA[statsPolicyName]]></desc>
+    </p-param>
+    <p-param name="usrLbl">
+      <desc><![CDATA[usrLbl]]></desc>
+    </p-param>
+    <p-param name="uuid">
+      <desc><![CDATA[uuid]]></desc>
+    </p-param>
+    <p-param name="vconProfileName">
+      <desc><![CDATA[vconProfileName]]></desc>
+    </p-param>
+    <p-param name="vmediaPolicyName">
+      <desc><![CDATA[vmediaPolicyName]]></desc>
+    </p-param>
+  </presentation>
+</workflow>

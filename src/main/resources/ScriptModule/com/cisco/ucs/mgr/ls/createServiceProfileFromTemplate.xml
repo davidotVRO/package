@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dunes-script-module name="createServiceProfileFromTemplate" result-type="Array/UCSM:ServiceProfile" api-version="6.0.0" id="015f73a0-8b4b-454c-ae16-d49336bf5bc7" version="1.0.1" allowed-operations="vef">
+  <description><![CDATA[Adds service profiles provided a template which can be either array of names (newName) or a name prefix (prefix) and number of service profiles to be created (counter).
+This action works with UCS Manager releases  2.1(2a) and above only.]]></description>
+  <param n="template" t="UCSM:ServiceProfileTemplate"><![CDATA[Service Profile Template]]></param>
+  <param n="newName" t="Array/string"><![CDATA[Array of Names of Service Profile]]></param>
+  <param n="destOrg" t="UCSM:OrganizationHierarchy"><![CDATA[Destination Organization]]></param>
+  <param n="prefix" t="string"><![CDATA[Prefix of Service Profiles Name]]></param>
+  <param n="count" t="number"><![CDATA[Number of Service Profiles to be created]]></param>
+  <script encoded="false"><![CDATA[var spList = UcsmActionUtils.createServiceProfileFromTemplate(template, newName, destOrg, prefix, count)
+System.log("Created " + spList.length + " Service Profiles Successfully in " + destOrg.getDn() + " organization.");
+return spList;]]></script>
+</dunes-script-module>

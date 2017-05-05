@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dunes-script-module name="modifyUcsDomain" result-type="UCSM:UcsDomain" api-version="6.0.0" id="acbaa501-49ab-425b-8302-514cafb87966" version="1.0.2" allowed-operations="vef">
+  <description><![CDATA[Modifies details of a UCS Domain Instance. This action works with vCO5.5.x and above and vRO 6.0.x and above.]]></description>
+  <param n="ucsDomain" t="UCSM:UcsDomain"><![CDATA[Ucs Domain]]></param>
+  <param n="userId" t="string"><![CDATA[User ID]]></param>
+  <param n="password" t="SecureString"><![CDATA[Password]]></param>
+  <param n="noSsl" t="boolean"><![CDATA[Use Unsecure Connection (HTTP)]]></param>
+  <param n="port" t="string"><![CDATA[Connection Port]]></param>
+  <script encoded="false"><![CDATA[if(ucsDomain==null)
+	throw new Error("No Ucs Domain Selected.");
+try
+{
+	var modifiedUcsDomain = UcsmActionUtils.modifyUcsDomain(ucsDomain.getName(), userId, password, noSsl, port);
+	System.log("Successfully modified UCS Domain " + ucsDomain.getName());
+	if(noSsl){
+		if(!modifiedUcsDomain.isNoSsl())
+			System.log("NOTE: HTTP to HTTPS redirect enabled on " + ucsDomain.name + ". Continuing with Secure Connection (HTTPS)");
+	}
+	return modifiedUcsDomain;
+}
+catch(err)
+{
+	System.log("Unable to modify UCS Domain " + ucsDomain.getName() + ". Error: " + err);
+	throw err;
+}]]></script>
+</dunes-script-module>

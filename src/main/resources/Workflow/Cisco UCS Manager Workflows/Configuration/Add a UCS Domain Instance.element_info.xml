@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+<comment>Exported from [server]</comment>
+<entry key="categoryPath">Cisco UCS Manager Workflows.Configuration</entry>
+<entry key="name">Add a UCS Domain Instance</entry>
+<entry key="type">Workflow</entry>
+<entry key="id">04061fef-684c-45e0-b0d2-2901092371f7</entry>
+</properties>

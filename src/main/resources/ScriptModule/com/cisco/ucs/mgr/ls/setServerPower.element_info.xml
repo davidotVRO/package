@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+<comment>Exported from [server]</comment>
+<entry key="categoryPath">com.cisco.ucs.mgr.ls</entry>
+<entry key="name">setServerPower</entry>
+<entry key="type">ScriptModule</entry>
+<entry key="id">e9058240-9b98-493f-be18-8cf789e4df23</entry>
+</properties>

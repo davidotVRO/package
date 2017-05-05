@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+<comment>localhost:8281</comment>
+<entry key="vso-build-nb">3533702</entry>
+<entry key="pkg-description"></entry>
+<entry key="pkg-name">com.vodafone.vc</entry>
+<entry key="used-plugins">UCSM#1.0.3,VC#6.0.2</entry>
+<entry key="pkg-owner">O=VMware,OU=Unknown,CN=vRO hcs-wahpb-vrop 5b326407-cfde-4bff-91fe-85f5adbfd25a</entry>
+<entry key="vso-version">7.0.1.3533702</entry>
+<entry key="pkg-id">be99d03a5bd837dd015bd843a362001b</entry>
+</properties>

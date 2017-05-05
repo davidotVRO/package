@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dunes-script-module name="setBiosVfIntelVirtualizationTechnology" result-type="Array/Any" api-version="6.0.0" id="3cf0e6b3-5ed2-4d87-b6c0-8291eca66192" version="1.0.2" allowed-operations="vef">
+  <description><![CDATA[Modifies Managed Objects of type UcsmBiosVfIntelVirtualizationTechnology.
+Inputs:
+ucsDomain - UcsDomain where you want to modify BiosVfIntelVirtualizationTechnology.
+mosToModify - Array of BiosVfIntelVirtualizationTechnology which are being modified.
+showMos - print modified BiosVfIntelVirtualizationTechnology objects to System.log
+Other inputs - other inputs are the properties of BiosVfIntelVirtualizationTechnology against which you can modify. Refer UcsmBiosVfIntelVirtualizationTechnology scripting object for more details. Enter #EMPTY# value for any property if you want to set empty string for that property.
+Return Type:
+Array of modified UcsmBiosVfIntelVirtualizationTechnology.]]></description>
+  <param n="ucsDomain" t="UCSM:UcsDomain"><![CDATA[]]></param>
+  <param n="mosToModify" t="Array/Any"><![CDATA[]]></param>
+  <param n="dn" t="string"><![CDATA[]]></param>
+  <param n="vpIntelVirtualizationTechnology" t="string"><![CDATA[]]></param>
+  <param n="showMos" t="boolean"><![CDATA[]]></param>
+  <script encoded="false"><![CDATA[//Create BiosVfIntelVirtualizationTechnology object
+var paramsMo = new UcsmBiosVfIntelVirtualizationTechnology();
+
+//Store all inputs in BiosVfIntelVirtualizationTechnology object
+if(dn!=null && dn!=""){
+	if(dn=="#EMPTY#")
+		paramsMo.setAttr("dn", "");
+	else
+		paramsMo.setAttr("dn", dn);
+}
+if(vpIntelVirtualizationTechnology!=null && vpIntelVirtualizationTechnology!=""){
+	if(vpIntelVirtualizationTechnology=="#EMPTY#")
+		paramsMo.setAttr("vpIntelVirtualizationTechnology", "");
+	else
+		paramsMo.setAttr("vpIntelVirtualizationTechnology", vpIntelVirtualizationTechnology);
+}
+
+if((mosToModify==null || mosToModify.length==0) && (!paramsMo.isBound("dn")))
+	throw new Error("No UcsmBiosVfIntelVirtualizationTechnology objects selected to modify.");
+
+var pmoArray = null;
+if(mosToModify!=null && mosToModify.length>0){
+	if(ucsDomain==null)
+		ucsDomain = mosToModify[0].getHandle();
+
+	pmoArray = new Array();
+	for each (var pmo in mosToModify){
+		if(pmo!=null){
+			if(pmo instanceof UcsmOrganizationHierarchy)
+				pmo = pmo.getOrg();
+			pmoArray.push(pmo);
+			if(ucsDomain.getUcs() != pmo.getHandle().getUcs())
+				throw new Error("UcsmBiosVfIntelVirtualizationTechnology " + pmo.getDn() + " not on selected UCSM " + ucsDomain.getUcs() + ". Its on " + pmo.getHandle().getUcs() + ".");
+		}
+	}
+}
+
+if(ucsDomain==null)
+	throw new Error("No Ucs Selected");
+
+var moArray = UcsmActionUtils.setManagedObjects(ucsDomain, pmoArray, "biosVfIntelVirtualizationTechnology", paramsMo);
+
+if(moArray==null || moArray.length==0){
+	if(showMos)
+		System.log("\nNo UcsmBiosVfIntelVirtualizationTechnology objects modified on " + ucsDomain.ucs + ".\n");
+	return null
+}
+
+if(showMos){
+	System.log("\n************************\n  Modified " + moArray.length + " UcsmBiosVfIntelVirtualizationTechnology objects\n************************\n");
+	for each (var mo in moArray)
+		if(mo!=null)
+			System.log(UcsmActionUtils.printManagedObject(mo))
+}
+if(moArray!=null && moArray.length>0)
+	return moArray;
+else
+	return new Array();]]></script>
+</dunes-script-module>

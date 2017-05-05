@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dunes-script-module name="setServiceProfile" result-type="Array/UCSM:ServiceProfile" api-version="6.0.0" id="6004bcab-7bd5-4b26-b84a-a6cc9af1dad7" version="1.0.2" allowed-operations="vef">
+  <description><![CDATA[Modifies Managed Objects of type UcsmLsServer.
+Inputs:
+ucsDomain - UcsDomain where you want to modify ServiceProfile.
+mosToModify - Array of ServiceProfile which are being modified.
+showMos - print modified ServiceProfile objects to System.log
+Other inputs - other inputs are the properties of ServiceProfile against which you can modify. Refer UcsmLsServer scripting object for more details. Enter #EMPTY# value for any property if you want to set empty string for that property.
+Return Type:
+Array of modified UCSM:ServiceProfile.]]></description>
+  <param n="ucsDomain" t="UCSM:UcsDomain"><![CDATA[]]></param>
+  <param n="mosToModify" t="Array/UCSM:ServiceProfile"><![CDATA[]]></param>
+  <param n="agentPolicyName" t="string"><![CDATA[]]></param>
+  <param n="biosProfileName" t="string"><![CDATA[]]></param>
+  <param n="bootPolicyName" t="string"><![CDATA[]]></param>
+  <param n="descr" t="string"><![CDATA[]]></param>
+  <param n="dn" t="string"><![CDATA[]]></param>
+  <param n="dynamicConPolicyName" t="string"><![CDATA[]]></param>
+  <param n="extIPPoolName" t="string"><![CDATA[]]></param>
+  <param n="extIPState" t="string"><![CDATA[]]></param>
+  <param n="hostFwPolicyName" t="string"><![CDATA[]]></param>
+  <param n="identPoolName" t="string"><![CDATA[]]></param>
+  <param n="kvmMgmtPolicyName" t="string"><![CDATA[]]></param>
+  <param n="localDiskPolicyName" t="string"><![CDATA[]]></param>
+  <param n="maintPolicyName" t="string"><![CDATA[]]></param>
+  <param n="mgmtAccessPolicyName" t="string"><![CDATA[]]></param>
+  <param n="mgmtFwPolicyName" t="string"><![CDATA[]]></param>
+  <param n="policyOwner" t="string"><![CDATA[]]></param>
+  <param n="powerPolicyName" t="string"><![CDATA[]]></param>
+  <param n="resolveRemote" t="string"><![CDATA[]]></param>
+  <param n="scrubPolicyName" t="string"><![CDATA[]]></param>
+  <param n="solPolicyName" t="string"><![CDATA[]]></param>
+  <param n="srcTemplName" t="string"><![CDATA[]]></param>
+  <param n="statsPolicyName" t="string"><![CDATA[]]></param>
+  <param n="usrLbl" t="string"><![CDATA[]]></param>
+  <param n="uuid" t="string"><![CDATA[]]></param>
+  <param n="vconProfileName" t="string"><![CDATA[]]></param>
+  <param n="vmediaPolicyName" t="string"><![CDATA[]]></param>
+  <param n="showMos" t="boolean"><![CDATA[]]></param>
+  <script encoded="false"><![CDATA[//Create ServiceProfile object
+var paramsMo = new UcsmLsServer();
+
+//Store all inputs in ServiceProfile object
+if(agentPolicyName!=null && agentPolicyName!=""){
+	if(agentPolicyName=="#EMPTY#")
+		paramsMo.setAttr("agentPolicyName", "");
+	else
+		paramsMo.setAttr("agentPolicyName", agentPolicyName);
+}
+if(biosProfileName!=null && biosProfileName!=""){
+	if(biosProfileName=="#EMPTY#")
+		paramsMo.setAttr("biosProfileName", "");
+	else
+		paramsMo.setAttr("biosProfileName", biosProfileName);
+}
+if(bootPolicyName!=null && bootPolicyName!=""){
+	if(bootPolicyName=="#EMPTY#")
+		paramsMo.setAttr("bootPolicyName", "");
+	else
+		paramsMo.setAttr("bootPolicyName", bootPolicyName);
+}
+if(descr!=null && descr!=""){
+	if(descr=="#EMPTY#")
+		paramsMo.setAttr("descr", "");
+	else
+		paramsMo.setAttr("descr", descr);
+}
+if(dn!=null && dn!=""){
+	if(dn=="#EMPTY#")
+		paramsMo.setAttr("dn", "");
+	else
+		paramsMo.setAttr("dn", dn);
+}
+if(dynamicConPolicyName!=null && dynamicConPolicyName!=""){
+	if(dynamicConPolicyName=="#EMPTY#")
+		paramsMo.setAttr("dynamicConPolicyName", "");
+	else
+		paramsMo.setAttr("dynamicConPolicyName", dynamicConPolicyName);
+}
+if(extIPPoolName!=null && extIPPoolName!=""){
+	if(extIPPoolName=="#EMPTY#")
+		paramsMo.setAttr("extIPPoolName", "");
+	else
+		paramsMo.setAttr("extIPPoolName", extIPPoolName);
+}
+if(extIPState!=null && extIPState!=""){
+	if(extIPState=="#EMPTY#")
+		paramsMo.setAttr("extIPState", "");
+	else
+		paramsMo.setAttr("extIPState", extIPState);
+}
+if(hostFwPolicyName!=null && hostFwPolicyName!=""){
+	if(hostFwPolicyName=="#EMPTY#")
+		paramsMo.setAttr("hostFwPolicyName", "");
+	else
+		paramsMo.setAttr("hostFwPolicyName", hostFwPolicyName);
+}
+if(identPoolName!=null && identPoolName!=""){
+	if(identPoolName=="#EMPTY#")
+		paramsMo.setAttr("identPoolName", "");
+	else
+		paramsMo.setAttr("identPoolName", identPoolName);
+}
+if(kvmMgmtPolicyName!=null && kvmMgmtPolicyName!=""){
+	if(kvmMgmtPolicyName=="#EMPTY#")
+		paramsMo.setAttr("kvmMgmtPolicyName", "");
+	else
+		paramsMo.setAttr("kvmMgmtPolicyName", kvmMgmtPolicyName);
+}
+if(localDiskPolicyName!=null && localDiskPolicyName!=""){
+	if(localDiskPolicyName=="#EMPTY#")
+		paramsMo.setAttr("localDiskPolicyName", "");
+	else
+		paramsMo.setAttr("localDiskPolicyName", localDiskPolicyName);
+}
+if(maintPolicyName!=null && maintPolicyName!=""){
+	if(maintPolicyName=="#EMPTY#")
+		paramsMo.setAttr("maintPolicyName", "");
+	else
+		paramsMo.setAttr("maintPolicyName", maintPolicyName);
+}
+if(mgmtAccessPolicyName!=null && mgmtAccessPolicyName!=""){
+	if(mgmtAccessPolicyName=="#EMPTY#")
+		paramsMo.setAttr("mgmtAccessPolicyName", "");
+	else
+		paramsMo.setAttr("mgmtAccessPolicyName", mgmtAccessPolicyName);
+}
+if(mgmtFwPolicyName!=null && mgmtFwPolicyName!=""){
+	if(mgmtFwPolicyName=="#EMPTY#")
+		paramsMo.setAttr("mgmtFwPolicyName", "");
+	else
+		paramsMo.setAttr("mgmtFwPolicyName", mgmtFwPolicyName);
+}
+if(policyOwner!=null && policyOwner!=""){
+	if(policyOwner=="#EMPTY#")
+		paramsMo.setAttr("policyOwner", "");
+	else
+		paramsMo.setAttr("policyOwner", policyOwner);
+}
+if(powerPolicyName!=null && powerPolicyName!=""){
+	if(powerPolicyName=="#EMPTY#")
+		paramsMo.setAttr("powerPolicyName", "");
+	else
+		paramsMo.setAttr("powerPolicyName", powerPolicyName);
+}
+if(resolveRemote!=null && resolveRemote!=""){
+	if(resolveRemote=="#EMPTY#")
+		paramsMo.setAttr("resolveRemote", "");
+	else
+		paramsMo.setAttr("resolveRemote", resolveRemote);
+}
+if(scrubPolicyName!=null && scrubPolicyName!=""){
+	if(scrubPolicyName=="#EMPTY#")
+		paramsMo.setAttr("scrubPolicyName", "");
+	else
+		paramsMo.setAttr("scrubPolicyName", scrubPolicyName);
+}
+if(solPolicyName!=null && solPolicyName!=""){
+	if(solPolicyName=="#EMPTY#")
+		paramsMo.setAttr("solPolicyName", "");
+	else
+		paramsMo.setAttr("solPolicyName", solPolicyName);
+}
+if(srcTemplName!=null && srcTemplName!=""){
+	if(srcTemplName=="#EMPTY#")
+		paramsMo.setAttr("srcTemplName", "");
+	else
+		paramsMo.setAttr("srcTemplName", srcTemplName);
+}
+if(statsPolicyName!=null && statsPolicyName!=""){
+	if(statsPolicyName=="#EMPTY#")
+		paramsMo.setAttr("statsPolicyName", "");
+	else
+		paramsMo.setAttr("statsPolicyName", statsPolicyName);
+}
+if(usrLbl!=null && usrLbl!=""){
+	if(usrLbl=="#EMPTY#")
+		paramsMo.setAttr("usrLbl", "");
+	else
+		paramsMo.setAttr("usrLbl", usrLbl);
+}
+if(uuid!=null && uuid!=""){
+	if(uuid=="#EMPTY#")
+		paramsMo.setAttr("uuid", "");
+	else
+		paramsMo.setAttr("uuid", uuid);
+}
+if(vconProfileName!=null && vconProfileName!=""){
+	if(vconProfileName=="#EMPTY#")
+		paramsMo.setAttr("vconProfileName", "");
+	else
+		paramsMo.setAttr("vconProfileName", vconProfileName);
+}
+if(vmediaPolicyName!=null && vmediaPolicyName!=""){
+	if(vmediaPolicyName=="#EMPTY#")
+		paramsMo.setAttr("vmediaPolicyName", "");
+	else
+		paramsMo.setAttr("vmediaPolicyName", vmediaPolicyName);
+}
+
+if((mosToModify==null || mosToModify.length==0) && (!paramsMo.isBound("dn")))
+	throw new Error("No UcsmLsServer objects selected to modify.");
+
+var pmoArray = null;
+if(mosToModify!=null && mosToModify.length>0){
+	if(ucsDomain==null)
+		ucsDomain = mosToModify[0].getHandle();
+
+	pmoArray = new Array();
+	for each (var pmo in mosToModify){
+		if(pmo!=null){
+			if(pmo instanceof UcsmOrganizationHierarchy)
+				pmo = pmo.getOrg();
+			pmoArray.push(pmo);
+			if(ucsDomain.getUcs() != pmo.getHandle().getUcs())
+				throw new Error("UcsmLsServer " + pmo.getDn() + " not on selected UCSM " + ucsDomain.getUcs() + ". Its on " + pmo.getHandle().getUcs() + ".");
+		}
+	}
+}
+
+if(ucsDomain==null)
+	throw new Error("No Ucs Selected");
+
+var moArray = UcsmActionUtils.setManagedObjects(ucsDomain, pmoArray, "lsServer", paramsMo);
+
+if(moArray==null || moArray.length==0){
+	if(showMos)
+		System.log("\nNo UcsmLsServer objects modified on " + ucsDomain.ucs + ".\n");
+	return null
+}
+
+if(showMos){
+	System.log("\n************************\n  Modified " + moArray.length + " UcsmLsServer objects\n************************\n");
+	for each (var mo in moArray)
+		if(mo!=null)
+			System.log(UcsmActionUtils.printManagedObject(mo))
+}
+if(moArray!=null && moArray.length>0)
+	return moArray;
+else
+	return new Array();]]></script>
+</dunes-script-module>

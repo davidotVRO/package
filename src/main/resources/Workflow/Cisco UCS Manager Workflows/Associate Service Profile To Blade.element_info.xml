@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+<comment>Exported from [server]</comment>
+<entry key="categoryPath">Cisco UCS Manager Workflows</entry>
+<entry key="name">Associate Service Profile To Blade</entry>
+<entry key="type">Workflow</entry>
+<entry key="id">3ecba629-8e9c-4d83-9e4c-7ffaf20ba924</entry>
+</properties>

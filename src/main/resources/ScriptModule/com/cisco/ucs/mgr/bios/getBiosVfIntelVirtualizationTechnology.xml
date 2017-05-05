@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dunes-script-module name="getBiosVfIntelVirtualizationTechnology" result-type="Array/Any" api-version="6.0.0" id="b8aea0e4-ff9f-480c-9716-f7f32160cbca" version="1.0.2" allowed-operations="vef">
+  <description><![CDATA[Searches Managed Objects of type UcsmBiosVfIntelVirtualizationTechnology.
+Inputs:
+ucsDomain - UcsDomain where you want to search BiosVfIntelVirtualizationTechnology.
+parentMos - Array of Parent Managed Objects of BiosVfIntelVirtualizationTechnology which is being searched. Parents can be UcsmBiosSettings or UcsmBiosVProfile.
+showMos - print searched BiosVfIntelVirtualizationTechnology objects to System.log
+Other inputs - other inputs are the properties of BiosVfIntelVirtualizationTechnology against which you can search. Refer UcsmBiosVfIntelVirtualizationTechnology scripting object for more details.
+Return Type:
+Array of searched UcsmBiosVfIntelVirtualizationTechnology.]]></description>
+  <param n="ucsDomain" t="UCSM:UcsDomain"><![CDATA[]]></param>
+  <param n="parentMos" t="Array/Any"><![CDATA[]]></param>
+  <param n="dn" t="string"><![CDATA[]]></param>
+  <param n="vpIntelVirtualizationTechnology" t="string"><![CDATA[]]></param>
+  <param n="showMos" t="boolean"><![CDATA[]]></param>
+  <script encoded="false"><![CDATA[//Collect all input property/value pairs in a single array
+var paramsArray = new Array();
+if(dn!=null && dn!="")
+	paramsArray.push("dn=" + dn);
+if(vpIntelVirtualizationTechnology!=null && vpIntelVirtualizationTechnology!="")
+	paramsArray.push("vpIntelVirtualizationTechnology=" + vpIntelVirtualizationTechnology);
+
+var pmoArray = null;
+if(parentMos!=null && parentMos.length>0){
+	if(ucsDomain==null)
+		ucsDomain = parentMos[0].getHandle();
+
+	pmoArray = new Array();
+	for each (var pmo in parentMos){
+		if(pmo!=null){
+			if(pmo instanceof UcsmOrganizationHierarchy)
+				pmo = pmo.getOrg();
+			pmoArray.push(pmo);
+			if(ucsDomain.getUcs() != pmo.getHandle().getUcs())
+				throw new Error("Parent Managed Object " + pmo.getDn() + " not on selected UCSM " + ucsDomain.getUcs() + ". Its on " + pmo.getHandle().getUcs() + ".");
+		}
+	}
+}
+
+if(ucsDomain==null)
+	throw new Error("No UCSM Selected");
+
+var moArray = UcsmActionUtils.getManagedObjects(ucsDomain, pmoArray, "biosVfIntelVirtualizationTechnology", paramsArray, false, false);
+
+if(moArray==null || moArray.length==0){
+	if(showMos)
+		System.log("\nNo UcsmBiosVfIntelVirtualizationTechnology objects found on " + ucsDomain.ucs + ".\n");
+	return null
+}
+
+if(showMos){
+	System.log("\n************************\n  Found " + moArray.length + " UcsmBiosVfIntelVirtualizationTechnology objects\n************************\n");
+	for each (var mo in moArray)
+		if(mo!=null)
+			System.log(UcsmActionUtils.printManagedObject(mo))
+}
+if(moArray!=null && moArray.length>0)
+	return moArray;
+else
+	return new Array();]]></script>
+</dunes-script-module>

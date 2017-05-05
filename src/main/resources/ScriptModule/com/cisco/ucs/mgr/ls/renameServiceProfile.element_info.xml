@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+<comment>Exported from [server]</comment>
+<entry key="categoryPath">com.cisco.ucs.mgr.ls</entry>
+<entry key="name">renameServiceProfile</entry>
+<entry key="type">ScriptModule</entry>
+<entry key="id">279f0db2-cda0-49c4-b38b-350ad66d6b1d</entry>
+</properties>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+<comment>Exported from [server]</comment>
+<entry key="categoryPath">com.cisco.ucs.mgr.compute</entry>
+<entry key="name">getRackUnit</entry>
+<entry key="type">ScriptModule</entry>
+<entry key="id">e5041b71-c6dd-40fb-b454-96ffe4069a6d</entry>
+</properties>

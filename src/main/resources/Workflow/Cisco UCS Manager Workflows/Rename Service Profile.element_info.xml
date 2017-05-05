@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+<comment>Exported from [server]</comment>
+<entry key="categoryPath">Cisco UCS Manager Workflows</entry>
+<entry key="name">Rename Service Profile</entry>
+<entry key="type">Workflow</entry>
+<entry key="id">f8675f31-757d-4c5c-bb5b-216912cfcc2d</entry>
+</properties>

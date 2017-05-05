@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<workflow xmlns="http://vmware.com/vco/workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://vmware.com/vco/workflow http://vmware.com/vco/workflow/Workflow-v4.xsd" root-name="item1" object-name="workflow:name=generic" id="3ecba629-8e9c-4d83-9e4c-7ffaf20ba924" version="1.0.1" api-version="6.0.0" allowed-operations="vef" restartMode="1" resumeFromFailedMode="0">
+  <display-name><![CDATA[Associate Service Profile To Blade]]></display-name>
+  <description><![CDATA[Associates a Service Profile to a Blade server.]]></description>
+  <position y="50.0" x="100.0"></position>
+  <input>
+    <param name="serviceProfile" type="UCSM:ServiceProfile">
+      <description><![CDATA[Service Profile to Associate]]></description>
+    </param>
+    <param name="blade" type="UCSM:Blade">
+      <description><![CDATA[Target Blade]]></description>
+    </param>
+    <param name="restrictMigration" type="boolean">
+      <description><![CDATA[Restrict Migration]]></description>
+    </param>
+  </input>
+  <workflow-item  name="item0" type="end" end-mode="0">
+    <position y="45.40909090909091" x="384.5"></position>
+  </workflow-item >
+  <workflow-item  name="item1" out-name="item0" type="task" script-module="com.cisco.ucs.mgr.ls/associateServiceProfile">
+    <display-name><![CDATA[associateServiceProfile]]></display-name>
+    <script encoded="false"><![CDATA[//Auto generated script, cannot be modified !
+System.getModule("com.cisco.ucs.mgr.ls").associateServiceProfile(serviceProfile,computeObj,restrictMigration) ;]]></script>
+    <in-binding>
+      <bind name="serviceProfile" type="UCSM:ServiceProfile" export-name="serviceProfile">
+        <description><![CDATA[Service Profile]]></description>
+      </bind>
+      <bind name="computeObj" type="Any" export-name="blade">
+        <description><![CDATA[Blade or Rack Server]]></description>
+      </bind>
+      <bind name="restrictMigration" type="boolean" export-name="restrictMigration">
+        <description><![CDATA[Restrict Migration]]></description>
+      </bind>
+    </in-binding>
+    <out-binding></out-binding>
+    <description><![CDATA[Associates Service Profile with Compute Object (Blade or Rack Server).]]></description>
+    <position y="55.40909090909091" x="204.5"></position>
+  </workflow-item >
+  <presentation>
+    <p-param name="serviceProfile">
+      <desc><![CDATA[Service Profile to Associate]]></desc>
+    </p-param>
+    <p-param name="blade">
+      <desc><![CDATA[Target Blade]]></desc>
+    </p-param>
+    <p-param name="restrictMigration">
+      <desc><![CDATA[Restrict Migration]]></desc>
+    </p-param>
+  </presentation>
+</workflow>

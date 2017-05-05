@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+<comment>Exported from [server]</comment>
+<entry key="categoryPath">Cisco UCS Manager Workflows</entry>
+<entry key="name">Set Service Profile Power State</entry>
+<entry key="type">Workflow</entry>
+<entry key="id">474fbe48-be21-47a0-b15d-b22f335443da</entry>
+</properties>

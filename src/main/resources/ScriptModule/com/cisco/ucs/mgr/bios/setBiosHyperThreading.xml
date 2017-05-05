@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dunes-script-module name="setBiosHyperThreading" result-type="Array/Any" api-version="6.0.0" id="4c3c63a1-3068-4452-bba4-a3450143eaba" version="1.0.2" allowed-operations="vef">
+  <description><![CDATA[Modifies Managed Objects of type UcsmBiosVfIntelHyperThreadingTech.
+Inputs:
+ucsDomain - UcsDomain where you want to modify BiosHyperThreading.
+mosToModify - Array of BiosHyperThreading which are being modified.
+showMos - print modified BiosHyperThreading objects to System.log
+Other inputs - other inputs are the properties of BiosHyperThreading against which you can modify. Refer UcsmBiosVfIntelHyperThreadingTech scripting object for more details. Enter #EMPTY# value for any property if you want to set empty string for that property.
+Return Type:
+Array of modified UcsmBiosVfIntelHyperThreadingTech.]]></description>
+  <param n="ucsDomain" t="UCSM:UcsDomain"><![CDATA[]]></param>
+  <param n="mosToModify" t="Array/Any"><![CDATA[]]></param>
+  <param n="dn" t="string"><![CDATA[]]></param>
+  <param n="vpIntelHyperThreadingTech" t="string"><![CDATA[]]></param>
+  <param n="showMos" t="boolean"><![CDATA[]]></param>
+  <script encoded="false"><![CDATA[//Create BiosHyperThreading object
+var paramsMo = new UcsmBiosVfIntelHyperThreadingTech();
+
+//Store all inputs in BiosHyperThreading object
+if(dn!=null && dn!=""){
+	if(dn=="#EMPTY#")
+		paramsMo.setAttr("dn", "");
+	else
+		paramsMo.setAttr("dn", dn);
+}
+if(vpIntelHyperThreadingTech!=null && vpIntelHyperThreadingTech!=""){
+	if(vpIntelHyperThreadingTech=="#EMPTY#")
+		paramsMo.setAttr("vpIntelHyperThreadingTech", "");
+	else
+		paramsMo.setAttr("vpIntelHyperThreadingTech", vpIntelHyperThreadingTech);
+}
+
+if((mosToModify==null || mosToModify.length==0) && (!paramsMo.isBound("dn")))
+	throw new Error("No UcsmBiosVfIntelHyperThreadingTech objects selected to modify.");
+
+var pmoArray = null;
+if(mosToModify!=null && mosToModify.length>0){
+	if(ucsDomain==null)
+		ucsDomain = mosToModify[0].getHandle();
+
+	pmoArray = new Array();
+	for each (var pmo in mosToModify){
+		if(pmo!=null){
+			if(pmo instanceof UcsmOrganizationHierarchy)
+				pmo = pmo.getOrg();
+			pmoArray.push(pmo);
+			if(ucsDomain.getUcs() != pmo.getHandle().getUcs())
+				throw new Error("UcsmBiosVfIntelHyperThreadingTech " + pmo.getDn() + " not on selected UCSM " + ucsDomain.getUcs() + ". Its on " + pmo.getHandle().getUcs() + ".");
+		}
+	}
+}
+
+if(ucsDomain==null)
+	throw new Error("No Ucs Selected");
+
+var moArray = UcsmActionUtils.setManagedObjects(ucsDomain, pmoArray, "biosVfIntelHyperThreadingTech", paramsMo);
+
+if(moArray==null || moArray.length==0){
+	if(showMos)
+		System.log("\nNo UcsmBiosVfIntelHyperThreadingTech objects modified on " + ucsDomain.ucs + ".\n");
+	return null
+}
+
+if(showMos){
+	System.log("\n************************\n  Modified " + moArray.length + " UcsmBiosVfIntelHyperThreadingTech objects\n************************\n");
+	for each (var mo in moArray)
+		if(mo!=null)
+			System.log(UcsmActionUtils.printManagedObject(mo))
+}
+if(moArray!=null && moArray.length>0)
+	return moArray;
+else
+	return new Array();]]></script>
+</dunes-script-module>

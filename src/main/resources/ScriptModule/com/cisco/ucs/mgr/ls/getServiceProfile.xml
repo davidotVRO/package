@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dunes-script-module name="getServiceProfile" result-type="Array/UCSM:ServiceProfile" api-version="6.0.0" id="85d30966-89f1-44eb-b51a-48faf1e57b06" version="1.0.2" allowed-operations="vef">
+  <description><![CDATA[Searches Managed Objects of type UcsmLsServer.
+Inputs:
+ucsDomain - UcsDomain where you want to search ServiceProfile.
+parentMos - Array of Parent Managed Objects of ServiceProfile which is being searched. Parents can be UcsmOrgOrg.
+limitScope - Limit the scope of search for ServiceProfile to single level of UcsmOrgOrg.
+showMos - print searched ServiceProfile objects to System.log
+Other inputs - other inputs are the properties of ServiceProfile against which you can search. Refer UcsmLsServer scripting object for more details.
+Return Type:
+Array of searched UCSM:ServiceProfile.]]></description>
+  <param n="ucsDomain" t="UCSM:UcsDomain"><![CDATA[]]></param>
+  <param n="parentMos" t="Array/UCSM:OrganizationHierarchy"><![CDATA[]]></param>
+  <param n="agentPolicyName" t="string"><![CDATA[]]></param>
+  <param n="assignState" t="string"><![CDATA[]]></param>
+  <param n="assocState" t="string"><![CDATA[]]></param>
+  <param n="biosProfileName" t="string"><![CDATA[]]></param>
+  <param n="bootPolicyName" t="string"><![CDATA[]]></param>
+  <param n="configQualifier" t="Array/string"><![CDATA[]]></param>
+  <param n="configState" t="string"><![CDATA[]]></param>
+  <param n="descr" t="string"><![CDATA[]]></param>
+  <param n="dn" t="string"><![CDATA[]]></param>
+  <param n="dynamicConPolicyName" t="string"><![CDATA[]]></param>
+  <param n="extIPPoolName" t="string"><![CDATA[]]></param>
+  <param n="extIPState" t="string"><![CDATA[]]></param>
+  <param n="hostFwPolicyName" t="string"><![CDATA[]]></param>
+  <param n="identPoolName" t="string"><![CDATA[]]></param>
+  <param n="kvmMgmtPolicyName" t="string"><![CDATA[]]></param>
+  <param n="localDiskPolicyName" t="string"><![CDATA[]]></param>
+  <param n="maintPolicyName" t="string"><![CDATA[]]></param>
+  <param n="mgmtAccessPolicyName" t="string"><![CDATA[]]></param>
+  <param n="mgmtFwPolicyName" t="string"><![CDATA[]]></param>
+  <param n="name" t="string"><![CDATA[]]></param>
+  <param n="operBiosProfileName" t="string"><![CDATA[]]></param>
+  <param n="operBootPolicyName" t="string"><![CDATA[]]></param>
+  <param n="operDynamicConPolicyName" t="string"><![CDATA[]]></param>
+  <param n="operExtIPPoolName" t="string"><![CDATA[]]></param>
+  <param n="operHostFwPolicyName" t="string"><![CDATA[]]></param>
+  <param n="operIdentPoolName" t="string"><![CDATA[]]></param>
+  <param n="operKvmMgmtPolicyName" t="string"><![CDATA[]]></param>
+  <param n="operLocalDiskPolicyName" t="string"><![CDATA[]]></param>
+  <param n="operMaintPolicyName" t="string"><![CDATA[]]></param>
+  <param n="operMgmtAccessPolicyName" t="string"><![CDATA[]]></param>
+  <param n="operMgmtFwPolicyName" t="string"><![CDATA[]]></param>
+  <param n="operPowerPolicyName" t="string"><![CDATA[]]></param>
+  <param n="operScrubPolicyName" t="string"><![CDATA[]]></param>
+  <param n="operSolPolicyName" t="string"><![CDATA[]]></param>
+  <param n="operSrcTemplName" t="string"><![CDATA[]]></param>
+  <param n="operState" t="string"><![CDATA[]]></param>
+  <param n="operStatsPolicyName" t="string"><![CDATA[]]></param>
+  <param n="operVconProfileName" t="string"><![CDATA[]]></param>
+  <param n="operVmediaPolicyName" t="string"><![CDATA[]]></param>
+  <param n="owner" t="string"><![CDATA[]]></param>
+  <param n="pnDn" t="string"><![CDATA[]]></param>
+  <param n="policyLevel" t="number"><![CDATA[]]></param>
+  <param n="policyOwner" t="string"><![CDATA[]]></param>
+  <param n="powerPolicyName" t="string"><![CDATA[]]></param>
+  <param n="resolveRemote" t="string"><![CDATA[]]></param>
+  <param n="scrubPolicyName" t="string"><![CDATA[]]></param>
+  <param n="solPolicyName" t="string"><![CDATA[]]></param>
+  <param n="srcTemplName" t="string"><![CDATA[]]></param>
+  <param n="statsPolicyName" t="string"><![CDATA[]]></param>
+  <param n="svnicConfig" t="string"><![CDATA[]]></param>
+  <param n="type" t="string"><![CDATA[]]></param>
+  <param n="usrLbl" t="string"><![CDATA[]]></param>
+  <param n="uuid" t="string"><![CDATA[]]></param>
+  <param n="uuidSuffix" t="string"><![CDATA[]]></param>
+  <param n="vconProfileName" t="string"><![CDATA[]]></param>
+  <param n="vmediaPolicyName" t="string"><![CDATA[]]></param>
+  <param n="limitScope" t="boolean"><![CDATA[]]></param>
+  <param n="showMos" t="boolean"><![CDATA[]]></param>
+  <script encoded="false"><![CDATA[//Collect all input property/value pairs in a single array
+var paramsArray = new Array();
+if(agentPolicyName!=null && agentPolicyName!="")
+	paramsArray.push("agentPolicyName=" + agentPolicyName);
+if(assignState!=null && assignState!="")
+	paramsArray.push("assignState=" + assignState);
+if(assocState!=null && assocState!="")
+	paramsArray.push("assocState=" + assocState);
+if(biosProfileName!=null && biosProfileName!="")
+	paramsArray.push("biosProfileName=" + biosProfileName);
+if(bootPolicyName!=null && bootPolicyName!="")
+	paramsArray.push("bootPolicyName=" + bootPolicyName);
+if(configQualifier!=null && configQualifier!="")
+	paramsArray.push("configQualifier=" + configQualifier);
+if(configState!=null && configState!="")
+	paramsArray.push("configState=" + configState);
+if(descr!=null && descr!="")
+	paramsArray.push("descr=" + descr);
+if(dn!=null && dn!="")
+	paramsArray.push("dn=" + dn);
+if(dynamicConPolicyName!=null && dynamicConPolicyName!="")
+	paramsArray.push("dynamicConPolicyName=" + dynamicConPolicyName);
+if(extIPPoolName!=null && extIPPoolName!="")
+	paramsArray.push("extIPPoolName=" + extIPPoolName);
+if(extIPState!=null && extIPState!="")
+	paramsArray.push("extIPState=" + extIPState);
+if(hostFwPolicyName!=null && hostFwPolicyName!="")
+	paramsArray.push("hostFwPolicyName=" + hostFwPolicyName);
+if(identPoolName!=null && identPoolName!="")
+	paramsArray.push("identPoolName=" + identPoolName);
+if(kvmMgmtPolicyName!=null && kvmMgmtPolicyName!="")
+	paramsArray.push("kvmMgmtPolicyName=" + kvmMgmtPolicyName);
+if(localDiskPolicyName!=null && localDiskPolicyName!="")
+	paramsArray.push("localDiskPolicyName=" + localDiskPolicyName);
+if(maintPolicyName!=null && maintPolicyName!="")
+	paramsArray.push("maintPolicyName=" + maintPolicyName);
+if(mgmtAccessPolicyName!=null && mgmtAccessPolicyName!="")
+	paramsArray.push("mgmtAccessPolicyName=" + mgmtAccessPolicyName);
+if(mgmtFwPolicyName!=null && mgmtFwPolicyName!="")
+	paramsArray.push("mgmtFwPolicyName=" + mgmtFwPolicyName);
+if(name!=null && name!="")
+	paramsArray.push("name=" + name);
+if(operBiosProfileName!=null && operBiosProfileName!="")
+	paramsArray.push("operBiosProfileName=" + operBiosProfileName);
+if(operBootPolicyName!=null && operBootPolicyName!="")
+	paramsArray.push("operBootPolicyName=" + operBootPolicyName);
+if(operDynamicConPolicyName!=null && operDynamicConPolicyName!="")
+	paramsArray.push("operDynamicConPolicyName=" + operDynamicConPolicyName);
+if(operExtIPPoolName!=null && operExtIPPoolName!="")
+	paramsArray.push("operExtIPPoolName=" + operExtIPPoolName);
+if(operHostFwPolicyName!=null && operHostFwPolicyName!="")
+	paramsArray.push("operHostFwPolicyName=" + operHostFwPolicyName);
+if(operIdentPoolName!=null && operIdentPoolName!="")
+	paramsArray.push("operIdentPoolName=" + operIdentPoolName);
+if(operKvmMgmtPolicyName!=null && operKvmMgmtPolicyName!="")
+	paramsArray.push("operKvmMgmtPolicyName=" + operKvmMgmtPolicyName);
+if(operLocalDiskPolicyName!=null && operLocalDiskPolicyName!="")
+	paramsArray.push("operLocalDiskPolicyName=" + operLocalDiskPolicyName);
+if(operMaintPolicyName!=null && operMaintPolicyName!="")
+	paramsArray.push("operMaintPolicyName=" + operMaintPolicyName);
+if(operMgmtAccessPolicyName!=null && operMgmtAccessPolicyName!="")
+	paramsArray.push("operMgmtAccessPolicyName=" + operMgmtAccessPolicyName);
+if(operMgmtFwPolicyName!=null && operMgmtFwPolicyName!="")
+	paramsArray.push("operMgmtFwPolicyName=" + operMgmtFwPolicyName);
+if(operPowerPolicyName!=null && operPowerPolicyName!="")
+	paramsArray.push("operPowerPolicyName=" + operPowerPolicyName);
+if(operScrubPolicyName!=null && operScrubPolicyName!="")
+	paramsArray.push("operScrubPolicyName=" + operScrubPolicyName);
+if(operSolPolicyName!=null && operSolPolicyName!="")
+	paramsArray.push("operSolPolicyName=" + operSolPolicyName);
+if(operSrcTemplName!=null && operSrcTemplName!="")
+	paramsArray.push("operSrcTemplName=" + operSrcTemplName);
+if(operState!=null && operState!="")
+	paramsArray.push("operState=" + operState);
+if(operStatsPolicyName!=null && operStatsPolicyName!="")
+	paramsArray.push("operStatsPolicyName=" + operStatsPolicyName);
+if(operVconProfileName!=null && operVconProfileName!="")
+	paramsArray.push("operVconProfileName=" + operVconProfileName);
+if(operVmediaPolicyName!=null && operVmediaPolicyName!="")
+	paramsArray.push("operVmediaPolicyName=" + operVmediaPolicyName);
+if(owner!=null && owner!="")
+	paramsArray.push("owner=" + owner);
+if(pnDn!=null && pnDn!="")
+	paramsArray.push("pnDn=" + pnDn);
+if(policyLevel!=null)
+	paramsArray.push("policyLevel=" + policyLevel);
+if(policyOwner!=null && policyOwner!="")
+	paramsArray.push("policyOwner=" + policyOwner);
+if(powerPolicyName!=null && powerPolicyName!="")
+	paramsArray.push("powerPolicyName=" + powerPolicyName);
+if(resolveRemote!=null && resolveRemote!="")
+	paramsArray.push("resolveRemote=" + resolveRemote);
+if(scrubPolicyName!=null && scrubPolicyName!="")
+	paramsArray.push("scrubPolicyName=" + scrubPolicyName);
+if(solPolicyName!=null && solPolicyName!="")
+	paramsArray.push("solPolicyName=" + solPolicyName);
+if(srcTemplName!=null && srcTemplName!="")
+	paramsArray.push("srcTemplName=" + srcTemplName);
+if(statsPolicyName!=null && statsPolicyName!="")
+	paramsArray.push("statsPolicyName=" + statsPolicyName);
+if(svnicConfig!=null && svnicConfig!="")
+	paramsArray.push("svnicConfig=" + svnicConfig);
+if(type!=null && type!="")
+	paramsArray.push("type=" + type);
+if(usrLbl!=null && usrLbl!="")
+	paramsArray.push("usrLbl=" + usrLbl);
+if(uuid!=null && uuid!="")
+	paramsArray.push("uuid=" + uuid);
+if(uuidSuffix!=null && uuidSuffix!="")
+	paramsArray.push("uuidSuffix=" + uuidSuffix);
+if(vconProfileName!=null && vconProfileName!="")
+	paramsArray.push("vconProfileName=" + vconProfileName);
+if(vmediaPolicyName!=null && vmediaPolicyName!="")
+	paramsArray.push("vmediaPolicyName=" + vmediaPolicyName);
+
+var pmoArray = null;
+if(parentMos!=null && parentMos.length>0){
+	if(ucsDomain==null)
+		ucsDomain = parentMos[0].getHandle();
+
+	pmoArray = new Array();
+	for each (var pmo in parentMos){
+		if(pmo!=null){
+			if(pmo instanceof UcsmOrganizationHierarchy)
+				pmo = pmo.getOrg();
+			pmoArray.push(pmo);
+			if(ucsDomain.getUcs() != pmo.getHandle().getUcs())
+				throw new Error("Parent Managed Object " + pmo.getDn() + " not on selected UCSM " + ucsDomain.getUcs() + ". Its on " + pmo.getHandle().getUcs() + ".");
+		}
+	}
+}
+
+if(ucsDomain==null)
+	throw new Error("No UCSM Selected");
+
+var moArray = UcsmActionUtils.getManagedObjects(ucsDomain, pmoArray, "lsServer", paramsArray, limitScope, false);
+
+if(moArray==null || moArray.length==0){
+	if(showMos)
+		System.log("\nNo UcsmLsServer objects found on " + ucsDomain.ucs + ".\n");
+	return null
+}
+
+if(showMos){
+	System.log("\n************************\n  Found " + moArray.length + " UcsmLsServer objects\n************************\n");
+	for each (var mo in moArray)
+		if(mo!=null)
+			System.log(UcsmActionUtils.printManagedObject(mo))
+}
+if(moArray!=null && moArray.length>0)
+	return moArray;
+else
+	return new Array();]]></script>
+</dunes-script-module>

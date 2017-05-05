@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+<comment>Exported from [server]</comment>
+<entry key="categoryPath">com.cisco.ucs.mgr.ls</entry>
+<entry key="name">associateServiceProfile</entry>
+<entry key="type">ScriptModule</entry>
+<entry key="id">98b750c6-2f99-4a99-9a89-aea447ab7c2a</entry>
+</properties>
